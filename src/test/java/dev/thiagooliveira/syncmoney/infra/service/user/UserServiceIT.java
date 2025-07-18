@@ -1,12 +1,13 @@
 package dev.thiagooliveira.syncmoney.infra.service.user;
 
 import static dev.thiagooliveira.syncmoney.util.TestUtil.createUserInput;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import dev.thiagooliveira.syncmoney.TestcontainersConfiguration;
 import dev.thiagooliveira.syncmoney.infra.persistence.repository.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.infra.persistence.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Import;
 class UserServiceIT {
 
   @Autowired private UserService userService;
-
   @Autowired private UserRepository userRepository;
   @Autowired private OrganizationRepository organizationRepository;
 
@@ -25,7 +25,8 @@ class UserServiceIT {
   void setUp() {}
 
   @Test
-  void create() {
+  @DisplayName("should to create a new user")
+  void shouldCreateNewUser() {
     var user = this.userService.create(createUserInput());
     assertNotNull(user);
     var userSaved = this.userRepository.findById(user.getId()).orElseThrow();
@@ -34,4 +35,17 @@ class UserServiceIT {
         this.organizationRepository.findById(userSaved.getOrganizationId()).orElseThrow();
     assertNotNull(organization);
   }
+  /*
+   @Test
+   @DisplayName("should not save organization if user is not save")
+   void shouldNotSaveOrganizationIfUserIsNotSave() {
+     CreateUserInput input = createUserInput();
+     when(userPort.save(any(), any())).thenThrow(new RuntimeException("some database error"));
+
+     var exception = assertThrows(RuntimeException.class, () -> userService.create(input));
+     assertEquals("some database error", exception.getMessage());
+     var orgCount = this.organizationRepository.count();
+     assertEquals(0, orgCount);
+   }
+  */
 }
