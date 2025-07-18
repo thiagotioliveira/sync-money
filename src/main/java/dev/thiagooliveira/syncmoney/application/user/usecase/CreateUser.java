@@ -27,8 +27,7 @@ public class CreateUser {
     }
     var organization = this.organizationPort.save(input.toCreateOrganizationInput());
     var user = this.userPort.save(input, organization);
-    this.eventPublisher.publish(
-        new UserCreatedEvent(user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
+    this.eventPublisher.publish(new UserCreatedEvent(user));
     return user;
   }
 }
