@@ -1,11 +1,13 @@
 package dev.thiagooliveira.syncmoney.infra.config;
 
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.user.port.OrganizationPort;
 import dev.thiagooliveira.syncmoney.application.user.port.UserPort;
-import dev.thiagooliveira.syncmoney.application.user.usecase.CreateOrganization;
 import dev.thiagooliveira.syncmoney.application.user.usecase.CreateUser;
 import dev.thiagooliveira.syncmoney.application.user.usecase.GetUser;
+import dev.thiagooliveira.syncmoney.infra.persistence.adapter.OrganizationAdapter;
 import dev.thiagooliveira.syncmoney.infra.persistence.adapter.UserAdapter;
+import dev.thiagooliveira.syncmoney.infra.persistence.repository.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.infra.persistence.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +21,14 @@ public class UserConfiguration {
   }
 
   @Bean
+  public OrganizationPort organizationPort(OrganizationRepository organizationRepository) {
+    return new OrganizationAdapter(organizationRepository);
+  }
+
+  @Bean
   public CreateUser createUser(
-      EventPublisher eventPublisher, CreateOrganization createOrganization, UserPort userPort) {
-    return new CreateUser(eventPublisher, createOrganization, userPort);
+      EventPublisher eventPublisher, OrganizationPort organizationPort, UserPort userPort) {
+    return new CreateUser(eventPublisher, organizationPort, userPort);
   }
 
   @Bean
