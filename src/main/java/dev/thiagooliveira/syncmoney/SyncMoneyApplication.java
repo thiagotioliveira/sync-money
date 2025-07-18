@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SyncMoneyApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SyncMoneyApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(SyncMoneyApplication.class, args);
+  }
 }
