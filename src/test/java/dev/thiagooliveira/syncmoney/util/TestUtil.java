@@ -1,5 +1,6 @@
 package dev.thiagooliveira.syncmoney.util;
 
+import dev.thiagooliveira.syncmoney.application.category.domain.Category;
 import dev.thiagooliveira.syncmoney.application.category.domain.CategoryType;
 import dev.thiagooliveira.syncmoney.application.category.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.application.user.domain.Organization;
@@ -8,6 +9,7 @@ import dev.thiagooliveira.syncmoney.application.user.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.UserEntity;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class TestUtil {
@@ -46,6 +48,10 @@ public class TestUtil {
 
   public static CreateCategoryInput createCreditCategory(UUID organizationId) {
     return new CreateCategoryInput(organizationId, CATEGORY_CREDIT_NAME, CategoryType.CREDIT);
+  }
+
+  public static Category createCategory(UUID organizationId, CreateCategoryInput input) {
+    return new Category(UUID.randomUUID(), Optional.of(organizationId), input.name(), input.type());
   }
 
   public static CreateCategoryInput createDebitCategory(UUID organizationId) {
