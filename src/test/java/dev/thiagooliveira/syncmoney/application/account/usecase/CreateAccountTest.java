@@ -38,7 +38,7 @@ class CreateAccountTest {
     var input = createAccountInput(organizationId, bankId);
     when(this.accountPort.existsByName(organizationId, input.name())).thenReturn(false);
     when(this.getBank.byId(organizationId, bankId))
-        .thenReturn(Optional.of(createBank(organizationId)));
+        .thenReturn(Optional.of(createBank(organizationId, bankId)));
     Account accountExpected = createAccount(input);
     when(this.accountPort.create(input)).thenReturn(accountExpected);
     var account = this.createAccount.execute(input);

@@ -15,4 +15,6 @@ public interface AccountPort {
   Optional<Account> findById(UUID organizationId, UUID id);
 
   List<Account> findAll(UUID organizationId);
+
+  Account update(Account account);
 }

@@ -3,6 +3,7 @@ package dev.thiagooliveira.syncmoney.infra.category.config;
 import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.application.category.usecase.CreateCategory;
 import dev.thiagooliveira.syncmoney.application.category.usecase.CreateDefaultCategory;
+import dev.thiagooliveira.syncmoney.application.category.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.adapter.CategoryAdapter;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
@@ -26,5 +27,10 @@ public class CategoryConfiguration {
   public CreateDefaultCategory createDefaultCategory(
       EventPublisher eventPublisher, CategoryPort categoryPort) {
     return new CreateDefaultCategory(eventPublisher, categoryPort);
+  }
+
+  @Bean
+  public GetCategory getCategory(CategoryPort categoryPort) {
+    return new GetCategory(categoryPort);
   }
 }

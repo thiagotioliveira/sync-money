@@ -36,7 +36,7 @@ class CreateBankTest {
     var organizationId = UUID.randomUUID();
     var input = createBankInput(organizationId);
     when(this.bankPort.existsByName(eq(organizationId), eq(input.name()))).thenReturn(false);
-    Bank bankExpected = createBank(organizationId);
+    Bank bankExpected = createBank(organizationId, UUID.randomUUID());
     when(this.bankPort.create(eq(input))).thenReturn(bankExpected);
     var bank = this.createBank.execute(input);
     assertNotNull(bank);

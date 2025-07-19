@@ -4,6 +4,7 @@ import dev.thiagooliveira.syncmoney.TestcontainersConfiguration;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.AccountRepository;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.BankRepository;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.TransactionRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -19,9 +20,11 @@ public class IntegrationTest {
   @Autowired private CategoryRepository categoryRepository;
   @Autowired private BankRepository bankRepository;
   @Autowired private AccountRepository accountRepository;
+  @Autowired private TransactionRepository transactionRepository;
 
   @AfterEach
   void tearDown() {
+    this.transactionRepository.deleteAll();
     this.accountRepository.deleteAll();
     this.bankRepository.deleteAll();
     this.categoryRepository.deleteAll();

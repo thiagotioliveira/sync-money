@@ -2,10 +2,7 @@ package dev.thiagooliveira.syncmoney.infra.account.config;
 
 import dev.thiagooliveira.syncmoney.application.account.domain.port.AccountPort;
 import dev.thiagooliveira.syncmoney.application.account.domain.port.BankPort;
-import dev.thiagooliveira.syncmoney.application.account.usecase.CreateAccount;
-import dev.thiagooliveira.syncmoney.application.account.usecase.CreateBank;
-import dev.thiagooliveira.syncmoney.application.account.usecase.GetAccount;
-import dev.thiagooliveira.syncmoney.application.account.usecase.GetBank;
+import dev.thiagooliveira.syncmoney.application.account.usecase.*;
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +29,11 @@ public class AccountConfiguration {
   @Bean
   public GetAccount getAccount(AccountPort accountPort) {
     return new GetAccount(accountPort);
+  }
+
+  @Bean
+  public UpdateAccountBalance updateAccountBalance(
+      EventPublisher eventPublisher, GetAccount getAccount, AccountPort accountPort) {
+    return new UpdateAccountBalance(eventPublisher, getAccount, accountPort);
   }
 }

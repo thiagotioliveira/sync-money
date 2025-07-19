@@ -42,4 +42,9 @@ public class AccountAdapter implements AccountPort {
         .map(AccountEntity::toAccount)
         .toList();
   }
+
+  @Override
+  public Account update(Account account) {
+    return this.accountRepository.save(AccountEntity.from(account)).toAccount();
+  }
 }

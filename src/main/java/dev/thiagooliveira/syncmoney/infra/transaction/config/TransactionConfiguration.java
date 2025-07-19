@@ -1,0 +1,22 @@
+package dev.thiagooliveira.syncmoney.infra.transaction.config;
+
+import dev.thiagooliveira.syncmoney.application.account.usecase.GetAccount;
+import dev.thiagooliveira.syncmoney.application.category.usecase.GetCategory;
+import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.port.TransactionPort;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateTransaction;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class TransactionConfiguration {
+
+  @Bean
+  public CreateTransaction createTransaction(
+      EventPublisher eventPublisher,
+      GetAccount getAccount,
+      GetCategory getCategory,
+      TransactionPort transactionPort) {
+    return new CreateTransaction(eventPublisher, getAccount, getCategory, transactionPort);
+  }
+}

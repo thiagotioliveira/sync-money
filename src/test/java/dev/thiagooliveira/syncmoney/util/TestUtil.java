@@ -11,6 +11,9 @@ import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryTy
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
+import dev.thiagooliveira.syncmoney.infra.account.persistence.entity.AccountEntity;
+import dev.thiagooliveira.syncmoney.infra.account.persistence.entity.BankEntity;
+import dev.thiagooliveira.syncmoney.infra.category.persistence.entity.CategoryEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.UserEntity;
 import java.math.BigDecimal;
@@ -65,6 +68,15 @@ public class TestUtil {
     return new Category(UUID.randomUUID(), Optional.of(organizationId), input.name(), input.type());
   }
 
+  public static CategoryEntity createCategoryEntity(CreateCategoryInput input) {
+    var entity = new CategoryEntity();
+    entity.setId(UUID.randomUUID());
+    entity.setOrganizationId(input.organizationId());
+    entity.setName(input.name());
+    entity.setType(input.type());
+    return entity;
+  }
+
   public static CreateCategoryInput createDebitCategory(UUID organizationId) {
     return new CreateCategoryInput(organizationId, CATEGORY_DEBIT_NAME, CategoryType.DEBIT);
   }
@@ -73,8 +85,17 @@ public class TestUtil {
     return new CreateBankInput(organizationId, BANK_NAME, BANK_CURRENCY);
   }
 
-  public static Bank createBank(UUID organizationId) {
-    return new Bank(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
+  public static Bank createBank(UUID organizationId, UUID bankId) {
+    return new Bank(bankId, organizationId, BANK_NAME, BANK_CURRENCY);
+  }
+
+  public static BankEntity createBankEntity(Bank bank) {
+    var entity = new BankEntity();
+    entity.setId(bank.id());
+    entity.setOrganizationId(bank.organizationId());
+    entity.setName(bank.name());
+    entity.setCurrency(bank.currency());
+    return entity;
   }
 
   public static CreateAccountInput createAccountInput(UUID organizationId, UUID bankId) {
@@ -85,9 +106,21 @@ public class TestUtil {
     return new Account(
         UUID.randomUUID(),
         input.name(),
-        createBank(input.organizationId()),
+        createBank(input.organizationId(), input.bankId()),
         input.organizationId(),
         BigDecimal.ZERO,
-        OffsetDateTime.now());
+        OffsetDateTime.now(),
+        null);
+  }
+
+  public static AccountEntity createAccountEntity(Account account) {
+    var entity = new AccountEntity();
+    entity.setId(account.id());
+    entity.setName(account.name());
+    entity.setBalance(account.balance());
+    entity.setOrganizationId(account.organizationId());
+    entity.setCreatedAt(account.createdAt());
+    entity.setBank(BankEntity.from(account.bank()));
+    return entity;
   }
 }

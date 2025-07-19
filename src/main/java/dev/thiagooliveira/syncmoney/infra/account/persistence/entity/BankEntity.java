@@ -39,6 +39,15 @@ public class BankEntity {
     return entity;
   }
 
+  public static BankEntity from(Bank bank) {
+    BankEntity entity = new BankEntity();
+    entity.id = bank.id();
+    entity.organizationId = bank.organizationId();
+    entity.name = bank.name();
+    entity.currency = bank.currency();
+    return entity;
+  }
+
   public static Bank mapToBank(BankEntity bankEntity) {
     return new Bank(
         bankEntity.getId(),

@@ -7,6 +7,8 @@ import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryTy
 import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.entity.CategoryEntity;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
+import java.util.Optional;
+import java.util.UUID;
 
 public class CategoryAdapter implements CategoryPort {
 
@@ -35,5 +37,12 @@ public class CategoryAdapter implements CategoryPort {
   public boolean exists(CreateCategoryInput input) {
     return this.categoryRepository.existsCategoryEntitiesByNameIgnoreCaseAndTypeAndOrganizationId(
         input.name(), input.type(), input.organizationId());
+  }
+
+  @Override
+  public Optional<Category> findById(UUID organizationId, UUID id) {
+    return this.categoryRepository
+        .findByIdAndOrganizationIdOrOrganizationIdIsNull(id, organizationId)
+        .map(CategoryEntity::toCategory);
   }
 }

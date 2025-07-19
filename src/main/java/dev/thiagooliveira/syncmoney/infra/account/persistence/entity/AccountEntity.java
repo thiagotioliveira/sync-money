@@ -31,23 +31,9 @@ public class AccountEntity {
   @Column(nullable = false)
   private BigDecimal balance;
 
-  public AccountEntity() {}
+  @Version private Long version;
 
-  public AccountEntity(
-      UUID id,
-      OffsetDateTime createdAt,
-      UUID organizationId,
-      String name,
-      BankEntity bank,
-      BigDecimal balance) {
-    this.id = id;
-    this.createdAt = createdAt;
-    this.organizationId = organizationId;
-    this.createdAt = createdAt;
-    this.name = name;
-    this.bank = bank;
-    this.balance = balance;
-  }
+  public AccountEntity() {}
 
   public static AccountEntity from(CreateAccountInput input) {
     AccountEntity entity = new AccountEntity();
@@ -61,8 +47,20 @@ public class AccountEntity {
     return entity;
   }
 
+  public static AccountEntity from(Account account) {
+    AccountEntity entity = new AccountEntity();
+    entity.id = account.id();
+    entity.createdAt = account.createdAt();
+    entity.organizationId = account.organizationId();
+    entity.name = account.name();
+    entity.bank = BankEntity.from(account.bank());
+    entity.balance = account.balance();
+    entity.version = account.version();
+    return entity;
+  }
+
   public Account toAccount() {
-    return new Account(id, name, mapToBank(this.bank), organizationId, balance, createdAt);
+    return new Account(id, name, mapToBank(this.bank), organizationId, balance, createdAt, version);
   }
 
   public OffsetDateTime getCreatedAt() {
@@ -103,5 +101,21 @@ public class AccountEntity {
 
   public void setBalance(BigDecimal balance) {
     this.balance = balance;
+  }
+
+  public BankEntity getBank() {
+    return bank;
+  }
+
+  public void setBank(BankEntity bank) {
+    this.bank = bank;
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
   }
 }
