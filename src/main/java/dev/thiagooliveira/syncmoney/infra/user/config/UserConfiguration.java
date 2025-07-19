@@ -1,8 +1,8 @@
 package dev.thiagooliveira.syncmoney.infra.user.config;
 
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
-import dev.thiagooliveira.syncmoney.application.user.port.OrganizationPort;
-import dev.thiagooliveira.syncmoney.application.user.port.UserPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.OrganizationPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.UserPort;
 import dev.thiagooliveira.syncmoney.application.user.usecase.CreateUser;
 import dev.thiagooliveira.syncmoney.application.user.usecase.GetUser;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.adapter.OrganizationAdapter;

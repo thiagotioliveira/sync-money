@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.user.service;
 
-import dev.thiagooliveira.syncmoney.application.user.domain.User;
-import dev.thiagooliveira.syncmoney.application.user.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.application.user.usecase.CreateUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

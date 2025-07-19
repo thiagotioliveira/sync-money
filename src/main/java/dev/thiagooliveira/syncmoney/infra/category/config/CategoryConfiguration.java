@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.category.config;
 
-import dev.thiagooliveira.syncmoney.application.category.port.CategoryPort;
+import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.application.category.usecase.CreateCategory;
 import dev.thiagooliveira.syncmoney.application.category.usecase.CreateDefaultCategory;
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;

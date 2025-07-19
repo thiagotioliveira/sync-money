@@ -1,8 +1,8 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.application.user.domain.Organization;
-import dev.thiagooliveira.syncmoney.application.user.domain.User;
-import dev.thiagooliveira.syncmoney.application.user.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;

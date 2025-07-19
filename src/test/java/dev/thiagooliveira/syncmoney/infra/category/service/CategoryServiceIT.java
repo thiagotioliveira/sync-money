@@ -4,19 +4,15 @@ import static dev.thiagooliveira.syncmoney.util.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import dev.thiagooliveira.syncmoney.TestcontainersConfiguration;
-import dev.thiagooliveira.syncmoney.application.category.domain.CategoryType;
+import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.infra.IntegrationTest;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.OrganizationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
-@Import(TestcontainersConfiguration.class)
-@SpringBootTest
-public class CategoryServiceIT {
+public class CategoryServiceIT extends IntegrationTest {
 
   @Autowired private OrganizationRepository organizationRepository;
 

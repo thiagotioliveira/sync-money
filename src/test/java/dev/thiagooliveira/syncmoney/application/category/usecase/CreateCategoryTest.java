@@ -7,9 +7,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.Category;
-import dev.thiagooliveira.syncmoney.application.category.dto.CreateCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.port.CategoryPort;
+import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCategoryInput;
+import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
+import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
 import java.util.UUID;

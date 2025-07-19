@@ -21,3 +21,35 @@ logging:
     org.hibernate.orm.jdbc.bind: TRACE
     dev.thiagooliveira: DEBUG
     liquibase: DEBUG
+
+app:
+  seed:
+    enabled: true
+    users:
+      - email: john@test.app
+        name: John
+        password: test
+      - email: mary@test.app
+        name: Mary
+        password: test
+    banks:
+      - name: ActivoBank
+        accounts:
+          - name: ActivoBank
+            balance: 0.00
+            currency: EUR
+    categories:
+      - name: Salary John
+        type: CREDIT
+      - name: Salary Mary
+        type: CREDIT
+      - name: Apartment Rental
+        type: DEBIT
+      - name: Electricity Bill
+        type: DEBIT
+      - name: Water Bill
+        type: DEBIT
+      - name: Food
+        type: DEBIT
+      - name: Leisure
+        type: DEBIT

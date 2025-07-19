@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.adapter;
 
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.application.user.domain.Organization;
-import dev.thiagooliveira.syncmoney.application.user.domain.User;
-import dev.thiagooliveira.syncmoney.application.user.dto.CreateUserInput;
-import dev.thiagooliveira.syncmoney.application.user.port.UserPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.UserPort;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.UserEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.UserRepository;
 import java.util.Optional;

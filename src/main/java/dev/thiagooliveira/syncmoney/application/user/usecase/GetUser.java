@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.application.user.usecase;
 
-import dev.thiagooliveira.syncmoney.application.user.domain.User;
-import dev.thiagooliveira.syncmoney.application.user.port.UserPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.UserPort;
 import java.util.Optional;
 import java.util.UUID;
 

@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.infra.category.persistence.adapter;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.Category;
-import dev.thiagooliveira.syncmoney.application.category.domain.CategoryType;
-import dev.thiagooliveira.syncmoney.application.category.dto.CreateCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.dto.CreateDefaultCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.port.CategoryPort;
+import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCategoryInput;
+import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateDefaultCategoryInput;
+import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
+import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.entity.CategoryEntity;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
 

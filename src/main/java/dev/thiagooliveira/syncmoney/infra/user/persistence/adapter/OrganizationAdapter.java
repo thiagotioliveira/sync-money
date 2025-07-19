@@ -1,8 +1,8 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.adapter;
 
-import dev.thiagooliveira.syncmoney.application.user.domain.Organization;
-import dev.thiagooliveira.syncmoney.application.user.dto.CreateOrganizationInput;
-import dev.thiagooliveira.syncmoney.application.user.port.OrganizationPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateOrganizationInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.OrganizationPort;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.OrganizationRepository;
 

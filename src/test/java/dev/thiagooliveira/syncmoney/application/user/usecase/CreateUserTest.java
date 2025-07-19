@@ -6,11 +6,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
-import dev.thiagooliveira.syncmoney.application.event.dto.Event;
+import dev.thiagooliveira.syncmoney.application.event.domain.dto.Event;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.application.user.dto.CreateOrganizationInput;
-import dev.thiagooliveira.syncmoney.application.user.port.OrganizationPort;
-import dev.thiagooliveira.syncmoney.application.user.port.UserPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateOrganizationInput;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.OrganizationPort;
+import dev.thiagooliveira.syncmoney.application.user.domain.port.UserPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
