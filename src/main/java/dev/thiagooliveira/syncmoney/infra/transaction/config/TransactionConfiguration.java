@@ -7,6 +7,7 @@ import dev.thiagooliveira.syncmoney.application.transaction.domain.port.Schedule
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.TransactionPort;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateScheduledTransaction;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateTransaction;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.GetScheduledTransaction;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.GetTransaction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,5 +37,12 @@ public class TransactionConfiguration {
   @Bean
   public GetTransaction getTransaction(TransactionPort transactionPort) {
     return new GetTransaction(transactionPort);
+  }
+
+  @Bean
+  public GetScheduledTransaction getScheduledTransaction(
+      CreateScheduledTransaction createScheduledTransaction,
+      ScheduledTransactionPort scheduledTransactionPort) {
+    return new GetScheduledTransaction(createScheduledTransaction, scheduledTransactionPort);
   }
 }

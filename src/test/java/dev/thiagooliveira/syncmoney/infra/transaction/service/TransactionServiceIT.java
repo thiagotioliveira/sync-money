@@ -15,6 +15,7 @@ import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.Organizati
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +59,8 @@ class TransactionServiceIT extends IntegrationTest {
                 "some transaction",
                 category.getId(),
                 BigDecimal.TEN));
-    var page = this.transactionService.getByAccountId(account.getId(), Pageable.of(0, 10));
+    var page =
+        this.transactionService.getTransactionsByAccountId(account.getId(), Pageable.of(0, 10));
     assertNotNull(page);
   }
 
@@ -117,5 +119,38 @@ class TransactionServiceIT extends IntegrationTest {
                 LocalDate.now(),
                 Optional.empty()));
     assertNotNull(scheduledTransaction);
+  }
+
+  @Test
+  @DisplayName("should get scheduled transaction list")
+  void getScheduledTransactionList() {
+    var org = this.organizationRepository.save(createOrganizationEntity());
+    var bank =
+        this.bankRepository.save(createBankEntity(createBank(org.getId(), UUID.randomUUID())));
+    var account =
+        this.accountRepository.save(
+            createAccountEntity(createAccount(createAccountInput(org.getId(), bank.getId()))));
+    var category =
+        this.categoryRepository.save(createCategoryEntity(createCreditCategory(org.getId())));
+
+    var scheduledTransaction =
+        this.transactionService.createScheduledTransaction(
+            createScheduledTransactionInput(
+                org.getId(),
+                account.getId(),
+                category.getId(),
+                BigDecimal.TEN,
+                ScheduledTransactionType.RECEIVABLE,
+                LocalDate.now(),
+                Optional.empty()));
+    var list =
+        this.transactionService.getScheduledTransactionsByAccountId(
+            org.getId(), account.getId(), YearMonth.now());
+    assertNotNull(list);
+
+    list =
+        this.transactionService.getScheduledTransactionsByAccountId(
+            org.getId(), account.getId(), YearMonth.now().plusMonths(1));
+    assertNotNull(list);
   }
 }

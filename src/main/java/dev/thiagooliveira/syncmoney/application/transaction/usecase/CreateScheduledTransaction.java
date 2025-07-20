@@ -7,9 +7,13 @@ import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateScheduledTransactionInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.ScheduledTransactionCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransaction;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionStatus;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionTemplate;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.ScheduledTransactionPort;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
+import java.util.UUID;
 
 public class CreateScheduledTransaction {
 
@@ -59,5 +63,28 @@ public class CreateScheduledTransaction {
     installments.forEach(this.scheduledTransactionPort::save);
     this.eventPublisher.publish(new ScheduledTransactionCreatedEvent(template, installments));
     return installments.get(0);
+  }
+
+  public ScheduledTransaction withTemplate(
+      UUID organizationId, ScheduledTransactionTemplate template, LocalDate dueDate) {
+    var category =
+        this.getCategory
+            .findById(organizationId, template.categoryId())
+            .orElseThrow(() -> BusinessLogicException.notFound("category not found"));
+    return this.scheduledTransactionPort.save(
+        new ScheduledTransaction(
+            UUID.randomUUID(),
+            template.id(),
+            template.accountId(),
+            template.categoryId(),
+            template.description(),
+            template.amount(),
+            dueDate,
+            template.type(),
+            ScheduledTransactionStatus.SCHEDULED,
+            template.frequency(),
+            Optional.empty(),
+            template.installmentTotal(),
+            Optional.empty()));
   }
 }
