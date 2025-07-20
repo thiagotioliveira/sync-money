@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
-import dev.thiagooliveira.syncmoney.application.event.domain.dto.Event;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.support.event.domain.dto.Event;
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateOrganizationInput;
 import dev.thiagooliveira.syncmoney.application.user.domain.port.OrganizationPort;
 import dev.thiagooliveira.syncmoney.application.user.domain.port.UserPort;

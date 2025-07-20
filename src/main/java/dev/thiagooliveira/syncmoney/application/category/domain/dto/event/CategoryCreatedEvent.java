@@ -2,7 +2,7 @@ package dev.thiagooliveira.syncmoney.application.category.domain.dto.event;
 
 import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
 import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
-import dev.thiagooliveira.syncmoney.application.event.domain.dto.Event;
+import dev.thiagooliveira.syncmoney.application.support.event.domain.dto.Event;
 import java.util.Optional;
 import java.util.UUID;
 

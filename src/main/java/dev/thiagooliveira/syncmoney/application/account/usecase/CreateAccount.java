@@ -4,8 +4,8 @@ import dev.thiagooliveira.syncmoney.application.account.domain.dto.CreateAccount
 import dev.thiagooliveira.syncmoney.application.account.domain.dto.event.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.application.account.domain.port.AccountPort;
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 
 public class CreateAccount {
 

@@ -2,8 +2,8 @@ package dev.thiagooliveira.syncmoney.application.transaction.usecase;
 
 import dev.thiagooliveira.syncmoney.application.account.usecase.GetAccount;
 import dev.thiagooliveira.syncmoney.application.category.usecase.GetCategory;
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.TransactionCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transaction;

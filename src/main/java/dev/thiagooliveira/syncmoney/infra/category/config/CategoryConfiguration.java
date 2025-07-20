@@ -4,7 +4,7 @@ import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPor
 import dev.thiagooliveira.syncmoney.application.category.usecase.CreateCategory;
 import dev.thiagooliveira.syncmoney.application.category.usecase.CreateDefaultCategory;
 import dev.thiagooliveira.syncmoney.application.category.usecase.GetCategory;
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.adapter.CategoryAdapter;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
 import org.springframework.context.annotation.Bean;

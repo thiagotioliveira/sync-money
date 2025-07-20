@@ -8,6 +8,10 @@ import dev.thiagooliveira.syncmoney.application.account.domain.model.Currency;
 import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
 import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateScheduledTransactionInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Frequency;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionTemplate;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionType;
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
@@ -17,6 +21,7 @@ import dev.thiagooliveira.syncmoney.infra.category.persistence.entity.CategoryEn
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.UserEntity;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -122,5 +127,42 @@ public class TestUtil {
     entity.setCreatedAt(account.createdAt());
     entity.setBank(BankEntity.from(account.bank()));
     return entity;
+  }
+
+  public static CreateScheduledTransactionInput createScheduledTransactionInput(
+      UUID organizationId,
+      UUID accountId,
+      UUID categoryId,
+      BigDecimal amount,
+      ScheduledTransactionType type,
+      LocalDate startDate,
+      Optional<Integer> installmentTotal) {
+    return new CreateScheduledTransactionInput(
+        organizationId,
+        accountId,
+        categoryId,
+        type,
+        "some scheduled transaction",
+        amount,
+        startDate,
+        true,
+        installmentTotal);
+  }
+
+  public static ScheduledTransactionTemplate createScheduledTransactionTemplate(
+      UUID accountId, UUID categoryId, CreateScheduledTransactionInput input) {
+    return new ScheduledTransactionTemplate(
+        UUID.randomUUID(),
+        accountId,
+        categoryId,
+        input.description(),
+        input.amount(),
+        input.type(),
+        input.startDate(),
+        null,
+        true,
+        input.recurring(),
+        Frequency.MONTHLY,
+        input.installmentTotal());
   }
 }

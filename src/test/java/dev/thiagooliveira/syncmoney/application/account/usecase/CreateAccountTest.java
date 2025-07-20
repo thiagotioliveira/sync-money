@@ -7,7 +7,7 @@ import static org.mockito.Mockito.*;
 import dev.thiagooliveira.syncmoney.application.account.domain.dto.event.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.application.account.domain.port.AccountPort;
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;

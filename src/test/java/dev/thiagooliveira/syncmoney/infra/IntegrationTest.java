@@ -4,6 +4,8 @@ import dev.thiagooliveira.syncmoney.TestcontainersConfiguration;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.AccountRepository;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.BankRepository;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.ScheduledTransactionRepository;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.ScheduledTransactionTemplateRepository;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.TransactionRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.UserRepository;
@@ -21,9 +23,13 @@ public class IntegrationTest {
   @Autowired private BankRepository bankRepository;
   @Autowired private AccountRepository accountRepository;
   @Autowired private TransactionRepository transactionRepository;
+  @Autowired private ScheduledTransactionTemplateRepository scheduledTransactionTemplateRepository;
+  @Autowired private ScheduledTransactionRepository scheduledTransactionRepository;
 
   @AfterEach
   void tearDown() {
+    this.scheduledTransactionRepository.deleteAll();
+    this.scheduledTransactionTemplateRepository.deleteAll();
     this.transactionRepository.deleteAll();
     this.accountRepository.deleteAll();
     this.bankRepository.deleteAll();

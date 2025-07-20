@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.application.account.domain.dto.event;
 
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Account;
-import dev.thiagooliveira.syncmoney.application.event.domain.dto.Event;
+import dev.thiagooliveira.syncmoney.application.support.event.domain.dto.Event;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.application.user.usecase;
 
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.event.UserCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.User;

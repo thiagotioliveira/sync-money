@@ -2,7 +2,7 @@ package dev.thiagooliveira.syncmoney.application.account.domain.dto.event;
 
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Currency;
-import dev.thiagooliveira.syncmoney.application.event.domain.dto.Event;
+import dev.thiagooliveira.syncmoney.application.support.event.domain.dto.Event;
 import java.util.UUID;
 
 public class BankCreatedEvent implements Event {

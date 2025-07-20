@@ -66,8 +66,8 @@ public class CreateTransactionAndFailIT extends IntegrationTest {
     assertNotNull(transaction);
 
     await()
-        .pollDelay(5, TimeUnit.SECONDS)
-        .atMost(6, TimeUnit.SECONDS)
+        .pollDelay(2, TimeUnit.SECONDS)
+        .atMost(3, TimeUnit.SECONDS)
         .untilAsserted(
             () -> {
               var accountEntity = this.accountRepository.findById(account.getId()).orElseThrow();

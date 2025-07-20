@@ -4,6 +4,7 @@ import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCatego
 import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
 import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,4 +19,6 @@ public interface CategoryPort {
   boolean exists(CreateCategoryInput input);
 
   Optional<Category> findById(UUID organizationId, UUID id);
+
+  List<Category> findAll(UUID organizationId);
 }

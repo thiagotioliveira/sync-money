@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.event.adapter;
 
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
-import dev.thiagooliveira.syncmoney.application.event.domain.dto.Event;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.support.event.domain.dto.Event;
 import org.springframework.context.ApplicationEventPublisher;
 
 public class EventPublisherAdapter implements EventPublisher {

@@ -3,7 +3,7 @@ package dev.thiagooliveira.syncmoney.infra.account.config;
 import dev.thiagooliveira.syncmoney.application.account.domain.port.AccountPort;
 import dev.thiagooliveira.syncmoney.application.account.domain.port.BankPort;
 import dev.thiagooliveira.syncmoney.application.account.usecase.*;
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

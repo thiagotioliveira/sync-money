@@ -2,6 +2,7 @@ package dev.thiagooliveira.syncmoney.infra.category.persistence.repository;
 
 import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.entity.CategoryEntity;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, UUID> {
+
+  List<CategoryEntity> findByOrganizationId(UUID organizationId);
+
   boolean existsCategoryEntitiesByTypeAndOrganizationIdIsNull(CategoryType type);
 
   boolean existsCategoryEntitiesByNameIgnoreCaseAndTypeAndOrganizationId(

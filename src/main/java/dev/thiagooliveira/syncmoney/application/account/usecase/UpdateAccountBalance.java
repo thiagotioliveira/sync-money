@@ -3,8 +3,8 @@ package dev.thiagooliveira.syncmoney.application.account.usecase;
 import dev.thiagooliveira.syncmoney.application.account.domain.dto.UpdateAccountBalanceInput;
 import dev.thiagooliveira.syncmoney.application.account.domain.dto.event.AccountBalanceUpdatedEvent;
 import dev.thiagooliveira.syncmoney.application.account.domain.port.AccountPort;
-import dev.thiagooliveira.syncmoney.application.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 
 public class UpdateAccountBalance {
   private final EventPublisher eventPublisher;
