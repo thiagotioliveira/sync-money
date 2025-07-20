@@ -12,6 +12,7 @@ import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Schedul
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.ScheduledTransactionPort;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,20 +72,24 @@ public class CreateScheduledTransaction {
         this.getCategory
             .findById(organizationId, template.categoryId())
             .orElseThrow(() -> BusinessLogicException.notFound("category not found"));
-    return this.scheduledTransactionPort.save(
-        new ScheduledTransaction(
-            UUID.randomUUID(),
-            template.id(),
-            template.accountId(),
-            template.categoryId(),
-            template.description(),
-            template.amount(),
-            dueDate,
-            template.type(),
-            ScheduledTransactionStatus.SCHEDULED,
-            template.frequency(),
-            Optional.empty(),
-            template.installmentTotal(),
-            Optional.empty()));
+    ScheduledTransaction scheduledTransaction =
+        this.scheduledTransactionPort.save(
+            new ScheduledTransaction(
+                UUID.randomUUID(),
+                template.id(),
+                template.accountId(),
+                template.categoryId(),
+                template.description(),
+                template.amount(),
+                dueDate,
+                template.type(),
+                ScheduledTransactionStatus.SCHEDULED,
+                template.frequency(),
+                Optional.empty(),
+                template.installmentTotal(),
+                Optional.empty()));
+    this.eventPublisher.publish(
+        new ScheduledTransactionCreatedEvent(template, List.of(scheduledTransaction)));
+    return scheduledTransaction;
   }
 }
