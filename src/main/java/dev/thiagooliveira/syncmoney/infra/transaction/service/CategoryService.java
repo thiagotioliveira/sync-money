@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.infra.category.service;
+package dev.thiagooliveira.syncmoney.infra.transaction.service;
 
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateDefaultCategoryInput;

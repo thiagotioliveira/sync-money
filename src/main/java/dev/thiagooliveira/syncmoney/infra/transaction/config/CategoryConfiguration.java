@@ -1,12 +1,12 @@
-package dev.thiagooliveira.syncmoney.infra.category.config;
+package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateCategory;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateDefaultCategory;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
-import dev.thiagooliveira.syncmoney.infra.category.persistence.adapter.CategoryAdapter;
-import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.adapter.CategoryAdapter;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.CategoryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

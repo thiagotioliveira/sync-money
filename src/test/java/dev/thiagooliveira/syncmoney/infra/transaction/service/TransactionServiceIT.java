@@ -10,7 +10,7 @@ import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Schedul
 import dev.thiagooliveira.syncmoney.infra.IntegrationTest;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.AccountRepository;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.BankRepository;
-import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.CategoryRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.OrganizationRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;

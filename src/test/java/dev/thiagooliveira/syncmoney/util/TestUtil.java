@@ -17,7 +17,7 @@ import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.entity.AccountEntity;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.entity.BankEntity;
-import dev.thiagooliveira.syncmoney.infra.category.persistence.entity.CategoryEntity;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.CategoryEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.UserEntity;
 import java.math.BigDecimal;

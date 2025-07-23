@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.infra.category.persistence.entity;
+package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateDefaultCategoryInput;
