@@ -2,10 +2,9 @@ package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transaction;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import dev.thiagooliveira.syncmoney.infra.account.persistence.entity.BankEntity;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -25,42 +24,29 @@ public class TransactionEntity {
   @Column(nullable = false)
   private String description;
 
-  @Column(nullable = false)
-  private UUID categoryId;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id", nullable = false)
+  private CategoryEntity category;
 
   @Column(nullable = false)
   private BigDecimal amount;
 
   public TransactionEntity() {}
 
-  public TransactionEntity(
-      UUID id,
-      UUID accountId,
-      OffsetDateTime dateTime,
-      String description,
-      UUID categoryId,
-      BigDecimal amount) {
-    this.id = id;
-    this.accountId = accountId;
-    this.dateTime = dateTime;
-    this.description = description;
-    this.categoryId = categoryId;
-    this.amount = amount;
-  }
-
   public static TransactionEntity from(CreateTransactionInput input) {
     TransactionEntity entity = new TransactionEntity();
     entity.id = UUID.randomUUID();
     entity.dateTime = input.dateTime();
     entity.accountId = input.accountId();
-    entity.categoryId = input.categoryId();
+    entity.setCategory(new CategoryEntity());
+    entity.getCategory().setId(input.categoryId());
     entity.description = input.description();
     entity.amount = input.amount();
     return entity;
   }
 
   public Transaction toTransaction() {
-    return new Transaction(id, accountId, dateTime, description, categoryId, amount);
+    return new Transaction(id, accountId, dateTime, description, CategoryEntity.from(category), amount);
   }
 
   public UUID getId() {
@@ -95,19 +81,19 @@ public class TransactionEntity {
     this.description = description;
   }
 
-  public UUID getCategoryId() {
-    return categoryId;
-  }
-
-  public void setCategoryId(UUID categoryId) {
-    this.categoryId = categoryId;
-  }
-
   public BigDecimal getAmount() {
     return amount;
   }
 
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
+  }
+
+  public CategoryEntity getCategory() {
+    return category;
+  }
+
+  public void setCategory(CategoryEntity category) {
+    this.category = category;
   }
 }

@@ -25,7 +25,7 @@ public class TransactionCreatedEvent implements Event {
     this.accountId = transaction.accountId();
     this.dateTime = transaction.dateTime();
     this.description = transaction.description();
-    this.categoryId = transaction.categoryId();
+    this.categoryId = transaction.category().id();
     this.categoryType = categoryType;
     this.amount = transaction.amount();
   }

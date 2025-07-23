@@ -24,13 +24,6 @@ public class CategoryEntity {
 
   public CategoryEntity() {}
 
-  public CategoryEntity(UUID id, UUID organizationId, String name, CategoryType type) {
-    this.id = id;
-    this.organizationId = organizationId;
-    this.name = name;
-    this.type = type;
-  }
-
   public static CategoryEntity from(CreateCategoryInput input) {
     CategoryEntity categoryEntity = new CategoryEntity();
     categoryEntity.id = UUID.randomUUID();
@@ -47,6 +40,16 @@ public class CategoryEntity {
     categoryEntity.name = input.name();
     categoryEntity.type = input.type();
     return categoryEntity;
+  }
+
+  public static Category from(CategoryEntity categoryEntity) {
+    Category category = new Category(
+            categoryEntity.getId(),
+            Optional.ofNullable(categoryEntity.getOrganizationId()),
+            categoryEntity.getName(),
+            categoryEntity.getType()
+    );
+    return category;
   }
 
   public Category toCategory() {
