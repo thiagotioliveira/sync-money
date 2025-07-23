@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.application.account.usecase.GetAccount;
-import dev.thiagooliveira.syncmoney.application.category.usecase.GetCategory;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.ScheduledTransactionPort;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.TransactionPort;

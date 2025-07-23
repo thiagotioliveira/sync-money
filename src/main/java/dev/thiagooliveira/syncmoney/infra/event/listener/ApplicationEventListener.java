@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.event.listener;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.dto.event.CategoryCreatedEvent;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.CategoryCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.event.UserCreatedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
-package dev.thiagooliveira.syncmoney.application.category.usecase;
+package dev.thiagooliveira.syncmoney.application.transaction.usecase;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
-import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.port.CategoryPort;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

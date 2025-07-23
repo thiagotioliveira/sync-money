@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.application.category.domain.model;
+package dev.thiagooliveira.syncmoney.application.transaction.domain.model;
 
 public enum CategoryType {
   CREDIT,

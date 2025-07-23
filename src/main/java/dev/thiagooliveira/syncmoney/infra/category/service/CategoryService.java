@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.infra.category.service;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateDefaultCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
-import dev.thiagooliveira.syncmoney.application.category.usecase.CreateCategory;
-import dev.thiagooliveira.syncmoney.application.category.usecase.CreateDefaultCategory;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateDefaultCategoryInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateCategory;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateDefaultCategory;
 import org.springframework.stereotype.Service;
 
 @Service

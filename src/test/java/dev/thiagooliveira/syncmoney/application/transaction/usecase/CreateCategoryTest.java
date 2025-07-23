@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.application.category.usecase;
+package dev.thiagooliveira.syncmoney.application.transaction.usecase;
 
 import static dev.thiagooliveira.syncmoney.util.TestUtil.createCategory;
 import static dev.thiagooliveira.syncmoney.util.TestUtil.createCreditCategory;
@@ -7,12 +7,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
-import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.port.CategoryPort;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

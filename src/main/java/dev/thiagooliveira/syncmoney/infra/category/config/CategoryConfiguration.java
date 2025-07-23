@@ -1,9 +1,9 @@
 package dev.thiagooliveira.syncmoney.infra.category.config;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.port.CategoryPort;
-import dev.thiagooliveira.syncmoney.application.category.usecase.CreateCategory;
-import dev.thiagooliveira.syncmoney.application.category.usecase.CreateDefaultCategory;
-import dev.thiagooliveira.syncmoney.application.category.usecase.GetCategory;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.port.CategoryPort;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateCategory;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateDefaultCategory;
+import dev.thiagooliveira.syncmoney.application.transaction.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.adapter.CategoryAdapter;
 import dev.thiagooliveira.syncmoney.infra.category.persistence.repository.CategoryRepository;

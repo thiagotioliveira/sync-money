@@ -1,11 +1,12 @@
-package dev.thiagooliveira.syncmoney.infra.category.service;
+package dev.thiagooliveira.syncmoney.infra.transaction.service;
 
 import static dev.thiagooliveira.syncmoney.util.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.infra.IntegrationTest;
+import dev.thiagooliveira.syncmoney.infra.category.service.CategoryService;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.OrganizationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

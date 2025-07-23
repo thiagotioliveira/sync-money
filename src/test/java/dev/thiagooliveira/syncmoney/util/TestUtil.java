@@ -5,9 +5,9 @@ import dev.thiagooliveira.syncmoney.application.account.domain.dto.CreateBankInp
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Currency;
-import dev.thiagooliveira.syncmoney.application.category.domain.dto.CreateCategoryInput;
-import dev.thiagooliveira.syncmoney.application.category.domain.model.Category;
-import dev.thiagooliveira.syncmoney.application.category.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateScheduledTransactionInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Frequency;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionTemplate;

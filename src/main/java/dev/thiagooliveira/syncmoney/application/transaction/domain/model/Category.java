@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.application.category.domain.model;
+package dev.thiagooliveira.syncmoney.application.transaction.domain.model;
 
 import java.util.Optional;
 import java.util.UUID;
