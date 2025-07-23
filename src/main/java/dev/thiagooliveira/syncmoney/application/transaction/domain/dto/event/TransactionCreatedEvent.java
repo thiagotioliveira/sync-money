@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event;
 
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.application.support.event.domain.dto.Event;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transaction;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

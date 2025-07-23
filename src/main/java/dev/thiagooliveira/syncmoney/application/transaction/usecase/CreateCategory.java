@@ -1,11 +1,11 @@
 package dev.thiagooliveira.syncmoney.application.transaction.usecase;
 
+import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.CategoryCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.CategoryPort;
-import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 
 public class CreateCategory {
 
