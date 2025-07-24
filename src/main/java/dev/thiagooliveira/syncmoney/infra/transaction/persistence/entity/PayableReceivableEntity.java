@@ -1,9 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateScheduledTransactionInput;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Frequency;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionTemplate;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionType;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreatePayableReceivableInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.PayableReceivable;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,13 +9,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Entity
-@Table(name = "scheduled_transaction_templates")
-public class ScheduledTransactionTemplateEntity {
+@Table(name = "payable_receivable")
+public class PayableReceivableEntity {
 
   @Id private UUID id;
 
   @Column(name = "account_id", nullable = false)
   private UUID accountId;
+
+  @Column(nullable = false)
+  private UUID organizationId;
 
   @Column(name = "category_id", nullable = false)
   private UUID categoryId;
@@ -28,60 +29,48 @@ public class ScheduledTransactionTemplateEntity {
   @Column(name = "amount", nullable = false)
   private BigDecimal amount;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "type", nullable = false)
-  private ScheduledTransactionType type;
-
   @Column(name = "start_date", nullable = false)
   private LocalDate startDate;
 
   @Column(name = "end_date")
   private LocalDate endDate;
 
-  @Column(name = "enabled", nullable = false)
-  private boolean enabled;
-
   @Column(name = "recurring", nullable = false)
   private boolean recurring;
-
-  @Enumerated(EnumType.STRING)
-  @Column(name = "frequency")
-  private Frequency frequency;
 
   @Column(name = "installment_total")
   private Integer installmentTotal;
 
-  public ScheduledTransactionTemplateEntity() {}
+  public PayableReceivableEntity() {}
 
-  public static ScheduledTransactionTemplateEntity from(CreateScheduledTransactionInput input) {
-    ScheduledTransactionTemplateEntity entity = new ScheduledTransactionTemplateEntity();
+  public static PayableReceivableEntity from(CreatePayableReceivableInput input) {
+    PayableReceivableEntity entity = new PayableReceivableEntity();
     entity.setId(UUID.randomUUID());
     entity.setAccountId(input.accountId());
+    entity.setOrganizationId(input.organizationId());
     entity.setCategoryId(input.categoryId());
     entity.setDescription(input.description());
-    entity.setType(input.type());
     entity.setStartDate(input.startDate());
-    entity.setEnabled(true);
-    entity.setFrequency(Frequency.MONTHLY);
-    entity.setInstallmentTotal(input.installmentTotal().orElse(null));
-    entity.setRecurring(input.recurring());
     entity.setAmount(input.amount());
+    entity.setRecurring(input.recurring());
+    entity.setInstallmentTotal(input.installmentTotal().orElse(null));
+    input
+        .installmentTotal()
+        .ifPresent(total -> entity.setEndDate(input.startDate().plusMonths(total)));
     return entity;
   }
 
-  public ScheduledTransactionTemplate toScheduledTransactionTemplate() {
-    return new ScheduledTransactionTemplate(
+  public PayableReceivable toPayableReceivable() {
+    return new PayableReceivable(
         this.id,
         this.accountId,
+        this.organizationId,
         this.categoryId,
         this.description,
         this.amount,
-        this.type,
         this.startDate,
         this.endDate,
-        this.enabled,
         this.recurring,
-        this.frequency,
         Optional.ofNullable(this.installmentTotal));
   }
 
@@ -117,36 +106,12 @@ public class ScheduledTransactionTemplateEntity {
     this.description = description;
   }
 
-  public Frequency getFrequency() {
-    return frequency;
-  }
-
-  public void setFrequency(Frequency frequency) {
-    this.frequency = frequency;
-  }
-
   public UUID getId() {
     return id;
   }
 
   public void setId(UUID id) {
     this.id = id;
-  }
-
-  public Integer getInstallmentTotal() {
-    return installmentTotal;
-  }
-
-  public void setInstallmentTotal(Integer installmentTotal) {
-    this.installmentTotal = installmentTotal;
-  }
-
-  public boolean isRecurring() {
-    return recurring;
-  }
-
-  public void setRecurring(boolean recurring) {
-    this.recurring = recurring;
   }
 
   public LocalDate getStartDate() {
@@ -165,19 +130,27 @@ public class ScheduledTransactionTemplateEntity {
     this.endDate = endDate;
   }
 
-  public ScheduledTransactionType getType() {
-    return type;
+  public UUID getOrganizationId() {
+    return organizationId;
   }
 
-  public void setType(ScheduledTransactionType type) {
-    this.type = type;
+  public void setOrganizationId(UUID organizationId) {
+    this.organizationId = organizationId;
   }
 
-  public boolean isEnabled() {
-    return enabled;
+  public boolean isRecurring() {
+    return recurring;
   }
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
+  public void setRecurring(boolean recurring) {
+    this.recurring = recurring;
+  }
+
+  public Integer getInstallmentTotal() {
+    return installmentTotal;
+  }
+
+  public void setInstallmentTotal(Integer installmentTotal) {
+    this.installmentTotal = installmentTotal;
   }
 }

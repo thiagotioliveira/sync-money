@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import dev.thiagooliveira.syncmoney.application.support.page.domain.dto.Pageable;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateTransactionInput;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionType;
 import dev.thiagooliveira.syncmoney.infra.IntegrationTest;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.AccountRepository;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.BankRepository;
@@ -60,7 +59,7 @@ class TransactionServiceIT extends IntegrationTest {
                 category.getId(),
                 BigDecimal.TEN));
     var page =
-        this.transactionService.getTransactionsByAccountId(account.getId(), Pageable.of(0, 10));
+        this.transactionService.getByAccountId(org.getId(), account.getId(), Pageable.of(0, 10));
     assertNotNull(page);
   }
 
@@ -97,8 +96,8 @@ class TransactionServiceIT extends IntegrationTest {
   }
 
   @Test
-  @DisplayName("should create a new scheduled transaction")
-  void createScheduledTransaction() {
+  @DisplayName("should create a new receivable")
+  void createPayableReceivable() {
     var org = this.organizationRepository.save(createOrganizationEntity());
     var bank =
         this.bankRepository.save(createBankEntity(createBank(org.getId(), UUID.randomUUID())));
@@ -109,13 +108,12 @@ class TransactionServiceIT extends IntegrationTest {
         this.categoryRepository.save(createCategoryEntity(createCreditCategory(org.getId())));
 
     var scheduledTransaction =
-        this.transactionService.createScheduledTransaction(
-            createScheduledTransactionInput(
+        this.transactionService.createPayableReceivable(
+            createPayableReceivableInput(
                 org.getId(),
                 account.getId(),
                 category.getId(),
                 BigDecimal.TEN,
-                ScheduledTransactionType.RECEIVABLE,
                 LocalDate.now(),
                 Optional.empty()));
     assertNotNull(scheduledTransaction);
@@ -134,22 +132,20 @@ class TransactionServiceIT extends IntegrationTest {
         this.categoryRepository.save(createCategoryEntity(createCreditCategory(org.getId())));
 
     var scheduledTransaction =
-        this.transactionService.createScheduledTransaction(
-            createScheduledTransactionInput(
+        this.transactionService.createPayableReceivable(
+            createPayableReceivableInput(
                 org.getId(),
                 account.getId(),
                 category.getId(),
                 BigDecimal.TEN,
-                ScheduledTransactionType.RECEIVABLE,
                 LocalDate.now(),
                 Optional.empty()));
     var list =
-        this.transactionService.getScheduledTransactionsByAccountId(
-            org.getId(), account.getId(), YearMonth.now());
+        this.transactionService.getByAccountId(org.getId(), account.getId(), YearMonth.now());
     assertNotNull(list);
 
     list =
-        this.transactionService.getScheduledTransactionsByAccountId(
+        this.transactionService.getByAccountId(
             org.getId(), account.getId(), YearMonth.now().plusMonths(1));
     assertNotNull(list);
   }

@@ -224,7 +224,81 @@ databaseChangeLog:
             referencedColumnNames: id
             constraintName: fk_accounts_banks
   - changeSet:
-      id: 007-create-transactions
+      id: 007-payable-receivable
+      author: thiago
+      changes:
+        - createTable:
+            tableName: payable_receivable
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: organization_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: numeric(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: date
+              - column:
+                  name: recurring
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: installment_total
+                  type: int
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            baseTableName: payable_receivable
+            baseColumnNames: account_id
+            referencedTableName: accounts
+            referencedColumnNames: id
+            constraintName: fk_payable_receivable_accounts
+        - addForeignKeyConstraint:
+            baseTableName: payable_receivable
+            baseColumnNames: organization_id
+            referencedTableName: organizations
+            referencedColumnNames: id
+            constraintName: fk_payable_receivable_organizations
+        - addForeignKeyConstraint:
+            baseTableName: payable_receivable
+            baseColumnNames: category_id
+            referencedTableName: categories
+            referencedColumnNames: id
+            constraintName: fk_payable_receivable_categories
+  - changeSet:
+      id: 008-create-transactions
       author: thiago
       changes:
         - createTable:
@@ -242,9 +316,25 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: organization_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+              - column:
+                  name: parent_id
+                  type: uuid
+              - column:
                   name: date_time
                   type: TIMESTAMP
                   defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: due_date
+                  type: date
                   constraints:
                     nullable: false
               - column:
@@ -270,145 +360,19 @@ databaseChangeLog:
             constraintName: fk_transactions_accounts
         - addForeignKeyConstraint:
             baseTableName: transactions
+            baseColumnNames: organization_id
+            referencedTableName: organizations
+            referencedColumnNames: id
+            constraintName: fk_transactions_organizations
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: parent_id
+            referencedTableName: payable_receivable
+            referencedColumnNames: id
+            constraintName: fk_transactions_payable_receivable
+        - addForeignKeyConstraint:
+            baseTableName: transactions
             baseColumnNames: category_id
             referencedTableName: categories
             referencedColumnNames: id
             constraintName: fk_transactions_categories
-  - changeSet:
-      id: 008-scheduled_transaction-templates
-      author: thiago
-      changes:
-        - createTable:
-            tableName: scheduled_transaction_templates
-            columns:
-              - column:
-                  name: id
-                  type: uuid
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: account_id
-                  type: uuid
-                  constraints:
-                    nullable: false
-              - column:
-                  name: category_id
-                  type: uuid
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: amount
-                  type: numeric(10,2)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: start_date
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: end_date
-                  type: date
-              - column:
-                  name: enabled
-                  type: boolean
-                  constraints:
-                    nullable: false
-              - column:
-                  name: recurring
-                  type: boolean
-                  constraints:
-                    nullable: false
-              - column:
-                  name: frequency
-                  type: varchar(50)
-                  constraints:
-                    nullable: true
-              - column:
-                  name: installment_total
-                  type: int
-                  constraints:
-                    nullable: true
-        - addForeignKeyConstraint:
-            baseTableName: scheduled_transaction_templates
-            baseColumnNames: account_id
-            referencedTableName: accounts
-            referencedColumnNames: id
-            constraintName: fk_scheduled_transaction_templates_accounts
-        - addForeignKeyConstraint:
-            baseTableName: scheduled_transaction_templates
-            baseColumnNames: category_id
-            referencedTableName: categories
-            referencedColumnNames: id
-            constraintName: fk_scheduled_transaction_templates_categories
-  - changeSet:
-      id: 009-create-scheduled-transaction
-      author: thiago
-      changes:
-        - createTable:
-            tableName: scheduled_transactions
-            columns:
-              - column:
-                  name: id
-                  type: uuid
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: template_id
-                  type: uuid
-                  constraints:
-                    nullable: true
-              - column:
-                  name: due_date
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: due_date_original
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: amount
-                  type: numeric(10,2)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: status
-                  type: varchar(20)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: installment_number
-                  type: int
-                  constraints:
-                    nullable: true
-              - column:
-                  name: transaction_id
-                  type: uuid
-                  constraints:
-                    nullable: true
-        - addForeignKeyConstraint:
-            baseTableName: scheduled_transactions
-            baseColumnNames: template_id
-            referencedTableName: scheduled_transaction_templates
-            referencedColumnNames: id
-            constraintName: fk_scheduled_transactions_templates
-        - addForeignKeyConstraint:
-            baseTableName: scheduled_transactions
-            baseColumnNames: transaction_id
-            referencedTableName: transactions
-            referencedColumnNames: id
-            constraintName: fk_scheduled_transactions_transactions

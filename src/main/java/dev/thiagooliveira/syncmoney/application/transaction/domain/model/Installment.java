@@ -2,17 +2,15 @@ package dev.thiagooliveira.syncmoney.application.transaction.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
-public record Transaction(
+public record Installment(
     UUID id,
     UUID accountId,
-    OffsetDateTime dateTime,
+    UUID organizationId,
+    UUID parentId,
     LocalDate dueDate,
     String description,
-    Category category,
+    UUID categoryId,
     BigDecimal amount,
-    TransactionStatus status,
-    Optional<UUID> parentId) {}
+    TransactionStatus status) {}

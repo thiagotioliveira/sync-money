@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.application.transaction.domain.model;
 
-public enum ScheduledTransactionStatus {
+public enum TransactionStatus {
   SCHEDULED,
   PAID
 }

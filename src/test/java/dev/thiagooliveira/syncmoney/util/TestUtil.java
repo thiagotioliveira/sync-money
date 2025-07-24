@@ -6,12 +6,10 @@ import dev.thiagooliveira.syncmoney.application.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.application.account.domain.model.Currency;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateScheduledTransactionInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreatePayableReceivableInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.CategoryType;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Frequency;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionTemplate;
-import dev.thiagooliveira.syncmoney.application.transaction.domain.model.ScheduledTransactionType;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.PayableReceivable;
 import dev.thiagooliveira.syncmoney.application.user.domain.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.application.user.domain.model.User;
@@ -129,19 +127,17 @@ public class TestUtil {
     return entity;
   }
 
-  public static CreateScheduledTransactionInput createScheduledTransactionInput(
+  public static CreatePayableReceivableInput createPayableReceivableInput(
       UUID organizationId,
       UUID accountId,
       UUID categoryId,
       BigDecimal amount,
-      ScheduledTransactionType type,
       LocalDate startDate,
       Optional<Integer> installmentTotal) {
-    return new CreateScheduledTransactionInput(
+    return new CreatePayableReceivableInput(
         organizationId,
         accountId,
         categoryId,
-        type,
         "some scheduled transaction",
         amount,
         startDate,
@@ -149,20 +145,18 @@ public class TestUtil {
         installmentTotal);
   }
 
-  public static ScheduledTransactionTemplate createScheduledTransactionTemplate(
-      UUID accountId, UUID categoryId, CreateScheduledTransactionInput input) {
-    return new ScheduledTransactionTemplate(
+  public static PayableReceivable createPayableReceivable(
+      UUID organizationId, UUID accountId, UUID categoryId, CreatePayableReceivableInput input) {
+    return new PayableReceivable(
         UUID.randomUUID(),
         accountId,
+        organizationId,
         categoryId,
         input.description(),
         input.amount(),
-        input.type(),
         input.startDate(),
         null,
         true,
-        input.recurring(),
-        Frequency.MONTHLY,
         input.installmentTotal());
   }
 }

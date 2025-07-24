@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository;
 
-import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.ScheduledTransactionTemplateEntity;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.PayableReceivableEntity;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -8,17 +8,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface ScheduledTransactionTemplateRepository
-    extends JpaRepository<ScheduledTransactionTemplateEntity, UUID> {
+public interface PayableReceivableRepository extends JpaRepository<PayableReceivableEntity, UUID> {
 
   @Query(
       """
-          SELECT prt FROM ScheduledTransactionTemplateEntity prt
-        WHERE prt.accountId = :accountId
-        AND (prt.startDate <= :from OR (prt.startDate >= :from AND prt.startDate <= :to))
-        AND prt.recurring is true
+          SELECT pr FROM PayableReceivableEntity pr
+        WHERE pr.accountId = :accountId
+        AND (pr.startDate <= :from OR (pr.startDate >= :from AND pr.startDate <= :to))
+              AND pr.recurring = true
       """)
-  List<ScheduledTransactionTemplateEntity>
+  List<PayableReceivableEntity>
       findByAccountIdAndStartDateLessThanEqualOrStartDateBetweenAndRecurringIsTrue(
           @Param("accountId") UUID accountId,
           @Param("from") LocalDate from,

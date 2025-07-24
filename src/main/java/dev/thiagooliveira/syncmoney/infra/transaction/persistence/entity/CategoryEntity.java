@@ -43,12 +43,12 @@ public class CategoryEntity {
   }
 
   public static Category from(CategoryEntity categoryEntity) {
-    Category category = new Category(
+    Category category =
+        new Category(
             categoryEntity.getId(),
             Optional.ofNullable(categoryEntity.getOrganizationId()),
             categoryEntity.getName(),
-            categoryEntity.getType()
-    );
+            categoryEntity.getType());
     return category;
   }
 
