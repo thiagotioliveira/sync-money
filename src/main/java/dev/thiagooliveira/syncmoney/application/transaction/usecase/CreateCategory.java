@@ -3,6 +3,7 @@ package dev.thiagooliveira.syncmoney.application.transaction.usecase;
 import dev.thiagooliveira.syncmoney.application.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateCategoryInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.CategoryCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Category;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.CategoryPort;
@@ -24,5 +25,12 @@ public class CreateCategory {
     var category = categoryPort.save(input);
     this.eventPublisher.publish(new CategoryCreatedEvent(category));
     return category;
+  }
+
+  public Category execute(CreateDefaultCategoryInput input) {
+    if (this.categoryPort.existsDefaultByType(input.type())) {
+      throw BusinessLogicException.badRequest("default category already exists");
+    }
+    return this.categoryPort.save(input);
   }
 }
