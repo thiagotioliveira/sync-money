@@ -7,9 +7,11 @@ import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreatePay
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.PayableReceivableCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.TransactionCreatedEvent;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Installment;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transaction;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.PayableReceivablePort;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.TransactionPort;
+import java.util.List;
 
 public class CreateTransaction {
 
@@ -47,7 +49,7 @@ public class CreateTransaction {
     return transaction;
   }
 
-  public Transaction execute(CreatePayableReceivableInput input) {
+  public List<Installment> execute(CreatePayableReceivableInput input) {
     var account =
         this.getAccount
             .findById(input.organizationId(), input.accountId())
@@ -58,11 +60,13 @@ public class CreateTransaction {
             .orElseThrow(() -> BusinessLogicException.notFound("category not found"));
 
     var payableReceivable = this.payableReceivablePort.create(input);
-    var scheduledTransactions =
-        this.transactionPort.createScheduled(payableReceivable.generateInstallments());
+    var installments =
+        this.transactionPort.createScheduled(payableReceivable.generateInstallments()).stream()
+            .map(Transaction::toInstallment)
+            .toList();
     this.eventPublisher.publish(
         new PayableReceivableCreatedEvent(
-            payableReceivable, scheduledTransactions.stream().map(Transaction::id).toList()));
-    return scheduledTransactions.get(0);
+            payableReceivable, installments.stream().map(Installment::id).toList()));
+    return installments;
   }
 }

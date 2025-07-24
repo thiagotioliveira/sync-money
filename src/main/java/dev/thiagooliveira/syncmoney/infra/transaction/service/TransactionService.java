@@ -4,6 +4,7 @@ import dev.thiagooliveira.syncmoney.application.support.page.domain.dto.Page;
 import dev.thiagooliveira.syncmoney.application.support.page.domain.dto.Pageable;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreatePayableReceivableInput;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.CreateTransactionInput;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Installment;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transaction;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.CreateTransaction;
 import dev.thiagooliveira.syncmoney.application.transaction.usecase.GetTransaction;
@@ -30,7 +31,7 @@ public class TransactionService {
   }
 
   @Transactional
-  public Transaction createPayableReceivable(CreatePayableReceivableInput input) {
+  public List<Installment> createPayableReceivable(CreatePayableReceivableInput input) {
     return this.createTransaction.execute(input);
   }
 

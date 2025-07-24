@@ -86,6 +86,7 @@ public class TransactionEntity {
     return new Transaction(
         id,
         accountId,
+        organizationId,
         dateTime,
         dueDate,
         description,

@@ -9,10 +9,25 @@ import java.util.UUID;
 public record Transaction(
     UUID id,
     UUID accountId,
+    UUID organizationId,
     OffsetDateTime dateTime,
     LocalDate dueDate,
     String description,
     Category category,
     BigDecimal amount,
     TransactionStatus status,
-    Optional<UUID> parentId) {}
+    Optional<UUID> parentId) {
+
+  public Installment toInstallment() {
+    return new Installment(
+        this.id,
+        this.accountId,
+        this.organizationId,
+        this.parentId.get(),
+        this.dueDate,
+        this.description,
+        this.category.id(),
+        this.amount,
+        this.status);
+  }
+}
