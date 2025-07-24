@@ -67,7 +67,7 @@ public class TransactionEntity {
 
   public static TransactionEntity from(Installment installment) {
     TransactionEntity entity = new TransactionEntity();
-    entity.id = UUID.randomUUID();
+    entity.id = installment.id();
     entity.dateTime = installment.dueDate().atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
     entity.dueDate = entity.dateTime.toLocalDate();
     entity.accountId = installment.accountId();

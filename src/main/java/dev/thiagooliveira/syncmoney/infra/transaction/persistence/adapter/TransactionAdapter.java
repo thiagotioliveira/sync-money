@@ -11,6 +11,7 @@ import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.Tra
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -30,13 +31,16 @@ public class TransactionAdapter implements TransactionPort {
   }
 
   @Override
-  public List<Transaction> createScheduled(List<Installment> installments) {
-    return installments.stream().map(this::createScheduled).toList();
+  public List<Installment> saveInstallments(List<Installment> installments) {
+    return installments.stream().map(this::saveInstallment).toList();
   }
 
   @Override
-  public Transaction createScheduled(Installment installment) {
-    return this.transactionRepository.save(TransactionEntity.from(installment)).toTransaction();
+  public Installment saveInstallment(Installment installment) {
+    return this.transactionRepository
+        .save(TransactionEntity.from(installment))
+        .toTransaction()
+        .toInstallment();
   }
 
   @Override
@@ -66,5 +70,12 @@ public class TransactionAdapter implements TransactionPort {
   @Override
   public boolean existsByParentIdAndDueDate(UUID parentId, LocalDate dueDate) {
     return this.transactionRepository.existsByParentIdAndDueDate(parentId, dueDate);
+  }
+
+  @Override
+  public Optional<Transaction> findByOrganizationIdAndId(UUID organizationId, UUID id) {
+    return this.transactionRepository
+        .findByOrganizationIdAndId(organizationId, id)
+        .map(TransactionEntity::toTransaction);
   }
 }

@@ -11,8 +11,4 @@ public interface PayableReceivablePort {
   PayableReceivable create(CreatePayableReceivableInput input);
 
   List<PayableReceivable> findRecurringByAccountId(UUID accountId, YearMonth yearMonth);
-
-  // List<ScheduledTransactionEnriched> findByAccountId(UUID accountId, YearMonth yearMonth);
-
-  // boolean existsByTemplateIdAndDueDateOriginal(UUID templateId, LocalDate dueDateOriginal);
 }

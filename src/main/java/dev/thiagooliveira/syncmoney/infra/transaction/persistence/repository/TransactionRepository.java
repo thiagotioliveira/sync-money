@@ -3,6 +3,7 @@ package dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.TransactionEntity;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,6 @@ public interface TransactionRepository
       UUID accountId, LocalDate from, LocalDate to);
 
   boolean existsByParentIdAndDueDate(UUID parentId, LocalDate dueDate);
+
+  Optional<TransactionEntity> findByOrganizationIdAndId(UUID organizationId, UUID id);
 }

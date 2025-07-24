@@ -8,19 +8,22 @@ import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transac
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TransactionPort {
 
   Transaction create(CreateTransactionInput input);
 
-  List<Transaction> createScheduled(List<Installment> installments);
+  List<Installment> saveInstallments(List<Installment> installments);
 
-  Transaction createScheduled(Installment installment);
+  Installment saveInstallment(Installment installment);
 
   List<Transaction> findByAccountAndYearMonth(UUID accountId, YearMonth yearMonth);
 
   Page<Transaction> findByAccountId(UUID accountId, Pageable pageable);
 
   boolean existsByParentIdAndDueDate(UUID parendId, LocalDate dueDate);
+
+  Optional<Transaction> findByOrganizationIdAndId(UUID organizationId, UUID id);
 }

@@ -8,6 +8,7 @@ import dev.thiagooliveira.syncmoney.application.account.usecase.GetAccount;
 import dev.thiagooliveira.syncmoney.application.support.event.EventPublisher;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.dto.event.PayableReceivableCreatedEvent;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.model.PayableReceivable;
+import dev.thiagooliveira.syncmoney.application.transaction.domain.model.Transaction;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.PayableReceivablePort;
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.TransactionPort;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.TransactionEntity;
@@ -68,11 +69,12 @@ class CreateTransactionTest {
     PayableReceivable payableReceivable =
         createPayableReceivable(organizationId, accountId, categoryId, input);
     when(this.payableReceivablePort.create(input)).thenReturn(payableReceivable);
-    when(this.transactionPort.createScheduled(any(List.class)))
+    when(this.transactionPort.saveInstallments(any(List.class)))
         .thenReturn(
             payableReceivable.generateInstallments().stream()
                 .map(TransactionEntity::from)
                 .map(TransactionEntity::toTransaction)
+                .map(Transaction::toInstallment)
                 .toList());
     var scheduledTransaction = this.createTransaction.execute(input);
     assertNotNull(scheduledTransaction);

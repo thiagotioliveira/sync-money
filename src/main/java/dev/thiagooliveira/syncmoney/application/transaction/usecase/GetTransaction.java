@@ -9,6 +9,7 @@ import dev.thiagooliveira.syncmoney.application.transaction.domain.port.PayableR
 import dev.thiagooliveira.syncmoney.application.transaction.domain.port.TransactionPort;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class GetTransaction {
@@ -26,23 +27,28 @@ public class GetTransaction {
     this.transactionPort = transactionPort;
   }
 
+  public Optional<Transaction> byId(UUID organizationId, UUID accountId, UUID id) {
+    validAccount(organizationId, accountId);
+    return this.transactionPort.findByOrganizationIdAndId(organizationId, id);
+  }
+
   public Page<Transaction> byAccountId(UUID organizationId, UUID accountId, Pageable pageable) {
     return this.transactionPort.findByAccountId(accountId, pageable);
   }
 
   public List<Transaction> byAccountId(UUID organizationId, UUID accountId, YearMonth yearMonth) {
     validAccount(organizationId, accountId);
-    generateScheduledTransactionIfNeeded(accountId, yearMonth);
+    saveInstallmentsIfNeeded(accountId, yearMonth);
     return this.transactionPort.findByAccountAndYearMonth(accountId, yearMonth);
   }
 
-  private void generateScheduledTransactionIfNeeded(UUID accountId, YearMonth yearMonth) {
+  private void saveInstallmentsIfNeeded(UUID accountId, YearMonth yearMonth) {
     var recurringList = this.payableReceivablePort.findRecurringByAccountId(accountId, yearMonth);
     for (var payableReceivable : recurringList) {
       var dayBase = payableReceivable.startDate().getDayOfMonth();
       var dueDate = yearMonth.atDay(dayBase);
       if (!this.transactionPort.existsByParentIdAndDueDate(payableReceivable.id(), dueDate)) {
-        this.transactionPort.createScheduled(payableReceivable.generateInstallment(dueDate));
+        this.transactionPort.saveInstallment(payableReceivable.generateInstallment(dueDate));
       }
     }
   }

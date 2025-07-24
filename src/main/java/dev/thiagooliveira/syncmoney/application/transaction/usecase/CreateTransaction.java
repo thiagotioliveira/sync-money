@@ -61,8 +61,7 @@ public class CreateTransaction {
 
     var payableReceivable = this.payableReceivablePort.create(input);
     var installments =
-        this.transactionPort.createScheduled(payableReceivable.generateInstallments()).stream()
-            .map(Transaction::toInstallment)
+        this.transactionPort.saveInstallments(payableReceivable.generateInstallments()).stream()
             .toList();
     this.eventPublisher.publish(
         new PayableReceivableCreatedEvent(
