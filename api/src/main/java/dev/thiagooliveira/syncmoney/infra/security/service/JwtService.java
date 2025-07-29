@@ -21,7 +21,6 @@ public class JwtService {
   private SecretKey key;
 
   public JwtService(@Value("${app.jwt.secret}") String secret) {
-    logger.info("Secret used: {}", secret);
     this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
   }
 
@@ -42,7 +41,6 @@ public class JwtService {
   }
 
   public boolean validateToken(String token, UserDetails userDetails) {
-    logger.info("Validating token: {}\nUsername: {}", token, userDetails.getUsername());
     return extractUsername(token).equals(userDetails.getUsername());
   }
 }

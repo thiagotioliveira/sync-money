@@ -5,9 +5,9 @@ POST {{baseUrl}}/api/auth/register
 Content-Type: application/json
 
 {
-  "email": {{user.email}},
-  "name": {{user.name}},
-  "password": {{user.password}}
+  "email": "{{user.email}}",
+  "name": "{{user.name}}",
+  "password": "{{user.password}}"
 }
 
 ###
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 {
   "name": "Bank Account",
-  "bankId": "88741770-5859-417d-b78e-b38dbf17e928",
+  "bankId": "eea8f854-ac31-4f22-9e70-362cb40eeff0",
   "initialBalance": 1000.0
 }
 
@@ -180,7 +180,7 @@ Content-Type: application/json
 {
   "startDate": "2025-07-30",
   "description": "Salary 1",
-  "categoryId": "0b87bccb-993d-415f-a61e-a97abd1e9fd3",
+  "categoryId": "b93ba696-706c-4a81-afc2-529dc6d7c523",
   "amount": 1000.0,
   "recurring": true
 }
@@ -195,7 +195,7 @@ Content-Type: application/json
 {
   "startDate": "2025-07-30",
   "description": "Apartment Rental",
-  "categoryId": "6bf9b7b1-5d47-41c1-8e55-f71be9444cba",
+  "categoryId": "2ec624ca-4658-4787-afe8-2a529b7e7225",
   "amount": 300.0,
   "recurring": true
 }
