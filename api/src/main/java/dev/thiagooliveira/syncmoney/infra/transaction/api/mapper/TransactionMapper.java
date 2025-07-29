@@ -59,10 +59,6 @@ public interface TransactionMapper {
 
   PatchTransactionResponseBody mapToPatchTransactionResponseBody(Transaction installment);
 
-  default OffsetDateTime mapOffsetDateTime(JsonNullable<OffsetDateTime> value) {
-    return value.isPresent() ? value.get() : null;
-  }
-
   default UUID mapUUID(Optional<UUID> value) {
     return value.orElse(null);
   }
@@ -76,6 +72,10 @@ public interface TransactionMapper {
   }
 
   default Optional<BigDecimal> mapBigDecimal(BigDecimal value) {
+    return Optional.ofNullable(value);
+  }
+
+  default Optional<Integer> mapInteger(Integer value) {
     return Optional.ofNullable(value);
   }
 }

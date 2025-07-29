@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CategoryJpaRepository extends JpaRepository<CategoryEntity, UUID> {
 
-  List<CategoryEntity> findByOrganizationId(UUID organizationId);
+  List<CategoryEntity> findByOrganizationIdOrOrganizationIdIsNull(UUID organizationId);
 
   boolean existsCategoryEntitiesByTypeAndOrganizationIdIsNull(CategoryType type);
 

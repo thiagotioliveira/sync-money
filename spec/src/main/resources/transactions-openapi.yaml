@@ -356,7 +356,6 @@ components:
         dateTime:
           type: string
           format: date-time
-          nullable: true
         description:
           type: string
         categoryId:
@@ -398,7 +397,6 @@ components:
           default: true
         installmentTotal:
           type: integer
-          nullable: true
       required:
         - amount
         - categoryId
@@ -429,7 +427,6 @@ components:
           default: true
         installmentTotal:
           type: integer
-          nullable: true
       required:
         - amount
         - categoryId
