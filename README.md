@@ -4,6 +4,8 @@
 
 This is a financial control system, designed to manage bank accounts, categories, financial transactions, payables, and receivables.
 
+This project is a Proof of Concept (PoC) for studying Domain-Driven Design (DDD) using Clean Architecture principles.
+
 ## Features
 
 - Java 21+
@@ -29,14 +31,14 @@ To work with this project, you will need:
    ```
 
 2. **Configure the database**:
-   Update the `persistence.xml` file with your database connection details.
+   Using `test` profile, the PostgreSQL will be provided by Docker with [compose.yaml](compose.yaml)
 
 3. **Build the project**:
    Use Maven to build the project:
    ```bash
    mvn clean install
    ```
-   For local proposal, use **`test`** profile (spring profile)
+   Or use [mvnw](mvnw)
 
 4. **Deploy to an application server**:
    Use `Dockerfile` to generate image.
@@ -46,28 +48,70 @@ To work with this project, you will need:
    ```
    http://<server-host>:<server-port>/swagger-ui/index.html
    ```
+## Data Model Description
+
+### Organizations
+
+* Represents the company or organization. Basically is the way to manager N accounts.
+
+### Users
+
+* Linked to an organization.
+* Can be associated with the transactions they performed (`transactions.user_id`).
+
+### Categories
+
+* Classifications for transactions and payables/receivables.
+* Can be of type `CREDIT` or `DEBIT`.
+* Can be global (`organization_id = null`) or specific to an organization.
+
+### Banks
+
+* Represent banking institutions associated with an organization.
+
+### Accounts
+
+* Bank accounts belonging to an organization and linked to a bank.
+* Have balances
+
+### Payable/Receivable
+
+* Represents financial commitments to pay or receive.
+* Associated with an `account`, `category`, and `organization`.
+* Can be recurring and paid in installments.
+
+### Transactions
+
+* Financial movements.
+* Can be linked to an `account`, `category`, `organization`, `user`, and a `payable/receivable`.
+
+### Account Summary
+
+* Monthly summary of an account.
+* Contains balances and monthly totals.
+
 ## 🔌 REST Endpoints
 
-| Method  | Endpoint                                                   | Description                               | Protected (JWT) |
-|---------|------------------------------------------------------------|-------------------------------------------|-----------------|
-| `POST`  | `/api/auth/register`                                       | Register a new user                       | ❌              |
-| `POST`  | `/api/auth/login`                                          | Login                                     | ❌              |
-| `GET`   | `/api/users`                                               | List all users                            | ✅              |
-| `GET`   | `/api/users/me`                                            | Get user info                             | ✅              |
-| `POST`  | `/api/banks`                                               | Create a bank                             | ✅              |
-| `POST`  | `/api/accounts`                                            | Create a account                          | ✅              |
-| `GET`   | `/api/accounts`                                            | List all accounts                         | ✅              |
-| `GET`   | `/api/accounts/{id}`                                       | Get account by id                         | ✅              |
-| `POST`  | `/api/categories`                                          | Create a category                         | ✅              |
-| `GET`   | `/api/categories`                                          | List all categories                       | ✅              |
-| `GET`   | `/api/categories/{id}`                                     | Get category by id                        | ✅              |
-| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month | ✅              |
-| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction            | ✅              |
-| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction               | ✅              |
-| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account             | ✅              |
-| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account            | ✅              |
-| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account             | ✅              |
-| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account          | ✅              |
+| Method  | Endpoint                                                   | Description                                                     | Protected (JWT) |
+|---------|------------------------------------------------------------|-----------------------------------------------------------------|-----------------|
+| `POST`  | `/api/auth/register`                                       | Register a new user                                             | ❌              |
+| `POST`  | `/api/auth/login`                                          | Login                                                           | ❌              |
+| `GET`   | `/api/users`                                               | List all users                                                  | ✅              |
+| `GET`   | `/api/users/me`                                            | Get user info                                                   | ✅              |
+| `POST`  | `/api/banks`                                               | Create a bank                                                   | ✅              |
+| `POST`  | `/api/accounts`                                            | Create a account                                                | ✅              |
+| `GET`   | `/api/accounts`                                            | List all accounts                                               | ✅              |
+| `GET`   | `/api/accounts/{id}`                                       | Get account by id                                               | ✅              |
+| `POST`  | `/api/categories`                                          | Create a category                                               | ✅              |
+| `GET`   | `/api/categories`                                          | List all categories                                             | ✅              |
+| `GET`   | `/api/categories/{id}`                                     | Get category by id                                              | ✅              |
+| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month                       | ✅              |
+| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction                                  | ✅              |
+| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction                                     | ✅              |
+| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account (creates paid transaction)        | ✅              |
+| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account (creates paid transaction)       | ✅              |
+| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account (creates scheduled transaction)   | ✅              |
+| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account (creates scheduled transaction)| ✅              |
 
 🔒 Legend:
 
