@@ -1,7 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -11,11 +10,11 @@ public class UserCreatedEvent implements Event {
   private final String name;
   private final OffsetDateTime createdAt;
 
-  public UserCreatedEvent(User user) {
-    this.id = user.getId();
-    this.email = user.getEmail();
-    this.name = user.getName();
-    this.createdAt = user.getCreatedAt();
+  public UserCreatedEvent(UUID id, String email, String name, OffsetDateTime createdAt) {
+    this.id = id;
+    this.email = email;
+    this.name = name;
+    this.createdAt = createdAt;
   }
 
   public UUID getId() {

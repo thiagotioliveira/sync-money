@@ -1,9 +1,9 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.adapter;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.CategoryRepository;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.CategoryEntity;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.CategoryJpaRepository;

@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.CategoryCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
 import jakarta.persistence.*;
 import java.util.Optional;
 import java.util.UUID;

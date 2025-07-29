@@ -92,13 +92,27 @@ public class PayableReceivableEntity {
 
   public PayableReceivable toPayableReceivableCreated() {
     var payableReceivable = toPayableReceivable();
-    payableReceivable.registerEvent(new PayableReceivableCreatedEvent(payableReceivable));
+    payableReceivable.registerEvent(
+        new PayableReceivableCreatedEvent(
+            payableReceivable.getId(),
+            payableReceivable.getOrganizationId(),
+            payableReceivable.getAccountId(),
+            payableReceivable.getStartDate(),
+            payableReceivable.getEndDate(),
+            payableReceivable.isRecurring()));
     return payableReceivable;
   }
 
   public PayableReceivable toPayableReceivableUpdated() {
     var payableReceivable = toPayableReceivable();
-    payableReceivable.registerEvent(new PayableReceivableUpdatedEvent(payableReceivable));
+    payableReceivable.registerEvent(
+        new PayableReceivableUpdatedEvent(
+            payableReceivable.getId(),
+            payableReceivable.getOrganizationId(),
+            payableReceivable.getAccountId(),
+            payableReceivable.getStartDate(),
+            payableReceivable.getEndDate(),
+            payableReceivable.isRecurring()));
     return payableReceivable;
   }
 

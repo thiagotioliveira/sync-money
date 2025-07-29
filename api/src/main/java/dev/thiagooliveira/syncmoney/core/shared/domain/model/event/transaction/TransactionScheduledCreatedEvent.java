@@ -1,7 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Installment;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -14,13 +13,19 @@ public class TransactionScheduledCreatedEvent implements Event {
   private final LocalDate dueDate;
   private final BigDecimal amount;
 
-  public TransactionScheduledCreatedEvent(Installment installment) {
-    this.id = installment.getId();
-    this.organizationId = installment.getOrganizationId();
-    this.accountId = installment.getAccountId();
-    this.categoryId = installment.getCategoryId();
-    this.dueDate = installment.getDueDate();
-    this.amount = installment.getAmount();
+  public TransactionScheduledCreatedEvent(
+      UUID id,
+      UUID organizationId,
+      UUID accountId,
+      UUID categoryId,
+      LocalDate dueDate,
+      BigDecimal amount) {
+    this.accountId = accountId;
+    this.id = id;
+    this.organizationId = organizationId;
+    this.categoryId = categoryId;
+    this.dueDate = dueDate;
+    this.amount = amount;
   }
 
   public UUID getId() {

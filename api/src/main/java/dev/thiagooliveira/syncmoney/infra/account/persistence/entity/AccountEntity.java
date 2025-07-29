@@ -67,13 +67,23 @@ public class AccountEntity {
 
   public Account toAccountCreated(UUID userId, BigDecimal initialBalance) {
     var account = toAccount();
-    account.registerEvent(new AccountCreatedEvent(account, userId, initialBalance));
+    account.registerEvent(
+        new AccountCreatedEvent(
+            account.getId(),
+            account.getName(),
+            account.getOrganizationId(),
+            userId,
+            account.getBankId(),
+            initialBalance,
+            account.getCreatedAt()));
     return account;
   }
 
   public Account toAccountUpdated() {
     var account = toAccount();
-    account.registerEvent(new AccountBalanceUpdatedEvent(account));
+    account.registerEvent(
+        new AccountBalanceUpdatedEvent(
+            account.getId(), account.getOrganizationId(), account.getBalance()));
     return account;
   }
 

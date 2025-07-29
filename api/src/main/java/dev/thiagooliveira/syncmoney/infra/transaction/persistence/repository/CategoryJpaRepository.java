@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository;
 
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity.CategoryEntity;
 import java.util.List;
 import java.util.Optional;

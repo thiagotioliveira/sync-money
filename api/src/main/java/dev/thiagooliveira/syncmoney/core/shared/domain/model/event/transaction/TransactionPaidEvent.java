@@ -1,8 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -17,15 +16,23 @@ public class TransactionPaidEvent implements Event {
   private final OffsetDateTime dateTime;
   private final BigDecimal amount;
 
-  public TransactionPaidEvent(Transaction transaction, CategoryType categoryType) {
-    this.id = transaction.getId();
-    this.organizationId = transaction.getOrganizationId();
-    this.userId = transaction.getUserId();
-    this.accountId = transaction.getAccountId();
-    this.categoryId = transaction.getCategoryId();
+  public TransactionPaidEvent(
+      UUID id,
+      UUID organizationId,
+      UUID accountId,
+      UUID userId,
+      UUID categoryId,
+      CategoryType categoryType,
+      OffsetDateTime dateTime,
+      BigDecimal amount) {
+    this.accountId = accountId;
+    this.id = id;
+    this.organizationId = organizationId;
+    this.userId = userId;
+    this.categoryId = categoryId;
     this.categoryType = categoryType;
-    this.dateTime = transaction.getDateTime();
-    this.amount = transaction.getAmount();
+    this.dateTime = dateTime;
+    this.amount = amount;
   }
 
   public UUID getId() {

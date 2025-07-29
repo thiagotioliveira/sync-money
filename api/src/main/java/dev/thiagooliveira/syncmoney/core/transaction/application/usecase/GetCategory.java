@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.usecase;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.CategoryRepository;
 import java.util.List;
 import java.util.Optional;

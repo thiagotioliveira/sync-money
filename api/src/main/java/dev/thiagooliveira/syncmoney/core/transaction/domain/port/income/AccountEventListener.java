@@ -1,5 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.port.income;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateFirstAccountSummaryInput;
@@ -7,7 +8,6 @@ import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTrans
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateTransaction;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetCategory;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
 import java.time.YearMonth;
 

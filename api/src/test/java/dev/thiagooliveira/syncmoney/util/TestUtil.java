@@ -43,7 +43,8 @@ public class TestUtil {
 
   public static User createUser(Organization organization) {
     User user = User.create(USER_EMAIL, USER_NAME, organization);
-    user.registerEvent(new UserCreatedEvent(user));
+    user.registerEvent(
+        new UserCreatedEvent(user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
     return user;
   }
 
@@ -69,7 +70,8 @@ public class TestUtil {
 
   public static Bank createBank(UUID organizationId) {
     var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
-    bank.registerEvent(new BankCreatedEvent(bank));
+    bank.registerEvent(
+        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId()));
     return bank;
   }
 
@@ -93,7 +95,15 @@ public class TestUtil {
             BigDecimal.ZERO,
             OffsetDateTime.now(),
             0L);
-    account.registerEvent(new AccountCreatedEvent(account, input.userId(), input.initialBalance()));
+    account.registerEvent(
+        new AccountCreatedEvent(
+            account.getId(),
+            account.getName(),
+            account.getOrganizationId(),
+            input.userId(),
+            account.getBankId(),
+            input.initialBalance(),
+            account.getCreatedAt()));
     return account;
   }
 }

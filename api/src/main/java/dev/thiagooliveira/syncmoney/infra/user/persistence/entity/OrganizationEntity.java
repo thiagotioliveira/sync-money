@@ -44,7 +44,9 @@ public class OrganizationEntity {
 
   public Organization toOrganizationCreated() {
     var organization = toOrganization();
-    organization.registerEvent(new OrganizationCreatedEvent(organization));
+    organization.registerEvent(
+        new OrganizationCreatedEvent(
+            organization.getId(), organization.getEmailOwner(), organization.getCreatedAt()));
     return organization;
   }
 

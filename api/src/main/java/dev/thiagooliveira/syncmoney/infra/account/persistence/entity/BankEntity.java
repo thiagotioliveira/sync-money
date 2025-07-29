@@ -59,7 +59,8 @@ public class BankEntity {
 
   public Bank toBankCreated() {
     var bank = Bank.restore(id, organizationId, name, currency);
-    bank.registerEvent(new BankCreatedEvent(bank));
+    bank.registerEvent(
+        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId()));
     return bank;
   }
 

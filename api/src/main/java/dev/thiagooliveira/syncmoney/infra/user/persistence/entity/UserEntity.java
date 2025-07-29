@@ -55,7 +55,8 @@ public class UserEntity {
 
   public User toUserCreated() {
     var user = toUser();
-    user.registerEvent(new UserCreatedEvent(user));
+    user.registerEvent(
+        new UserCreatedEvent(user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
     return user;
   }
 

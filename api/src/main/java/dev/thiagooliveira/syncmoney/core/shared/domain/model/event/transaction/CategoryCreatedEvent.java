@@ -1,8 +1,8 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
 import java.util.Optional;
 import java.util.UUID;
 

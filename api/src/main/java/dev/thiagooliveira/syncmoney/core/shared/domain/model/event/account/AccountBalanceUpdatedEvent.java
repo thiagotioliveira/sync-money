@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account;
 
-import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -10,10 +9,10 @@ public class AccountBalanceUpdatedEvent implements Event {
   private final UUID organizationId;
   private final BigDecimal balance;
 
-  public AccountBalanceUpdatedEvent(Account account) {
-    this.accountId = account.getId();
-    this.organizationId = account.getOrganizationId();
-    this.balance = account.getBalance();
+  public AccountBalanceUpdatedEvent(UUID accountId, UUID organizationId, BigDecimal balance) {
+    this.accountId = accountId;
+    this.organizationId = organizationId;
+    this.balance = balance;
   }
 
   public UUID getAccountId() {

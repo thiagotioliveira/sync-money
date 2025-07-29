@@ -1,7 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account;
 
-import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.Currency;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
 import java.util.UUID;
 
@@ -9,13 +7,11 @@ public class BankCreatedEvent implements Event {
   private UUID id;
   private UUID organizationId;
   private String name;
-  private Currency currency;
 
-  public BankCreatedEvent(Bank bank) {
-    this.id = bank.getId();
-    this.organizationId = bank.getOrganizationId();
-    this.name = bank.getName();
-    this.currency = bank.getCurrency();
+  public BankCreatedEvent(UUID id, String name, UUID organizationId) {
+    this.id = id;
+    this.name = name;
+    this.organizationId = organizationId;
   }
 
   public UUID getId() {
@@ -40,13 +36,5 @@ public class BankCreatedEvent implements Event {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Currency getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(Currency currency) {
-    this.currency = currency;
   }
 }
