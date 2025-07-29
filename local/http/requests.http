@@ -1,0 +1,222 @@
+###
+
+# Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": {{user.email}},
+  "name": {{user.name}},
+  "password": {{user.password}}
+}
+
+###
+
+# Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{user.email}}",
+  "password": "{{user.password}}"
+}
+
+> {%
+    const response = response.body;
+    const json = JSON.parse(response);
+    client.global.set("accessToken", json.token);
+%}
+
+###
+
+# Create Bank
+POST {{baseUrl}}/api/banks
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Bank",
+  "currency": "EUR"
+}
+
+###
+
+# Create Account
+POST {{baseUrl}}/api/accounts
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Bank Account",
+  "bankId": "88741770-5859-417d-b78e-b38dbf17e928",
+  "initialBalance": 1000.0
+}
+
+###
+
+# Get Accounts
+GET {{baseUrl}}/api/accounts
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get Categories
+GET {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Create Salary 1
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Salary 1",
+  "type": "CREDIT"
+}
+
+### Create Salary 2
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Salary 2",
+  "type": "CREDIT"
+}
+
+### Create Apartment Rental
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Apartment Rental",
+  "type": "DEBIT"
+}
+
+### Create Electricity Bill
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Electricity Bill",
+  "type": "DEBIT"
+}
+
+### Create Water Bill
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Water Bill",
+  "type": "DEBIT"
+}
+
+### Create Food
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Food",
+  "type": "DEBIT"
+}
+
+### Create Leisure
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Leisure",
+  "type": "DEBIT"
+}
+
+###
+
+# Get Transactions
+GET {{baseUrl}}/api/accounts/{{accountId}}/transactions/2025-07-01
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Create Deposit
+POST {{baseUrl}}/api/accounts/{{accountId}}/deposit
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "dateTime": "2025-07-29T20:24:00+01:00",
+  "description": "Deposit test",
+  "categoryId": "11111111-1111-1111-1111-111111111111",
+  "amount": 10.0
+}
+
+###
+
+# Create Withdraw
+POST {{baseUrl}}/api/accounts/{{accountId}}/withdraw
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "dateTime": "2025-07-29T20:24:00+01:00",
+  "description": "Withdraw test",
+  "categoryId": "22222222-2222-2222-2222-222222222222",
+  "amount": 10.0
+}
+
+###
+
+# Create Receivable
+POST {{baseUrl}}/api/accounts/{{accountId}}/receivables
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "startDate": "2025-07-30",
+  "description": "Salary 1",
+  "categoryId": "0b87bccb-993d-415f-a61e-a97abd1e9fd3",
+  "amount": 1000.0,
+  "recurring": true
+}
+
+###
+
+# Create Payable
+POST {{baseUrl}}/api/accounts/{{accountId}}/payables
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "startDate": "2025-07-30",
+  "description": "Apartment Rental",
+  "categoryId": "6bf9b7b1-5d47-41c1-8e55-f71be9444cba",
+  "amount": 300.0,
+  "recurring": true
+}
+
+###
+
+# Pay Scheduled Transaction
+POST {{baseUrl}}/api/accounts/{{accountId}}/transactions/a290fb18-542d-4091-bc56-9c13f9e91e77/pay
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "dateTime": "2025-07-29T16:30:00+01:00",
+  "amount": 1000.0
+}
+
+###
+
+# Get Account Summary
+GET {{baseUrl}}/api/accounts/{{accountId}}/summary/2025-07-01
+Authorization: Bearer {{accessToken}}
+
+###
+
