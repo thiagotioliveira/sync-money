@@ -7,6 +7,8 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
   private SecretKey key;
 
   public JwtService(@Value("${app.jwt.secret}") String secret) {
+    logger.info("Secret used: {}", secret);
     this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
   }
 
@@ -37,6 +42,7 @@ public class JwtService {
   }
 
   public boolean validateToken(String token, UserDetails userDetails) {
+    logger.info("Validating token: {}\nUsername: {}", token, userDetails.getUsername());
     return extractUsername(token).equals(userDetails.getUsername());
   }
 }
