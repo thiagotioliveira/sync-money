@@ -36,7 +36,9 @@ public class AccountRestController implements AccountsApi {
             this.accountMapper.mapToPostAccountResponseBody(
                 this.accountService.createAccount(
                     this.accountMapper.mapToCreateAccountInput(
-                        principal.organizationId(), principal.id(), postAccountRequestBody))));
+                        principal.getOrganizationId(),
+                        principal.getId(),
+                        postAccountRequestBody))));
   }
 
   @Override
@@ -46,7 +48,7 @@ public class AccountRestController implements AccountsApi {
     return ResponseEntity.ok(
         this.accountMapper.mapToGetAccountResponseBody(
             this.accountService
-                .getById(principal.organizationId(), id)
+                .getById(principal.getOrganizationId(), id)
                 .orElseThrow(() -> BusinessLogicException.notFound("account not found"))));
   }
 
@@ -55,7 +57,7 @@ public class AccountRestController implements AccountsApi {
     UserAuthenticated principal =
         (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     return ResponseEntity.ok(
-        this.accountService.getAll(principal.organizationId()).stream()
+        this.accountService.getAll(principal.getOrganizationId()).stream()
             .map(accountMapper::mapToGetAccountsResponseBody)
             .toList());
   }

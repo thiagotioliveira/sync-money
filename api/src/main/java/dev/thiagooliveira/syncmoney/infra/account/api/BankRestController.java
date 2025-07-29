@@ -29,6 +29,6 @@ public class BankRestController implements BanksApi {
             this.bankMapper.mapToPostBankResponseBody(
                 this.accountService.createBank(
                     this.bankMapper.mapToCreateBankInput(
-                        principal.organizationId(), postBankRequestBody))));
+                        principal.getOrganizationId(), postBankRequestBody))));
   }
 }

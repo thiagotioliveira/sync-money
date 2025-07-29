@@ -37,7 +37,7 @@ public class CategoryRestController implements CategoriesApi {
             this.categoryMapper.mapToPostCategoryRequestBody(
                 this.categoryService.create(
                     this.categoryMapper.mapToCreateCategoryInput(
-                        principal.organizationId(), postCategoryRequestBody))));
+                        principal.getOrganizationId(), postCategoryRequestBody))));
   }
 
   @Override
@@ -47,7 +47,7 @@ public class CategoryRestController implements CategoriesApi {
     return ResponseEntity.ok(
         this.categoryMapper.mapToGetCategoriesResponseBody(
             this.categoryService
-                .getById(principal.organizationId(), id)
+                .getById(principal.getOrganizationId(), id)
                 .orElseThrow(() -> BusinessLogicException.notFound("category not found"))));
   }
 
@@ -56,7 +56,7 @@ public class CategoryRestController implements CategoriesApi {
     UserAuthenticated principal =
         (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     return ResponseEntity.ok(
-        this.categoryService.getAll(principal.organizationId()).stream()
+        this.categoryService.getAll(principal.getOrganizationId()).stream()
             .map(categoryMapper::mapToGetCategoriesResponseBody)
             .toList());
   }

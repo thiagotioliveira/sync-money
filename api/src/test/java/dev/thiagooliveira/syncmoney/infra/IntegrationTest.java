@@ -3,6 +3,7 @@ package dev.thiagooliveira.syncmoney.infra;
 import dev.thiagooliveira.syncmoney.TestcontainersConfiguration;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.AccountJpaRepository;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.BankJpaRepository;
+import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.AccountSummaryJpaRepository;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.CategoryJpaRepository;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.PayableReceivableJpaRepository;
 import dev.thiagooliveira.syncmoney.infra.transaction.persistence.repository.TransactionJpaRepository;
@@ -23,9 +24,11 @@ public class IntegrationTest {
   @Autowired private AccountJpaRepository accountJpaRepository;
   @Autowired private TransactionJpaRepository transactionJpaRepository;
   @Autowired private PayableReceivableJpaRepository payableReceivableJpaRepository;
+  @Autowired private AccountSummaryJpaRepository accountSummaryJpaRepository;
 
   @AfterEach
   void tearDown() {
+    this.accountSummaryJpaRepository.deleteAll();
     this.transactionJpaRepository.deleteAll();
     this.payableReceivableJpaRepository.deleteAll();
     this.accountJpaRepository.deleteAll();

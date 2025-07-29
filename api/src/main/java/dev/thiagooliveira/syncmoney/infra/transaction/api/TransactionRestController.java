@@ -35,8 +35,8 @@ public class TransactionRestController implements TransactionsApi {
         this.transactionMapper.mapToPostDepositResponseBody(
             this.transactionService.createDeposit(
                 this.transactionMapper.mapToCreateTransactionInput(
-                    principal.organizationId(),
-                    principal.id(),
+                    principal.getOrganizationId(),
+                    principal.getId(),
                     accountId,
                     postDepositRequestBody))));
   }
@@ -50,8 +50,8 @@ public class TransactionRestController implements TransactionsApi {
         this.transactionMapper.mapToPostWithdrawResponseBody(
             this.transactionService.createWithdraw(
                 this.transactionMapper.mapToCreateTransactionInput(
-                    principal.organizationId(),
-                    principal.id(),
+                    principal.getOrganizationId(),
+                    principal.getId(),
                     accountId,
                     postWithdrawRequestBody))));
   }
@@ -64,7 +64,7 @@ public class TransactionRestController implements TransactionsApi {
     return ResponseEntity.ok(
         this.transactionMapper.mapToGetTransactionsResponseBody(
             this.transactionService.getByAccountId(
-                principal.organizationId(),
+                principal.getOrganizationId(),
                 accountId,
                 YearMonth.of(yearMonth.getYear(), yearMonth.getMonth()))));
   }
@@ -78,7 +78,7 @@ public class TransactionRestController implements TransactionsApi {
         this.transactionMapper.mapToPostPayableResponseBody(
             this.transactionService.createPayable(
                 this.transactionMapper.mapToCreatePayableReceivableInput(
-                    principal.organizationId(), accountId, postPayableRequestBody))));
+                    principal.getOrganizationId(), accountId, postPayableRequestBody))));
   }
 
   @Override
@@ -90,7 +90,7 @@ public class TransactionRestController implements TransactionsApi {
         this.transactionMapper.mapToPostReceivableResponseBody(
             this.transactionService.createReceivable(
                 this.transactionMapper.mapToCreatePayableReceivableInput(
-                    principal.organizationId(), accountId, postReceivableRequestBody))));
+                    principal.getOrganizationId(), accountId, postReceivableRequestBody))));
   }
 
   @Override
@@ -104,8 +104,8 @@ public class TransactionRestController implements TransactionsApi {
         this.transactionMapper.mapToPostPayTransactionResponseBody(
             this.transactionService.pay(
                 this.transactionMapper.mapToPayTransactionInput(
-                    principal.organizationId(),
-                    principal.id(),
+                    principal.getOrganizationId(),
+                    principal.getId(),
                     accountId,
                     transactionId,
                     postPayTransactionRequestBody))));
@@ -119,7 +119,7 @@ public class TransactionRestController implements TransactionsApi {
     return ResponseEntity.ok(
         this.transactionMapper.mapToPatchTransactionResponseBody(
             this.transactionService.update(
-                principal.organizationId(),
+                principal.getOrganizationId(),
                 accountId,
                 transactionId,
                 this.transactionMapper.mapToUpdateTransactionInput(patchTransactionRequestBody))));

@@ -33,7 +33,7 @@ public class AccountSummaryRestController implements AccountsSummaryApi {
     return ResponseEntity.ok(
         this.accountSummaryMapper.mapToGetAccountSummaryResponseBody(
             this.accountSummaryService.getSummary(
-                principal.organizationId(),
+                principal.getOrganizationId(),
                 accountId,
                 YearMonth.of(yearMonth.getYear(), yearMonth.getMonth()))));
   }

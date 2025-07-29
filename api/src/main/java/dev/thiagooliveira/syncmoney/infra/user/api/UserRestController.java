@@ -29,7 +29,7 @@ public class UserRestController implements UsersApi {
     return ResponseEntity.ok(
         this.userMapper.mapToGetUsersResponseBody(
             this.userService
-                .getById(principal.organizationId(), principal.id())
+                .getById(principal.getOrganizationId(), principal.getId())
                 .orElseThrow(() -> BusinessLogicException.notFound("user not found"))));
   }
 
@@ -38,7 +38,7 @@ public class UserRestController implements UsersApi {
     UserAuthenticated principal =
         (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     return ResponseEntity.ok(
-        this.userService.getAll(principal.organizationId()).stream()
+        this.userService.getAll(principal.getOrganizationId()).stream()
             .map(this.userMapper::mapToGetUsersResponseBody)
             .toList());
   }

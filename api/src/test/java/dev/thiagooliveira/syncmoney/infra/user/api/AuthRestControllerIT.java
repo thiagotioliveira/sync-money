@@ -1,7 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.user.api;
 
-import static dev.thiagooliveira.syncmoney.util.TestUtil.USER_EMAIL;
-import static dev.thiagooliveira.syncmoney.util.TestUtil.USER_NAME;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,22 +27,26 @@ class AuthRestControllerIT extends IntegrationTest {
 
   @Test
   void login() throws Exception {
-    register("Marcus Stelvio", "marcus.s@test.com", "<PASSWORD>");
+    var name = "Marcus Stelvio";
+    var email = "marcus.s@test.com";
+    var password = "<PASSWORD>";
+    register(name, email, password);
     mockMvc
         .perform(
             post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     objectMapper.writeValueAsString(
-                        new PostRegisterRequestBody()
-                            .email("marcus.s@test.com")
-                            .password("<PASSWORD>"))))
+                        new PostRegisterRequestBody().email(email).password(password))))
         .andExpect(status().isOk());
   }
 
   @Test
   void register() throws Exception {
-    register(USER_NAME, USER_EMAIL, "<PASSWORD>");
+    var name = "Maria Antonia";
+    var email = "maria.a@test.com";
+    var password = "<PASSWORD>";
+    register(name, email, password);
   }
 
   private void register(String name, String email, String password) throws Exception {

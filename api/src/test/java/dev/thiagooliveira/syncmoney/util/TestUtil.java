@@ -38,8 +38,7 @@ public class TestUtil {
   }
 
   public static UserAuthenticated userAuthenticated(User user) {
-    return new UserAuthenticated(
-        user.getId(), user.getOrganizationId(), user.getName(), user.getEmail());
+    return new UserAuthenticated(user);
   }
 
   public static User createUser(Organization organization) {
