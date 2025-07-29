@@ -1,53 +1,84 @@
-# TODO
-- Validate account same name
-- 
+# Sync-Money
 
-# Getting Started
+## Overview
 
-### Reference Documentation
-For further reference, please consider the following sections:
+This is a financial control system, designed to manage bank accounts, categories, financial transactions, payables, and receivables.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.3/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.3/maven-plugin/build-image.html)
-* [Spring Boot Testcontainers support](https://docs.spring.io/spring-boot/3.5.3/reference/testing/testcontainers.html#testing.testcontainers)
-* [Testcontainers Postgres Module Reference Guide](https://java.testcontainers.org/modules/databases/postgres/)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/3.5.3/reference/using/devtools.html)
-* [Docker Compose Support](https://docs.spring.io/spring-boot/3.5.3/reference/features/dev-services.html#features.dev-services.docker-compose)
-* [Spring Web](https://docs.spring.io/spring-boot/3.5.3/reference/web/servlet.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/3.5.3/reference/data/sql.html#data.sql.jpa-and-spring-data)
-* [Testcontainers](https://java.testcontainers.org/)
+## Features
 
-### Guides
-The following guides illustrate how to use some features concretely:
+- Java 21+
+- Spring Boot
+- Spring Data JPA
+- PostgreSQL
+- Liquibase for database versioning
+- Maven
+- Docker
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+## Prerequisites
 
-### Docker Compose support
-This project contains a Docker Compose file named `compose.yaml`.
-In this file, the following services have been defined:
+To work with this project, you will need:
 
-* postgres: [`postgres:latest`](https://hub.docker.com/_/postgres)
+- Java 21 or later.
 
-Please review the tags of the used images and set them to the same as you're running in production.
+## Setup
 
-### Testcontainers support
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
 
-This project uses [Testcontainers at development time](https://docs.spring.io/spring-boot/3.5.3/reference/features/dev-services.html#features.dev-services.testcontainers).
+2. **Configure the database**:
+   Update the `persistence.xml` file with your database connection details.
 
-Testcontainers has been configured to use the following Docker images:
+3. **Build the project**:
+   Use Maven to build the project:
+   ```bash
+   mvn clean install
+   ```
 
-* [`postgres:latest`](https://hub.docker.com/_/postgres)
+4. **Deploy to an application server**:
+   Use `Dockerfile` to generate image.
 
-Please review the tags of the used images and set them to the same as you're running in production.
+5. **Access the application**:
+   Open a browser and navigate to:
+   ```
+   http://<server-host>:<server-port>/swagger-ui/index.html
+   ```
+## 🔌 REST Endpoints
 
-### Maven Parent overrides
+| Method  | Endpoint                                                   | Description                               |
+|---------|------------------------------------------------------------|-------------------------------------------|
+| `POST`  | `/api/auth/register`                                       | Register a new user                       |
+| `POST`  | `/api/auth/login`                                          | Login                                     |
+| `GET`   | `/api/users`                                               | List all users                            |
+| `GET`   | `/api/users/me`                                            | Get user info                             |
+| `POST`  | `/api/banks`                                               | Create a bank                             |
+| `POST`  | `/api/accounts`                                            | Create a account                          |
+| `GET`   | `/api/accounts`                                            | List all accounts                         |
+| `GET`   | `/api/accounts/{id}`                                       | Get account by id                         |
+| `POST`  | `/api/categories`                                          | Create a category                         |
+| `GET`   | `/api/categories`                                          | List all categories                       |
+| `GET`   | `/api/categories/{id}`                                     | Get category by id                        |
+| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month |
+| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction            |
+| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction               |
+| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account             |
+| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account            |
+| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account             |
+| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account          |
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+## Folder Structure
 
+- `src/main/java`: Contains the main application source code.
+- `src/main/resources`: Configuration files and resources.
+- `src/test/java`: Unit and integration tests.
+
+## License
+
+This project is licensed under [MIT License](LICENSE).
+
+## Support
+
+If you encounter any issues or have questions, feel free to open an issue in the repository or contact the repository
+maintainers.
