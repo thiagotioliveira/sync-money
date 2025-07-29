@@ -36,6 +36,7 @@ To work with this project, you will need:
    ```bash
    mvn clean install
    ```
+   For local proposal, use **`local`** profile (spring profile)
 
 4. **Deploy to an application server**:
    Use `Dockerfile` to generate image.
@@ -47,26 +48,48 @@ To work with this project, you will need:
    ```
 ## 🔌 REST Endpoints
 
-| Method  | Endpoint                                                   | Description                               |
-|---------|------------------------------------------------------------|-------------------------------------------|
-| `POST`  | `/api/auth/register`                                       | Register a new user                       |
-| `POST`  | `/api/auth/login`                                          | Login                                     |
-| `GET`   | `/api/users`                                               | List all users                            |
-| `GET`   | `/api/users/me`                                            | Get user info                             |
-| `POST`  | `/api/banks`                                               | Create a bank                             |
-| `POST`  | `/api/accounts`                                            | Create a account                          |
-| `GET`   | `/api/accounts`                                            | List all accounts                         |
-| `GET`   | `/api/accounts/{id}`                                       | Get account by id                         |
-| `POST`  | `/api/categories`                                          | Create a category                         |
-| `GET`   | `/api/categories`                                          | List all categories                       |
-| `GET`   | `/api/categories/{id}`                                     | Get category by id                        |
-| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month |
-| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction            |
-| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction               |
-| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account             |
-| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account            |
-| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account             |
-| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account          |
+| Method  | Endpoint                                                   | Description                               | Protected (JWT) |
+|---------|------------------------------------------------------------|-------------------------------------------|-----------------|
+| `POST`  | `/api/auth/register`                                       | Register a new user                       | ❌              |
+| `POST`  | `/api/auth/login`                                          | Login                                     | ❌              |
+| `GET`   | `/api/users`                                               | List all users                            | ✅              |
+| `GET`   | `/api/users/me`                                            | Get user info                             | ✅              |
+| `POST`  | `/api/banks`                                               | Create a bank                             | ✅              |
+| `POST`  | `/api/accounts`                                            | Create a account                          | ✅              |
+| `GET`   | `/api/accounts`                                            | List all accounts                         | ✅              |
+| `GET`   | `/api/accounts/{id}`                                       | Get account by id                         | ✅              |
+| `POST`  | `/api/categories`                                          | Create a category                         | ✅              |
+| `GET`   | `/api/categories`                                          | List all categories                       | ✅              |
+| `GET`   | `/api/categories/{id}`                                     | Get category by id                        | ✅              |
+| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month | ✅              |
+| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction            | ✅              |
+| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction               | ✅              |
+| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account             | ✅              |
+| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account            | ✅              |
+| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account             | ✅              |
+| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account          | ✅              |
+
+🔒 Legend:
+
+   * ✅ = Requires valid JWT in Authorization: Bearer <token>
+   * ❌ = Public endpoint (no authentication required)
+
+🔐 Authentication:
+
+All protected endpoints require a valid JWT token to be included in the request header:
+
+```
+   Authorization: Bearer <your-token>
+```
+
+Example:
+
+```
+   Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+You receive this token when you log in via the /api/auth/login endpoint.
+Use this token to authenticate requests to all endpoints marked as protected in the table above.
 
 ## Folder Structure
 
