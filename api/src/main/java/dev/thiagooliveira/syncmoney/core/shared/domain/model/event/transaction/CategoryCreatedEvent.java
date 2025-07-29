@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.core.transaction.domain.model.event;
+package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;

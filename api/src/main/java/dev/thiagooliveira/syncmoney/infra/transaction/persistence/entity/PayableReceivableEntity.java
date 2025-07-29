@@ -1,9 +1,9 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreatePayableReceivableInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.PayableReceivableCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.PayableReceivableUpdatedEvent;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

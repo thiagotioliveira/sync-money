@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.port.income;
 
-import dev.thiagooliveira.syncmoney.core.account.domain.model.event.AccountCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateFirstAccountSummaryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTransactionInput;

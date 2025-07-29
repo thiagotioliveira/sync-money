@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInOrganizationInput;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.event.UserCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.UserRepository;
 import java.util.Optional;

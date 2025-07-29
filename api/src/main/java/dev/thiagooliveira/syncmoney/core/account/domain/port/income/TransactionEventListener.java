@@ -2,7 +2,7 @@ package dev.thiagooliveira.syncmoney.core.account.domain.port.income;
 
 import dev.thiagooliveira.syncmoney.core.account.application.dto.UpdateAccountBalanceInput;
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.UpdateAccountBalance;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.TransactionPaidEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
 
 public class TransactionEventListener {
 

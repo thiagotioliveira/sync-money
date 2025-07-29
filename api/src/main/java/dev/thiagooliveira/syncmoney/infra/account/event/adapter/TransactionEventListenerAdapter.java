@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.account.event.adapter;
 
 import dev.thiagooliveira.syncmoney.core.account.domain.port.income.TransactionEventListener;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.TransactionPaidEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;

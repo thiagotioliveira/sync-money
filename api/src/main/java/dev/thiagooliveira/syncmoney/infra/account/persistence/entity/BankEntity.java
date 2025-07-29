@@ -3,7 +3,7 @@ package dev.thiagooliveira.syncmoney.infra.account.persistence.entity;
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Currency;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.event.BankCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
 import jakarta.persistence.*;
 import java.util.UUID;
 

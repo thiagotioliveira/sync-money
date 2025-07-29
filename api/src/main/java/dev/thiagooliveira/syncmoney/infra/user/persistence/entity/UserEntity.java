@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.event.UserCreatedEvent;
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.UUID;

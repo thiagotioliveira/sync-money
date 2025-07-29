@@ -1,13 +1,13 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionScheduledCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Installment;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.TransactionStatus;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.TransactionPaidEvent;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.TransactionScheduledCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.event.TransactionUpdatedEvent;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

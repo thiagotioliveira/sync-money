@@ -5,13 +5,13 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Currency;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.event.AccountCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.event.BankCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.event.UserCreatedEvent;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

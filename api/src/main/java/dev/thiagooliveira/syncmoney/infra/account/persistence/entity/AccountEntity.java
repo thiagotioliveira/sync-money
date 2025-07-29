@@ -2,8 +2,8 @@ package dev.thiagooliveira.syncmoney.infra.account.persistence.entity;
 
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.event.AccountBalanceUpdatedEvent;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.event.AccountCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountBalanceUpdatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

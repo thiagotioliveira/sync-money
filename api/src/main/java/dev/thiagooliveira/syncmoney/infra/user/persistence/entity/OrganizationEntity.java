@@ -1,8 +1,8 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.OrganizationCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateOrganizationInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.event.OrganizationCreatedEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
