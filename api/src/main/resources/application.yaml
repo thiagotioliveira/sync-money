@@ -24,34 +24,4 @@ logging:
 
 app:
   jwt:
-    secret: bXktc3Ryb25nLXBhc3N3b3Jk
-  seed:
-    enabled: false
-    users:
-      - email: john@test.app
-        name: John
-        password: test
-      - email: mary@test.app
-        name: Mary
-        password: test
-    banks:
-      - name: ActivoBank
-        currency: EUR
-        accounts:
-          - name: ActivoBank
-            balance: 1000.00
-    categories:
-      - name: Salary John
-        type: CREDIT
-      - name: Salary Mary
-        type: CREDIT
-      - name: Apartment Rental
-        type: DEBIT
-      - name: Electricity Bill
-        type: DEBIT
-      - name: Water Bill
-        type: DEBIT
-      - name: Food
-        type: DEBIT
-      - name: Leisure
-        type: DEBIT
+    secret: bXlTdXBlclNlY3JldEtleUluQmFzZTY0Rm9ybWF0

@@ -57,7 +57,9 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
 
   @Override
   public List<Category> getAll(UUID organizationId) {
-    return this.categoryJpaRepository.findByOrganizationIdOrOrganizationIdIsNull(organizationId).stream()
+    return this.categoryJpaRepository
+        .findByOrganizationIdOrOrganizationIdIsNull(organizationId)
+        .stream()
         .map(CategoryEntity::toCategory)
         .toList();
   }
