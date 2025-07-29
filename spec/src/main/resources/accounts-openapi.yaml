@@ -1,0 +1,181 @@
+openapi: 3.0.3
+info:
+  title: Accounts API
+  version: 1.0.0
+  description: Users API
+
+tags:
+  - name: Accounts
+    description: Endpoints related to accounts
+
+paths:
+  /api/banks:
+    post:
+      tags:
+        - Banks
+      summary: Create a bank
+      operationId: createBank
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostBankRequestBody'
+      responses:
+        '201':
+          description: Bank created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostBankResponseBody'
+  /api/accounts:
+    post:
+      tags:
+        - Accounts
+      summary: Create a account
+      operationId: createAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostAccountRequestBody'
+      responses:
+        '201':
+          description: Account created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostAccountResponseBody'
+    get:
+      tags:
+        - Accounts
+      summary: Retrieve all accounts
+      operationId: listAccounts
+      responses:
+        '200':
+          description: List of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAccountsResponseBody'
+  /api/accounts/{id}:
+    get:
+      tags:
+        - Accounts
+      summary: Retrieve an account by its ID
+      operationId: getById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Account found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountResponseBody'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    PostAccountRequestBody:
+      properties:
+        name:
+          type: string
+        bankId:
+          type: string
+          format: uuid
+        initialBalance:
+          type: number
+          format: double
+    PostAccountResponseBody:
+      properties:
+        id:
+          type: string
+          format: uuid
+    PostBankRequestBody:
+      properties:
+        name:
+          type: string
+        currency:
+          type: string
+    PostBankResponseBody:
+      properties:
+        id:
+          type: string
+          format: uuid
+    Currency:
+      type: object
+      properties:
+        name:
+          type: string
+        symbol:
+          type: string
+    GetBanksResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        currency:
+          $ref: '#/components/schemas/Currency'
+    GetAccountResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        bank:
+          $ref: '#/components/schemas/GetBanksResponseBody'
+        balance:
+          type: number
+          format: decimal
+    GetAccountsResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        bankId:
+          type: string
+          format: uuid
+        balance:
+          type: number
+          format: decimal
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          scopes: {}
+
+security:
+  - ClientCredentials: []

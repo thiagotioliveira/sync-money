@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: Auth API
+  version: 1.0.0
+  description: Auth API
+
+tags:
+  - name: Auth
+    description: Endpoints related to authentication
+
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRegisterRequestBody'
+      responses:
+        '201':
+          description: Registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostRegisterResponseBody'
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostLoginRequestBody'
+      responses:
+        '200':
+          description: Login successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostLoginResponseBody'
+components:
+  schemas:
+    PostLoginRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    PostLoginResponseBody:
+      type: object
+      properties:
+        token:
+          type: string
+    PostRegisterRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+    PostRegisterResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message

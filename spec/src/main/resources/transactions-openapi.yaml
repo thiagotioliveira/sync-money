@@ -1,0 +1,557 @@
+openapi: 3.0.3
+info:
+  title: Transactions API
+  version: 1.0.0
+  description: Transactions API
+
+tags:
+  - name: Categories
+    description: Endpoints related to categories
+  - name: Transactions
+    description: Endpoints related to transactions
+  - name: AccountsSummary
+    description: Endpoints related Account Summary
+
+paths:
+  /api/categories:
+    post:
+      tags:
+        - Categories
+      summary: Create a category
+      operationId: createCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCategoryRequestBody'
+      responses:
+        '201':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostCategoryResponseBody'
+    get:
+      tags:
+        - Categories
+      summary: Retrieve all categories
+      operationId: listCategories
+      responses:
+        '200':
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetCategoriesResponseBody'
+  /api/categories/{id}:
+    get:
+      tags:
+        - Categories
+      summary: Retrieve a category by its ID
+      operationId: getById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Category found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCategoriesResponseBody'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/accounts/{accountId}/deposit:
+    post:
+      summary: Create a deposit
+      operationId: createDeposit
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostDepositRequestBody'
+      responses:
+        '201':
+          description: Deposit created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostDepositResponseBody'
+  /api/accounts/{accountId}/withdraw:
+    post:
+      summary: Create a withdraw
+      operationId: createWithdraw
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostWithdrawRequestBody'
+      responses:
+        '201':
+          description: Withdraw created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostWithdrawResponseBody'
+  /api/accounts/{accountId}/payables:
+    post:
+      summary: Create a payable
+      operationId: createPayable
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPayableRequestBody'
+      responses:
+        '201':
+          description: Payables created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostPayableResponseBody'
+  /api/accounts/{accountId}/receivables:
+    post:
+      summary: Create a receivable
+      operationId: createReceivable
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostReceivableRequestBody'
+      responses:
+        '201':
+          description: Payables created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostReceivableResponseBody'
+  /api/accounts/{accountId}/transactions/{yearMonth}:
+    get:
+      tags:
+        - Transactions
+      summary: Retrieve transactions for an account
+      operationId: getTransactionByAccountId
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: yearMonth
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Transactions found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetTransactionsResponseBody'
+  /api/accounts/{accountId}/transactions/{transactionId}:
+    patch:
+      tags:
+        - Transactions
+      summary: Update a scheduled transactions
+      operationId: updateScheduledTransaction
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchTransactionRequestBody'
+      responses:
+        '200':
+          description: Scheduled transaction updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatchTransactionResponseBody'
+  /api/accounts/{accountId}/transactions/{transactionId}/pay:
+    post:
+      tags:
+        - Transactions
+      summary: Pay a scheduled transactions
+      operationId: payScheduledTransaction
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPayTransactionRequestBody'
+      responses:
+        '200':
+          description: Scheduled transaction paid successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostPayTransactionResponseBody'
+  /api/accounts/{accountId}/summary/{yearMonth}:
+    get:
+      tags:
+        - AccountsSummary
+      summary: Retrieve summary for an account
+      operationId: getSummaryByAccountId
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: yearMonth
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Summary found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountSummaryResponseBody'
+components:
+  schemas:
+    PostCategoryRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/CategoryType'
+    PostCategoryResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    GetCategoriesResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/CategoryType'
+    CategoryType:
+      type: string
+      enum: [ CREDIT, DEBIT ]
+    PostDepositRequestBody:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: double
+    PostDepositResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        amount:
+          type: number
+          format: double
+        status:
+          $ref: '#/components/schemas/TransactionStatus'
+    PostWithdrawRequestBody:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+          nullable: true
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: double
+    PostWithdrawResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        amount:
+          type: number
+          format: double
+        status:
+          $ref: '#/components/schemas/TransactionStatus'
+    PostPayableRequestBody:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: double
+        recurring:
+          type: boolean
+          default: true
+        installmentTotal:
+          type: integer
+          nullable: true
+      required:
+        - amount
+        - categoryId
+        - recurring
+    PostPayableResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+
+    PostReceivableRequestBody:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: double
+        recurring:
+          type: boolean
+          default: true
+        installmentTotal:
+          type: integer
+          nullable: true
+      required:
+        - amount
+        - categoryId
+        - recurring
+    PostReceivableResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    TransactionStatus:
+      type: string
+      enum: [ SCHEDULED, PAID ]
+    GetTransactionsResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/GetCategoriesResponseBody'
+        amount:
+          type: number
+          format: double
+        status:
+          $ref: '#/components/schemas/TransactionStatus'
+        parentId:
+          type: string
+          format: uuid
+    PatchTransactionRequestBody:
+      type: object
+      properties:
+        dueDate:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: double
+        applyNextInstallments:
+          type: boolean
+          default: false
+    PatchTransactionResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    PostPayTransactionRequestBody:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+        amount:
+          type: number
+          format: double
+    PostPayTransactionResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        amount:
+          type: number
+          format: double
+        status:
+          $ref: '#/components/schemas/TransactionStatus'
+    GetAccountSummaryResponseBody:
+      type: object
+      properties:
+        yearMonth:
+          type: string
+          format: date
+        openingBalance:
+          type: number
+          format: double
+        closingBalance:
+          type: number
+          format: double
+        totalDebit:
+          type: number
+          format: double
+        totalCredit:
+          type: number
+          format: double
+        scheduledIncome:
+          type: number
+          format: double
+        scheduledExpenses:
+          type: number
+          format: double
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          scopes: {}
+
+security:
+  - ClientCredentials: []

@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: sync-money
+  docker:
+    compose:
+      enabled: true
+      file: compose.yaml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.format_sql: false
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.orm.jdbc.bind: TRACE
+    dev.thiagooliveira: DEBUG
+    liquibase: DEBUG
+
+app:
+  jwt:
+    secret: bXktc3Ryb25nLXBhc3N3b3Jk
+  seed:
+    enabled: false
+    users:
+      - email: john@test.app
+        name: John
+        password: test
+      - email: mary@test.app
+        name: Mary
+        password: test
+    banks:
+      - name: ActivoBank
+        currency: EUR
+        accounts:
+          - name: ActivoBank
+            balance: 1000.00
+    categories:
+      - name: Salary John
+        type: CREDIT
+      - name: Salary Mary
+        type: CREDIT
+      - name: Apartment Rental
+        type: DEBIT
+      - name: Electricity Bill
+        type: DEBIT
+      - name: Water Bill
+        type: DEBIT
+      - name: Food
+        type: DEBIT
+      - name: Leisure
+        type: DEBIT

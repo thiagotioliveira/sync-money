@@ -1,0 +1,76 @@
+package dev.thiagooliveira.syncmoney.core.account.domain.model.event;
+
+import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+public class AccountCreatedEvent implements Event {
+  private final UUID id;
+  private final String name;
+  private final UUID bankId;
+  private final UUID organizationId;
+  private final UUID userId;
+  private final BigDecimal initialBalance;
+  private final OffsetDateTime createdAt;
+
+  public AccountCreatedEvent(Account account, UUID userId, BigDecimal initialBalance) {
+    this.id = account.getId();
+    this.name = account.getName();
+    this.bankId = account.getBankId();
+    this.organizationId = account.getOrganizationId();
+    this.userId = userId;
+    this.createdAt = account.getCreatedAt();
+    this.initialBalance = initialBalance;
+  }
+
+  public UUID getBankId() {
+    return bankId;
+  }
+
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public BigDecimal getInitialBalance() {
+    return initialBalance;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public UUID getOrganizationId() {
+    return organizationId;
+  }
+
+  public UUID getUserId() {
+    return userId;
+  }
+
+  @Override
+  public String toString() {
+    return "AccountCreatedEvent{"
+        + "bankId="
+        + bankId
+        + ", id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", organizationId="
+        + organizationId
+        + ", userId="
+        + userId
+        + ", initialBalance="
+        + initialBalance
+        + ", createdAt="
+        + createdAt
+        + '}';
+  }
+}

@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: Users API
+  version: 1.0.0
+  description: Users API
+
+tags:
+  - name: Users
+    description: Endpoints related to users
+
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Retrieve all users
+      operationId: listUsers
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetUsersResponseBody'
+  /api/users/me:
+    get:
+      tags:
+        - Users
+      summary: Retrieve the current user data
+      operationId: getById
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponseBody'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    GetUsersResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          scopes: {}
+
+security:
+  - ClientCredentials: []
