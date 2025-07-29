@@ -3,24 +3,22 @@ spring:
     name: sync-money
   docker:
     compose:
-      enabled: true
-      file: compose.yaml
+      enabled: false
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate.format_sql: false
-
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: test
+    password: test
 
 logging:
   level:
-    org.springframework.security: DEBUG
-    org.springframework.security.web.FilterChainProxy: DEBUG
-    org.springframework.web: INFO
-    org.hibernate.orm.jdbc.bind: TRACE
-    dev.thiagooliveira: DEBUG
-    liquibase: DEBUG
+    ROOT: OFF
+    dev.thiagooliveira: INFO
 
 app:
   jwt:

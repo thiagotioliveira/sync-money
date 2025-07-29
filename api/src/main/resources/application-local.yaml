@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: sync-money
+  docker:
+    compose:
+      enabled: true
+      file: compose.yaml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.format_sql: false
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.orm.jdbc.bind: TRACE
+    dev.thiagooliveira: DEBUG
+    liquibase: DEBUG
+
+app:
+  jwt:
+    secret: bXlTdXBlclNlY3JldEtleUluQmFzZTY0Rm9ybWF0
