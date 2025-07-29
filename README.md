@@ -36,7 +36,7 @@ To work with this project, you will need:
    ```bash
    mvn clean install
    ```
-   For local proposal, use **`local`** profile (spring profile)
+   For local proposal, use **`test`** profile (spring profile)
 
 4. **Deploy to an application server**:
    Use `Dockerfile` to generate image.
