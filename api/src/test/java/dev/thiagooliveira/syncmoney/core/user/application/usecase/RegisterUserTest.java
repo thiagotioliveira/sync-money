@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserRegisteredEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInOrganizationInput;
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.UserRepository;
 import java.util.Optional;
@@ -21,13 +21,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class CreateUserTest {
+class RegisterUserTest {
 
   @Mock private EventPublisher eventPublisher;
   @Mock private OrganizationRepository organizationRepository;
   @Mock private UserRepository userRepository;
 
-  @InjectMocks private CreateUser createUser;
+  @InjectMocks private RegisterUser registerUser;
 
   @BeforeEach
   void setUp() {
@@ -42,12 +42,12 @@ class CreateUserTest {
     var organization = createOrganization();
     when(this.organizationRepository.create(eq(input.toCreateOrganizationInput())))
         .thenReturn(organization);
-    when(this.userRepository.create(eq(input), eq(organization)))
+    when(this.userRepository.register(eq(input), eq(organization)))
         .thenReturn(createUser(organization));
 
-    var user = this.createUser.execute(input);
+    var user = this.registerUser.execute(input);
     assertNotNull(user);
-    verify(this.eventPublisher, times(1)).publish(any(UserCreatedEvent.class));
+    verify(this.eventPublisher, times(1)).publish(any(UserRegisteredEvent.class));
   }
 
   @Test
@@ -55,10 +55,10 @@ class CreateUserTest {
   void shouldCreateNewUserWithDuplicateEmail() {
     var input = createUserInput();
     when(this.userRepository.existByEmail(input.email())).thenReturn(true);
-    var ex = assertThrows(BusinessLogicException.class, () -> this.createUser.execute(input));
+    var ex = assertThrows(BusinessLogicException.class, () -> this.registerUser.execute(input));
     assertEquals("email already exists", ex.getMessage());
     assertEquals(400, ex.errorCode());
-    verify(this.eventPublisher, times(0)).publish(any(UserCreatedEvent.class));
+    verify(this.eventPublisher, times(0)).publish(any(UserRegisteredEvent.class));
   }
 
   @Test
@@ -72,10 +72,10 @@ class CreateUserTest {
     when(this.userRepository.existByEmail(input.email())).thenReturn(false);
     when(this.organizationRepository.findById(eq(organization.getId())))
         .thenReturn(Optional.of(organization));
-    when(this.userRepository.create(any(CreateUserInput.class), eq(organization)))
+    when(this.userRepository.register(any(RegisterUserInput.class), eq(organization)))
         .thenReturn(createUser(organization));
-    var user = this.createUser.execute(input);
+    var user = this.registerUser.execute(input);
     assertNotNull(user);
-    verify(this.eventPublisher, times(1)).publish(any(UserCreatedEvent.class));
+    verify(this.eventPublisher, times(1)).publish(any(UserRegisteredEvent.class));
   }
 }

@@ -7,10 +7,12 @@ import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Primary
 public class TransactionServiceProxy implements TransactionService {
 
   private final TransactionService transactionService;

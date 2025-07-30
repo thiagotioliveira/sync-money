@@ -7,8 +7,8 @@ import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Currency;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserRegisteredEvent;
+import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
@@ -29,8 +29,8 @@ public class TestUtil {
 
   public static final String ACCOUNT_NAME = "Account Bank";
 
-  public static CreateUserInput createUserInput() {
-    return new CreateUserInput(USER_EMAIL, USER_NAME, "some-password");
+  public static RegisterUserInput createUserInput() {
+    return new RegisterUserInput(USER_EMAIL, USER_NAME, "some-password");
   }
 
   public static Organization createOrganization() {
@@ -44,7 +44,8 @@ public class TestUtil {
   public static User createUser(Organization organization) {
     User user = User.create(USER_EMAIL, USER_NAME, organization);
     user.registerEvent(
-        new UserCreatedEvent(user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
+        new UserRegisteredEvent(
+            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
     return user;
   }
 

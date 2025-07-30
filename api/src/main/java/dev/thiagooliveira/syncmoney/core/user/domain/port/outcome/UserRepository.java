@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.user.domain.port.outcome;
 
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
@@ -18,5 +18,5 @@ public interface UserRepository {
 
   List<User> getAll(UUID organizationId);
 
-  User create(CreateUserInput input, Organization organization);
+  User register(RegisterUserInput input, Organization organization);
 }

@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.account.api;
 
-import dev.thiagooliveira.syncmoney.core.account.application.service.AccountService;
+import dev.thiagooliveira.syncmoney.core.account.application.service.BankService;
 import dev.thiagooliveira.syncmoney.infra.account.api.dto.PostBankRequestBody;
 import dev.thiagooliveira.syncmoney.infra.account.api.dto.PostBankResponseBody;
 import dev.thiagooliveira.syncmoney.infra.account.api.mapper.BankMapper;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class BankRestController implements BanksApi {
 
   private final BankMapper bankMapper;
-  private final AccountService accountService;
+  private final BankService bankService;
 
-  public BankRestController(BankMapper bankMapper, AccountService accountService) {
+  public BankRestController(BankMapper bankMapper, BankService bankService) {
     this.bankMapper = bankMapper;
-    this.accountService = accountService;
+    this.bankService = bankService;
   }
 
   @Override
@@ -27,7 +27,7 @@ public class BankRestController implements BanksApi {
     return ResponseEntity.created(null)
         .body(
             this.bankMapper.mapToPostBankResponseBody(
-                this.accountService.createBank(
+                this.bankService.createBank(
                     this.bankMapper.mapToCreateBankInput(
                         principal.getOrganizationId(), postBankRequestBody))));
   }

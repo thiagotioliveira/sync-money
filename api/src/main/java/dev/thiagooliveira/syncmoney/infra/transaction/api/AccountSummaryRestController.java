@@ -3,7 +3,6 @@ package dev.thiagooliveira.syncmoney.infra.transaction.api;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import dev.thiagooliveira.syncmoney.infra.transaction.api.mapper.AccountSummaryMapper;
-import dev.thiagooliveira.syncmoney.infra.transaction.service.AccountSummaryServiceProxy;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.AccountsSummaryApi;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.dto.GetAccountSummaryResponseBody;
 import java.time.LocalDate;
@@ -20,7 +19,7 @@ public class AccountSummaryRestController implements AccountsSummaryApi {
   private final AccountSummaryMapper accountSummaryMapper;
 
   public AccountSummaryRestController(
-      AccountSummaryServiceProxy accountSummaryService, AccountSummaryMapper accountSummaryMapper) {
+      AccountSummaryService accountSummaryService, AccountSummaryMapper accountSummaryMapper) {
     this.accountSummaryService = accountSummaryService;
     this.accountSummaryMapper = accountSummaryMapper;
   }

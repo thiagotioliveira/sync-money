@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserRegisteredEvent;
+import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
@@ -32,7 +32,7 @@ public class UserEntity {
 
   public UserEntity() {}
 
-  public static UserEntity create(CreateUserInput input, Organization organization) {
+  public static UserEntity create(RegisterUserInput input, Organization organization) {
     var user = User.create(input.email(), input.name(), organization);
     var entity = new UserEntity();
     entity.id = user.getId();
@@ -53,10 +53,11 @@ public class UserEntity {
         this.id, this.email, this.name, this.password, this.createdAt, this.organizationId);
   }
 
-  public User toUserCreated() {
+  public User toUserRegistered() {
     var user = toUser();
     user.registerEvent(
-        new UserCreatedEvent(user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
+        new UserRegisteredEvent(
+            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
     return user;
   }
 

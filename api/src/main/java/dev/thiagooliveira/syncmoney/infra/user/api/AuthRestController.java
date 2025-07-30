@@ -1,8 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.user.api;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CredentialEncoder;
-import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.user.application.service.UserService;
+import dev.thiagooliveira.syncmoney.core.user.application.service.AuthService;
 import dev.thiagooliveira.syncmoney.infra.auth.api.AuthApi;
 import dev.thiagooliveira.syncmoney.infra.auth.api.dto.PostLoginRequestBody;
 import dev.thiagooliveira.syncmoney.infra.auth.api.dto.PostLoginResponseBody;
@@ -17,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthRestController implements AuthApi {
 
   private final AuthMapper authMapper;
-  private final UserService userService;
+  private final AuthService authService;
   private final JwtService jwtService;
   private final CredentialEncoder credentialEncoder;
 
   public AuthRestController(
       AuthMapper authMapper,
-      UserService userService,
+      AuthService authService,
       JwtService jwtService,
       CredentialEncoder credentialEncoder) {
     this.authMapper = authMapper;
-    this.userService = userService;
+    this.authService = authService;
     this.jwtService = jwtService;
     this.credentialEncoder = credentialEncoder;
   }
@@ -35,13 +34,7 @@ public class AuthRestController implements AuthApi {
   @Override
   public ResponseEntity<PostLoginResponseBody> login(PostLoginRequestBody postLoginRequestBody) {
     var user =
-        this.userService
-            .getByEmail(postLoginRequestBody.getEmail())
-            .orElseThrow(() -> BusinessLogicException.notFound("user not found"));
-    if (!this.credentialEncoder.matches(postLoginRequestBody.getPassword(), user.getPassword())) {
-      throw BusinessLogicException.badRequest("invalid credentials");
-    }
-
+        this.authService.login(postLoginRequestBody.getEmail(), postLoginRequestBody.getPassword());
     return ResponseEntity.ok(new PostLoginResponseBody().token(jwtService.generateToken(user)));
   }
 
@@ -51,9 +44,9 @@ public class AuthRestController implements AuthApi {
     return ResponseEntity.created(null)
         .body(
             this.authMapper.mapToPostRegisterResponseBody(
-                this.userService.create(
+                this.authService.register(
                     this.authMapper
-                        .mapToCreateUserInput(postRegisterRequestBody)
+                        .mapToRegisterUserInput(postRegisterRequestBody)
                         .withCredentialEncoder(credentialEncoder))));
   }
 }

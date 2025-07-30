@@ -3,7 +3,6 @@ package dev.thiagooliveira.syncmoney.infra.transaction.api;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import dev.thiagooliveira.syncmoney.infra.transaction.api.mapper.TransactionMapper;
-import dev.thiagooliveira.syncmoney.infra.transaction.service.TransactionServiceProxy;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.TransactionsApi;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.dto.*;
 import java.time.LocalDate;
@@ -21,7 +20,7 @@ public class TransactionRestController implements TransactionsApi {
   private final TransactionService transactionService;
 
   public TransactionRestController(
-      TransactionMapper transactionMapper, TransactionServiceProxy transactionService) {
+      TransactionMapper transactionMapper, TransactionService transactionService) {
     this.transactionMapper = transactionMapper;
     this.transactionService = transactionService;
   }

@@ -31,6 +31,10 @@ public class UserWithPassword extends AggregateRoot {
     return user;
   }
 
+  public User toUser() {
+    return User.restore(id, email, name, createdAt, organizationId);
+  }
+
   public UUID getId() {
     return id;
   }

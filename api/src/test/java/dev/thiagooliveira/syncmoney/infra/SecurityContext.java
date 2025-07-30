@@ -3,9 +3,9 @@ package dev.thiagooliveira.syncmoney.infra;
 import static dev.thiagooliveira.syncmoney.util.TestUtil.USER_EMAIL;
 import static dev.thiagooliveira.syncmoney.util.TestUtil.USER_NAME;
 
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInput;
-import dev.thiagooliveira.syncmoney.core.user.application.service.UserService;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
+import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
+import dev.thiagooliveira.syncmoney.core.user.application.service.AuthService;
+import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.infra.security.service.JwtService;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import jakarta.annotation.PostConstruct;
@@ -21,12 +21,13 @@ public class SecurityContext {
 
   private String token;
 
-  @Autowired private UserService userService;
+  @Autowired private AuthService authService;
   @Autowired private JwtService jwtService;
 
   @PostConstruct
   public void init() {
-    var user = this.userService.create(new CreateUserInput(USER_EMAIL, USER_NAME, "<PASSWORD>"));
+    var user =
+        this.authService.register(new RegisterUserInput(USER_EMAIL, USER_NAME, "<PASSWORD>"));
 
     SecurityContextHolder.getContext()
         .setAuthentication(
@@ -34,11 +35,10 @@ public class SecurityContext {
                 new UserAuthenticated(user), null, List.of(new SimpleGrantedAuthority("admin"))));
     token =
         jwtService.generateToken(
-            UserWithPassword.restore(
+            User.restore(
                 user.getId(),
                 user.getEmail(),
                 user.getName(),
-                "<PASSWORD>",
                 user.getCreatedAt(),
                 user.getOrganizationId()));
   }

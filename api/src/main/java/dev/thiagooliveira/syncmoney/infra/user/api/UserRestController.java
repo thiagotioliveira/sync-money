@@ -5,7 +5,6 @@ import dev.thiagooliveira.syncmoney.core.user.application.service.UserService;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import dev.thiagooliveira.syncmoney.infra.user.api.dto.GetUsersResponseBody;
 import dev.thiagooliveira.syncmoney.infra.user.api.mapper.UserMapper;
-import dev.thiagooliveira.syncmoney.infra.user.service.UserServiceProxy;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +16,7 @@ public class UserRestController implements UsersApi {
   private final UserMapper userMapper;
   private final UserService userService;
 
-  public UserRestController(UserMapper userMapper, UserServiceProxy userService) {
+  public UserRestController(UserMapper userMapper, UserService userService) {
     this.userMapper = userMapper;
     this.userService = userService;
   }

@@ -4,7 +4,6 @@ import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryService;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import dev.thiagooliveira.syncmoney.infra.transaction.api.mapper.CategoryMapper;
-import dev.thiagooliveira.syncmoney.infra.transaction.service.CategoryServiceProxy;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.CategoriesApi;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.dto.GetCategoriesResponseBody;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.dto.PostCategoryRequestBody;
@@ -21,8 +20,7 @@ public class CategoryRestController implements CategoriesApi {
   private final CategoryMapper categoryMapper;
   private final CategoryService categoryService;
 
-  public CategoryRestController(
-      CategoryMapper categoryMapper, CategoryServiceProxy categoryService) {
+  public CategoryRestController(CategoryMapper categoryMapper, CategoryService categoryService) {
     this.categoryMapper = categoryMapper;
     this.categoryService = categoryService;
   }

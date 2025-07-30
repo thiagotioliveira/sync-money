@@ -4,10 +4,12 @@ import dev.thiagooliveira.syncmoney.core.transaction.application.service.Account
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummary;
 import java.time.YearMonth;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Primary
 public class AccountSummaryServiceProxy implements AccountSummaryService {
 
   private final AccountSummaryService accountSummaryService;

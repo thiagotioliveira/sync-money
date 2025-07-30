@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.security.service;
 
-import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
+import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -24,7 +24,7 @@ public class JwtService {
     this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
   }
 
-  public String generateToken(UserWithPassword user) {
+  public String generateToken(User user) {
     return Jwts.builder()
         .setSubject(user.getEmail())
         .claim("role", "admin")

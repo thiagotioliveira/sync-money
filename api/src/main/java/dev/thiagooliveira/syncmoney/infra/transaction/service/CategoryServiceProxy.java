@@ -7,9 +7,11 @@ import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class CategoryServiceProxy implements CategoryService {
 
   private final CategoryService categoryService;

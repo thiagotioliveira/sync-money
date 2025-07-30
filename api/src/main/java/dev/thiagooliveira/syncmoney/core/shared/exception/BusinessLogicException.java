@@ -13,6 +13,10 @@ public class BusinessLogicException extends RuntimeException {
     this.errorCode = errorCode;
   }
 
+  public static BusinessLogicException notAuthorized(String message) {
+    return new BusinessLogicException(BusinessLogicCodeError.NOT_AUTHORIZED, message);
+  }
+
   public static BusinessLogicException notFound(String message) {
     return new BusinessLogicException(BusinessLogicCodeError.NOT_FOUND, message);
   }
@@ -27,7 +31,8 @@ public class BusinessLogicException extends RuntimeException {
 
   public enum BusinessLogicCodeError {
     GENERIC_ERROR(400),
-    NOT_FOUND(404);
+    NOT_FOUND(404),
+    NOT_AUTHORIZED(403);
 
     private final int code;
 

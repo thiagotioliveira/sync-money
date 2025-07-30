@@ -7,7 +7,6 @@ import dev.thiagooliveira.syncmoney.infra.account.api.dto.GetAccountsResponseBod
 import dev.thiagooliveira.syncmoney.infra.account.api.dto.PostAccountRequestBody;
 import dev.thiagooliveira.syncmoney.infra.account.api.dto.PostAccountResponseBody;
 import dev.thiagooliveira.syncmoney.infra.account.api.mapper.AccountMapper;
-import dev.thiagooliveira.syncmoney.infra.account.service.AccountServiceProxy;
 import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +20,7 @@ public class AccountRestController implements AccountsApi {
   private final AccountMapper accountMapper;
   private final AccountService accountService;
 
-  public AccountRestController(AccountMapper accountMapper, AccountServiceProxy accountService) {
+  public AccountRestController(AccountMapper accountMapper, AccountService accountService) {
     this.accountMapper = accountMapper;
     this.accountService = accountService;
   }

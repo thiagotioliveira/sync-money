@@ -48,7 +48,7 @@ Content-Type: application/json
 
 {
   "name": "Bank Account",
-  "bankId": "eea8f854-ac31-4f22-9e70-362cb40eeff0",
+  "bankId": "e83f41cf-8e46-4f22-98cc-1783b1fdfaf1",
   "initialBalance": 1000.0
 }
 
@@ -56,6 +56,12 @@ Content-Type: application/json
 
 # Get Accounts
 GET {{baseUrl}}/api/accounts
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get Account By Id
+GET {{baseUrl}}/api/accounts/{{accountId}}
 Authorization: Bearer {{accessToken}}
 
 ###

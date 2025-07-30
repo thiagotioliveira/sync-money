@@ -14,11 +14,6 @@ import org.springframework.context.annotation.Configuration;
 public class AccountConfiguration {
 
   @Bean
-  public CreateBank createBank(EventPublisher eventPublisher, BankRepository bankRepository) {
-    return new CreateBank(eventPublisher, bankRepository);
-  }
-
-  @Bean
   public CreateAccount createAccount(
       EventPublisher eventPublisher,
       BankRepository bankRepository,
@@ -43,8 +38,7 @@ public class AccountConfiguration {
   }
 
   @Bean
-  public AccountService accountService(
-      CreateBank createBank, CreateAccount createAccount, GetAccount getAccount) {
-    return new AccountServiceImpl(createBank, createAccount, getAccount);
+  public AccountService accountService(CreateAccount createAccount, GetAccount getAccount) {
+    return new AccountServiceImpl(createAccount, getAccount);
   }
 }

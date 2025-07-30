@@ -21,7 +21,3 @@ logging:
     org.hibernate.orm.jdbc.bind: TRACE
     dev.thiagooliveira: DEBUG
     liquibase: DEBUG
-
-app:
-  jwt:
-    secret: bXlTdXBlclNlY3JldEtleUluQmFzZTY0Rm9ybWF0
