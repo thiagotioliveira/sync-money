@@ -2,8 +2,8 @@ package dev.thiagooliveira.syncmoney.infra.user.api.mapper;
 
 import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
-import dev.thiagooliveira.syncmoney.infra.auth.api.dto.PostRegisterRequestBody;
-import dev.thiagooliveira.syncmoney.infra.auth.api.dto.PostRegisterResponseBody;
+import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostRegisterRequestBody;
+import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostRegisterResponseBody;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -4,7 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import dev.thiagooliveira.syncmoney.infra.IntegrationTest;
-import dev.thiagooliveira.syncmoney.infra.auth.api.dto.PostRegisterRequestBody;
+import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostRegisterRequestBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

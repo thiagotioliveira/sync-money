@@ -7,8 +7,47 @@ info:
 tags:
   - name: Users
     description: Endpoints related to users
-
+  - name: Auth
+    description: Endpoints related to authentication
 paths:
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRegisterRequestBody'
+      responses:
+        '201':
+          description: Registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostRegisterResponseBody'
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostLoginRequestBody'
+      responses:
+        '200':
+          description: Login successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostLoginResponseBody'
   /api/users:
     get:
       tags:
@@ -45,6 +84,33 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    PostLoginRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    PostLoginResponseBody:
+      type: object
+      properties:
+        token:
+          type: string
+    PostRegisterRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+    PostRegisterResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
     GetUsersResponseBody:
       type: object
       properties:

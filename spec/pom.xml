@@ -92,52 +92,6 @@
                 <version>${openapi-generator-maven-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>generate-auth-server-code</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/auth-openapi.yaml</inputSpec>
-                            <output>${project.build.directory}/generated-sources/auth/openapi</output>
-                            <generateSupportingFiles>true</generateSupportingFiles>
-                            <generatorName>spring</generatorName>
-                            <strictSpec>true</strictSpec>
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <library>spring-boot</library>
-                                <interfaceOnly>true</interfaceOnly>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                                <performBeanValidation>true</performBeanValidation>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useClassLevelBeanValidation>true</useClassLevelBeanValidation>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <useTags>true</useTags>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <dateLibrary>java8</dateLibrary>
-                                <useOptional>false</useOptional>
-                                <bigDecimalAsString>false</bigDecimalAsString>
-                                <apiPackage>${codegen.api.package.base.name}.auth.api</apiPackage>
-                                <modelPackage>${codegen.api.package.base.name}.auth.api.dto</modelPackage>
-                            </configOptions>
-                            <typeMappings>
-                                <typeMapping>Timestamp=Instant</typeMapping>
-                                <typeMapping>Double=java.math.BigDecimal</typeMapping>
-                            </typeMappings>
-                            <importMappings>
-                                <importMapping>Instant=java.time.Instant</importMapping>
-                                <importMapping>BigDecimal=java.math.BigDecimal</importMapping>
-                            </importMappings>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi-generator-maven-plugin.version}</version>
-                <executions>
-                    <execution>
                         <id>generate-user-server-code</id>
                         <goals>
                             <goal>generate</goal>
