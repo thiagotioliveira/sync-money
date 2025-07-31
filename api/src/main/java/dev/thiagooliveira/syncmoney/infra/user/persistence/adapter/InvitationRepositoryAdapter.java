@@ -2,6 +2,7 @@ package dev.thiagooliveira.syncmoney.infra.user.persistence.adapter;
 
 import dev.thiagooliveira.syncmoney.core.user.application.dto.InvitationInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Invitation;
+import dev.thiagooliveira.syncmoney.core.user.domain.model.InvitationStatus;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.InvitationRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.InvitationEntity;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.repository.InvitationJpaRepository;
@@ -31,7 +32,9 @@ public class InvitationRepositoryAdapter implements InvitationRepository {
 
   @Override
   public Optional<Invitation> getByEmail(String email) {
-    return this.invitationJpaRepository.findByEmail(email).map(InvitationEntity::toInvitation);
+    return this.invitationJpaRepository
+        .findByEmailAndStatus(email, InvitationStatus.PENDING)
+        .map(InvitationEntity::toInvitation);
   }
 
   @Override
