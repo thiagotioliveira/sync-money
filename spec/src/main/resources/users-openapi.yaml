@@ -82,8 +82,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /api/users/invites:
+    get:
+      tags:
+        - Users
+      summary: Retrieve all invitations
+      operationId: listInvitations
+      responses:
+        '200':
+          description: List of invitations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetInvitationsResponseBody'
+    post:
+      tags:
+        - Users
+      summary: Invite user
+      operationId: invite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostInviteUserRequestBody'
+      responses:
+        '201':
+          description: Invite created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostInviteUserResponseBody'
 components:
   schemas:
+    InvitationStatus:
+      type: string
+      enum: [ PENDING, INVITED ]
+    GetInvitationsResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        invitedAt:
+          type: string
+          format: date-time
+        invitedBy:
+          type: string
+          format: uuid
+        email:
+          type: string
+        status:
+          $ref: '#/components/schemas/InvitationStatus'
+    PostInviteUserRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+    PostInviteUserResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
     PostLoginRequestBody:
       type: object
       properties:

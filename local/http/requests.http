@@ -29,6 +29,36 @@ Content-Type: application/json
 
 ###
 
+# Invite User
+POST {{baseUrl}}/api/users/invites
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "email": "{{invitedUser.email}}"
+}
+
+###
+
+# Get Invitations
+GET {{baseUrl}}/api/users/invites
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+###
+
+# Register Invited User
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{invitedUser.email}}",
+  "name": "{{invitedUser.name}}",
+  "password": "{{invitedUser.password}}"
+}
+
+###
+
 # Create Bank
 POST {{baseUrl}}/api/banks
 Authorization: Bearer {{accessToken}}

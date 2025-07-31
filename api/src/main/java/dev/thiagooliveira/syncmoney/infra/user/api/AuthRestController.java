@@ -2,11 +2,11 @@ package dev.thiagooliveira.syncmoney.infra.user.api;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CredentialEncoder;
 import dev.thiagooliveira.syncmoney.core.user.application.service.AuthService;
+import dev.thiagooliveira.syncmoney.infra.security.service.JwtService;
 import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostLoginRequestBody;
 import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostLoginResponseBody;
 import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostRegisterRequestBody;
 import dev.thiagooliveira.syncmoney.infra.user.api.dto.PostRegisterResponseBody;
-import dev.thiagooliveira.syncmoney.infra.security.service.JwtService;
 import dev.thiagooliveira.syncmoney.infra.user.api.mapper.AuthMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

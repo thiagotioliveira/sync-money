@@ -1,8 +1,12 @@
 package dev.thiagooliveira.syncmoney.infra.user.config;
 
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.user.application.service.UserService;
 import dev.thiagooliveira.syncmoney.core.user.application.service.UserServiceImpl;
+import dev.thiagooliveira.syncmoney.core.user.application.usecase.GetInvitations;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.GetUser;
+import dev.thiagooliveira.syncmoney.core.user.application.usecase.InviteUser;
+import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.InvitationRepository;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.UserRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.adapter.OrganizationRepositoryAdapter;
@@ -32,7 +36,21 @@ public class UserConfiguration {
   }
 
   @Bean
-  public UserService userService(GetUser getUser) {
-    return new UserServiceImpl(getUser);
+  public InviteUser inviteUser(
+      EventPublisher eventPublisher,
+      UserRepository userRepository,
+      InvitationRepository invitationRepository) {
+    return new InviteUser(eventPublisher, userRepository, invitationRepository);
+  }
+
+  @Bean
+  public UserService userService(
+      GetUser getUser, InviteUser inviteUser, GetInvitations getInvitations) {
+    return new UserServiceImpl(getUser, inviteUser, getInvitations);
+  }
+
+  @Bean
+  public GetInvitations getInvitations(InvitationRepository invitationRepository) {
+    return new GetInvitations(invitationRepository);
   }
 }

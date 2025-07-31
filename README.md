@@ -92,26 +92,28 @@ To work with this project, you will need:
 
 ## 🔌 REST Endpoints
 
-| Method  | Endpoint                                                   | Description                                                     | Protected (JWT) |
-|---------|------------------------------------------------------------|-----------------------------------------------------------------|-----------------|
-| `POST`  | `/api/auth/register`                                       | Register a new user                                             | ❌              |
-| `POST`  | `/api/auth/login`                                          | Login                                                           | ❌              |
-| `GET`   | `/api/users`                                               | List all users                                                  | ✅              |
-| `GET`   | `/api/users/me`                                            | Get user info                                                   | ✅              |
-| `POST`  | `/api/banks`                                               | Create a bank                                                   | ✅              |
-| `POST`  | `/api/accounts`                                            | Create a account                                                | ✅              |
-| `GET`   | `/api/accounts`                                            | List all accounts                                               | ✅              |
-| `GET`   | `/api/accounts/{id}`                                       | Get account by id                                               | ✅              |
-| `POST`  | `/api/categories`                                          | Create a category                                               | ✅              |
-| `GET`   | `/api/categories`                                          | List all categories                                             | ✅              |
-| `GET`   | `/api/categories/{id}`                                     | Get category by id                                              | ✅              |
-| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month                       | ✅              |
-| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction                                  | ✅              |
-| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction                                     | ✅              |
-| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account (creates paid transaction)        | ✅              |
-| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account (creates paid transaction)       | ✅              |
-| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account (creates scheduled transaction)   | ✅              |
-| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account (creates scheduled transaction)| ✅              |
+| Method  | Endpoint                                                   | Description                                                      | Protected (JWT) |
+|---------|------------------------------------------------------------|------------------------------------------------------------------|-----------------|
+| `POST`  | `/api/auth/register`                                       | Register a new user                                              | ❌              |
+| `POST`  | `/api/auth/login`                                          | Login                                                            | ❌              |
+| `GET`   | `/api/users`                                               | List all users                                                   | ✅              |
+| `GET`   | `/api/users/me`                                            | Get user info                                                    | ✅              |
+| `POST`  | `/api/users/invites`                                       | Invite a other user to your organization                         | ✅              |
+| `GET`   | `/api/users/invites`                                       | Get all invitations                                              | ✅              |
+| `POST`  | `/api/banks`                                               | Create a bank                                                    | ✅              |
+| `POST`  | `/api/accounts`                                            | Create a account                                                 | ✅              |
+| `GET`   | `/api/accounts`                                            | List all accounts                                                | ✅              |
+| `GET`   | `/api/accounts/{id}`                                       | Get account by id                                                | ✅              |
+| `POST`  | `/api/categories`                                          | Create a category                                                | ✅              |
+| `GET`   | `/api/categories`                                          | List all categories                                              | ✅              |
+| `GET`   | `/api/categories/{id}`                                     | Get category by id                                               | ✅              |
+| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month                        | ✅              |
+| `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction                                   | ✅              |
+| `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction                                      | ✅              |
+| `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account (creates paid transaction)         | ✅              |
+| `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account (creates paid transaction)        | ✅              |
+| `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account (creates scheduled transaction)    | ✅              |
+| `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account (creates scheduled transaction) | ✅              |
 
 🔒 Legend:
 

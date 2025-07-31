@@ -439,3 +439,54 @@ databaseChangeLog:
             referencedTableName: accounts
             referencedColumnNames: id
             constraintName: fk_account_summaries_accounts
+  - changeSet:
+      id: 010-create-invitation
+      author: thiago
+      changes:
+        - createTable:
+            tableName: invitations
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: invited_at
+                  type: TIMESTAMP
+              - column:
+                  name: invited_by
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+              - column:
+                  name: organization_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: invitations
+            baseColumnNames: invited_by
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_invitations_users
+        - addForeignKeyConstraint:
+            baseTableName: invitations
+            baseColumnNames: organization_id
+            referencedTableName: organizations
+            referencedColumnNames: id
+            constraintName: fk_invitations_organizations

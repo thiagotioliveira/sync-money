@@ -6,6 +6,7 @@ import dev.thiagooliveira.syncmoney.core.user.application.service.AuthService;
 import dev.thiagooliveira.syncmoney.core.user.application.service.AuthServiceImpl;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.Login;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.RegisterUser;
+import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.InvitationRepository;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +27,10 @@ public class AuthConfiguration {
   public RegisterUser registerUser(
       EventPublisher eventPublisher,
       OrganizationRepository organizationRepository,
-      UserRepository userRepository) {
-    return new RegisterUser(eventPublisher, organizationRepository, userRepository);
+      UserRepository userRepository,
+      InvitationRepository invitationRepository) {
+    return new RegisterUser(
+        eventPublisher, organizationRepository, userRepository, invitationRepository);
   }
 
   @Bean
