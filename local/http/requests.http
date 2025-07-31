@@ -71,6 +71,12 @@ Content-Type: application/json
 
 ###
 
+# Get Banks
+GET {{baseUrl}}/api/banks
+Authorization: Bearer {{accessToken}}
+
+###
+
 # Create Account
 POST {{baseUrl}}/api/accounts
 Authorization: Bearer {{accessToken}}

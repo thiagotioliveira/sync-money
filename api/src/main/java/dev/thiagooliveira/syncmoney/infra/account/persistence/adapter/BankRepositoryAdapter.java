@@ -5,6 +5,7 @@ import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.entity.BankEntity;
 import dev.thiagooliveira.syncmoney.infra.account.persistence.repository.BankJpaRepository;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -38,5 +39,12 @@ public class BankRepositoryAdapter implements BankRepository {
     return this.bankJpaRepository
         .findByOrganizationIdAndId(organizationId, id)
         .map(BankEntity::toBank);
+  }
+
+  @Override
+  public List<Bank> getAll(UUID organizationId) {
+    return this.bankJpaRepository.findAllByOrganizationId(organizationId).stream()
+        .map(BankEntity::toBank)
+        .toList();
   }
 }

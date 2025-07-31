@@ -3,6 +3,8 @@ package dev.thiagooliveira.syncmoney.infra.account.service;
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput;
 import dev.thiagooliveira.syncmoney.core.account.application.service.BankService;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,5 +23,10 @@ public class BankServiceProxy implements BankService {
   @Override
   public Bank createBank(CreateBankInput input) {
     return this.bankService.createBank(input);
+  }
+
+  @Override
+  public List<Bank> getAll(UUID organizationId) {
+    return this.bankService.getAll(organizationId);
   }
 }

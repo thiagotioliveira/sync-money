@@ -2,14 +2,30 @@ openapi: 3.0.3
 info:
   title: Accounts API
   version: 1.0.0
-  description: Users API
+  description: Accounts API
 
 tags:
   - name: Accounts
     description: Endpoints related to accounts
+  - name: Banks
+    description: Endpoints related to banks
 
 paths:
   /api/banks:
+    get:
+      tags:
+        - Banks
+      summary: Get all banks
+      operationId: getBanks
+      responses:
+        '200':
+          description: List of banks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetBanksResponseBody'
     post:
       tags:
         - Banks
