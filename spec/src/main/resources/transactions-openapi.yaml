@@ -543,12 +543,10 @@ components:
         - code
         - message
   securitySchemes:
-    ClientCredentials:
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: ''
-          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 security:
-  - ClientCredentials: []
+  - bearerAuth: []

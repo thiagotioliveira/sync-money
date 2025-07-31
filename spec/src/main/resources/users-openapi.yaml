@@ -12,6 +12,7 @@ tags:
 paths:
   /api/auth/register:
     post:
+      security: []
       tags:
         - Auth
       summary: Register a new user
@@ -31,6 +32,7 @@ paths:
                 $ref: '#/components/schemas/PostRegisterResponseBody'
   /api/auth/login:
     post:
+      security: []
       tags:
         - Auth
       summary: Login
@@ -201,12 +203,10 @@ components:
         - code
         - message
   securitySchemes:
-    ClientCredentials:
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: ''
-          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 security:
-  - ClientCredentials: []
+  - bearerAuth: []
