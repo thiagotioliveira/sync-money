@@ -46,7 +46,7 @@ To work with this project, you will need:
 5. **Access the application**:
    Open a browser and navigate to:
    ```
-   http://<server-host>:<server-port>/swagger-ui/index.html
+   http://<server-host>:<server-port>/api/swagger-ui/index.html
    ```
 ## Data Model Description
 

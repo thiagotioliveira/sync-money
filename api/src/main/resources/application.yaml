@@ -15,6 +15,10 @@ spring:
     username: test
     password: test
 
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui.html
+
 logging:
   level:
     ROOT: OFF
