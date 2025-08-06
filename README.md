@@ -107,13 +107,15 @@ To work with this project, you will need:
 | `POST`  | `/api/categories`                                          | Create a category                                                | ✅              |
 | `GET`   | `/api/categories`                                          | List all categories                                              | ✅              |
 | `GET`   | `/api/categories/{id}`                                     | Get category by id                                               | ✅              |
-| `GET`   | `/api/account/{accountId}/trasactions/{yearMonth}`         | Get transactions for a account in a month                        | ✅              |
+| `POST`  | `/api/trasactions/{yearMonth}`                             | Get transactions for accounts in a month                         | ✅              |
 | `PATCH` | `/api/account/{accountId}/trasactions/{transactionId}`     | Update a scheduled transaction                                   | ✅              |
 | `POST`  | `/api/account/{accountId}/trasactions/{transactionId}/pay` | Pay a scheduled transaction                                      | ✅              |
 | `POST`  | `/api/account/{accountId}/deposit`                         | Create a deposit in a account (creates paid transaction)         | ✅              |
 | `POST`  | `/api/account/{accountId}/withdraw`                        | Create a withdraw in a account (creates paid transaction)        | ✅              |
 | `POST`  | `/api/account/{accountId}/payables`                        | Create a payable in a account (creates scheduled transaction)    | ✅              |
 | `POST`  | `/api/account/{accountId}/receivables`                     | Create a receivable in a account (creates scheduled transaction) | ✅              |
+| `POST`  | `/api/transfer`                                            | Create a transfer                                                | ✅              |
+| `POST`  | `/api/summary/{yearMonth}`                                 | Get accounts summary                                             | ✅              |
 
 🔒 Legend:
 

@@ -204,6 +204,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PostTransactionsResponseBody'
+  /api/transfers:
+    post:
+      tags:
+        - Transactions
+      summary: Make a transfer
+      operationId: postTransfer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostTransferRequestBody'
+      responses:
+        '200':
+          description: Transfer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostTransferResponseBody'
   /api/accounts/{accountId}/transactions/{transactionId}:
     patch:
       tags:
@@ -296,6 +315,33 @@ paths:
                 $ref: '#/components/schemas/PostSummaryResponseBody'
 components:
   schemas:
+    PostTransferRequestBody:
+      type: object
+      properties:
+        sourceAccountId:
+          type: string
+          format: uuid
+        targetAccountId:
+          type: string
+          format: uuid
+        sourceAmount:
+          type: number
+          format: double
+        targetAmount:
+          type: number
+          format: double
+        sourceCategoryId:
+          type: string
+          format: uuid
+        targetCategoryId:
+          type: string
+          format: uuid
+    PostTransferResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
     AccountEnriched:
       type: object
       properties:

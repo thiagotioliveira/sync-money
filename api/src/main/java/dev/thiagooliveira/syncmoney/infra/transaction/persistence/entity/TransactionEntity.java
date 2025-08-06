@@ -52,6 +52,10 @@ public class TransactionEntity {
   @JoinColumn(name = "parent_id")
   private PayableReceivableEntity parent;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "transfer_id")
+  private TransferEntity transfer;
+
   public TransactionEntity() {}
 
   public static TransactionEntity createPaid(CreateTransactionInput input) {
@@ -106,6 +110,11 @@ public class TransactionEntity {
       parentEntity.setId(transaction.getParentId().get());
       entity.setParent(parentEntity);
     }
+    if (transaction.getTransferId().isPresent()) {
+      TransferEntity transferEntity = new TransferEntity();
+      transferEntity.setId(transaction.getTransferId().get());
+      entity.setTransfer(transferEntity);
+    }
     return entity;
   }
 
@@ -144,7 +153,8 @@ public class TransactionEntity {
         category.getId(),
         amount,
         status,
-        parent != null ? Optional.of(parent.getId()) : Optional.empty());
+        parent != null ? Optional.of(parent.getId()) : Optional.empty(),
+        transfer != null ? Optional.of(transfer.getId()) : Optional.empty());
   }
 
   public Transaction toTransactionPaidCreated(CategoryType categoryType) {
@@ -260,5 +270,13 @@ public class TransactionEntity {
 
   public void setUserId(UUID userId) {
     this.userId = userId;
+  }
+
+  public TransferEntity getTransfer() {
+    return transfer;
+  }
+
+  public void setTransfer(TransferEntity transfer) {
+    this.transfer = transfer;
   }
 }

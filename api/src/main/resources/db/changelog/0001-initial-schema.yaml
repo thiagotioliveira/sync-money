@@ -298,7 +298,97 @@ databaseChangeLog:
             referencedColumnNames: id
             constraintName: fk_payable_receivable_categories
   - changeSet:
-      id: 008-create-transactions
+      id: 008-create-transfer
+      author: thiago
+      changes:
+        - createTable:
+            tableName: transfers
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: source_account_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_account_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: organization_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+              - column:
+                  name: date_time
+                  type: TIMESTAMP
+              - column:
+                  name: source_category_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_category_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source_amount
+                  type: numeric(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_amount
+                  type: numeric(10,2)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: transfers
+            baseColumnNames: source_account_id
+            referencedTableName: accounts
+            referencedColumnNames: id
+            constraintName: fk_transfers_source_accounts
+        - addForeignKeyConstraint:
+            baseTableName: transfers
+            baseColumnNames: target_account_id
+            referencedTableName: accounts
+            referencedColumnNames: id
+            constraintName: fk_transfers_target_accounts
+        - addForeignKeyConstraint:
+            baseTableName: transfers
+            baseColumnNames: organization_id
+            referencedTableName: organizations
+            referencedColumnNames: id
+            constraintName: fk_transfers_organizations
+        - addForeignKeyConstraint:
+            baseTableName: transfers
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_transfers_users
+        - addForeignKeyConstraint:
+            baseTableName: transfers
+            baseColumnNames: source_category_id
+            referencedTableName: categories
+            referencedColumnNames: id
+            constraintName: fk_transfers_source_categories
+        - addForeignKeyConstraint:
+            baseTableName: transfers
+            baseColumnNames: target_category_id
+            referencedTableName: categories
+            referencedColumnNames: id
+            constraintName: fk_transfers_target_categories
+  - changeSet:
+      id: 009-create-transactions
       author: thiago
       changes:
         - createTable:
@@ -328,6 +418,9 @@ databaseChangeLog:
                   type: varchar(20)
               - column:
                   name: parent_id
+                  type: uuid
+              - column:
+                  name: transfer_id
                   type: uuid
               - column:
                   name: date_time
@@ -378,12 +471,18 @@ databaseChangeLog:
             constraintName: fk_transactions_payable_receivable
         - addForeignKeyConstraint:
             baseTableName: transactions
+            baseColumnNames: transfer_id
+            referencedTableName: transfers
+            referencedColumnNames: id
+            constraintName: fk_transactions_transfers
+        - addForeignKeyConstraint:
+            baseTableName: transactions
             baseColumnNames: category_id
             referencedTableName: categories
             referencedColumnNames: id
             constraintName: fk_transactions_categories
   - changeSet:
-      id: 009-create-account-summary
+      id: 010-create-account-summary
       author: thiago
       changes:
         - createTable:
@@ -440,7 +539,7 @@ databaseChangeLog:
             referencedColumnNames: id
             constraintName: fk_account_summaries_accounts
   - changeSet:
-      id: 010-create-invitation
+      id: 011-create-invitation
       author: thiago
       changes:
         - createTable:

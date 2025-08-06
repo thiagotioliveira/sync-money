@@ -2,12 +2,10 @@ package dev.thiagooliveira.syncmoney.core.transaction.application.service.impl;
 
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.*;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
-import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreatePayableReceivable;
-import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateTransaction;
-import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetTransaction;
-import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.UpdateTransaction;
+import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
+import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transfer;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
@@ -18,16 +16,24 @@ public class TransactionServiceImpl implements TransactionService {
   private final CreatePayableReceivable createPayableReceivable;
   private final UpdateTransaction updateTransaction;
   private final GetTransaction getTransaction;
+  private final CreateTransfer createTransfer;
 
   public TransactionServiceImpl(
       CreateTransaction createTransaction,
       CreatePayableReceivable createPayableReceivable,
       UpdateTransaction updateTransaction,
-      GetTransaction getTransaction) {
+      GetTransaction getTransaction,
+      CreateTransfer createTransfer) {
     this.createTransaction = createTransaction;
     this.createPayableReceivable = createPayableReceivable;
     this.updateTransaction = updateTransaction;
     this.getTransaction = getTransaction;
+    this.createTransfer = createTransfer;
+  }
+
+  @Override
+  public Transfer transfer(CreateTransferInput input) {
+    return this.createTransfer.execute(input);
   }
 
   @Override

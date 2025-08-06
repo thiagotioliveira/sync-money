@@ -20,6 +20,7 @@ public class Transaction extends AggregateRoot {
   private BigDecimal amount;
   private TransactionStatus status;
   private Optional<UUID> parentId;
+  private Optional<UUID> transferId;
 
   public boolean isScheduled() {
     return this.status == TransactionStatus.SCHEDULED;
@@ -40,6 +41,11 @@ public class Transaction extends AggregateRoot {
     this.dateTime = dateTime;
     this.amount = amount.orElse(this.amount);
     this.status = TransactionStatus.PAID;
+    return this;
+  }
+
+  public Transaction setTransfer(UUID transferId) {
+    this.transferId = Optional.of(transferId);
     return this;
   }
 
@@ -77,7 +83,8 @@ public class Transaction extends AggregateRoot {
       UUID categoryId,
       BigDecimal amount,
       TransactionStatus status,
-      Optional<UUID> parentId) {
+      Optional<UUID> parentId,
+      Optional<UUID> transferId) {
     var transaction = new Transaction();
     transaction.id = id;
     transaction.accountId = accountId;
@@ -90,6 +97,7 @@ public class Transaction extends AggregateRoot {
     transaction.amount = amount;
     transaction.parentId = parentId;
     transaction.status = status;
+    transaction.transferId = transferId;
 
     return transaction;
   }
@@ -136,5 +144,9 @@ public class Transaction extends AggregateRoot {
 
   public UUID getUserId() {
     return userId;
+  }
+
+  public Optional<UUID> getTransferId() {
+    return transferId;
   }
 }

@@ -4,6 +4,7 @@ import dev.thiagooliveira.syncmoney.core.transaction.application.dto.*;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
+import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transfer;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,12 @@ public class TransactionServiceProxy implements TransactionService {
 
   public TransactionServiceProxy(TransactionService transactionService) {
     this.transactionService = transactionService;
+  }
+
+  @Transactional
+  @Override
+  public Transfer transfer(CreateTransferInput input) {
+    return this.transactionService.transfer(input);
   }
 
   @Transactional

@@ -7,10 +7,7 @@ import dev.thiagooliveira.syncmoney.core.transaction.application.service.impl.Tr
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.income.AccountEventListener;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.AccountClient;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.CategoryRepository;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.PayableReceivableRepository;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.TransactionRepository;
+import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -83,12 +80,27 @@ public class TransactionConfiguration {
   }
 
   @Bean
+  public CreateTransfer createTransfer(
+      EventPublisher eventPublisher,
+      CreateTransaction createTransaction,
+      TransferRepository transferRepository,
+      TransactionRepository transactionRepository) {
+    return new CreateTransfer(
+        eventPublisher, createTransaction, transferRepository, transactionRepository);
+  }
+
+  @Bean
   public TransactionService transactionService(
       CreateTransaction createTransaction,
       CreatePayableReceivable createPayableReceivable,
       UpdateTransaction updateTransaction,
-      GetTransaction getTransaction) {
+      GetTransaction getTransaction,
+      CreateTransfer createTransfer) {
     return new TransactionServiceImpl(
-        createTransaction, createPayableReceivable, updateTransaction, getTransaction);
+        createTransaction,
+        createPayableReceivable,
+        updateTransaction,
+        getTransaction,
+        createTransfer);
   }
 }

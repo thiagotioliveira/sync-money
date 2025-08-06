@@ -3,6 +3,7 @@ package dev.thiagooliveira.syncmoney.infra.transaction.api.mapper;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.*;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
+import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transfer;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.dto.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +14,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
+
+  PostTransferResponseBody mapToPostTransferResponseBody(Transfer transfer);
+
+  CreateTransferInput mapToCreateTransferInput(
+      UUID organizationId, UUID userId, PostTransferRequestBody postTransferRequestBody);
 
   PostTransactionsResponseBody mapToPostTransactionsResponseBody(TransactionEnriched transaction);
 

@@ -114,6 +114,18 @@ public class TransactionRestController implements TransactionsApi {
   }
 
   @Override
+  public ResponseEntity<PostTransferResponseBody> postTransfer(
+      PostTransferRequestBody postTransferRequestBody) {
+    UserAuthenticated principal =
+        (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return ResponseEntity.ok(
+        this.transactionMapper.mapToPostTransferResponseBody(
+            this.transactionService.transfer(
+                this.transactionMapper.mapToCreateTransferInput(
+                    principal.getOrganizationId(), principal.getId(), postTransferRequestBody))));
+  }
+
+  @Override
   public ResponseEntity<PatchTransactionResponseBody> updateScheduledTransaction(
       UUID accountId, UUID transactionId, PatchTransactionRequestBody patchTransactionRequestBody) {
     UserAuthenticated principal =

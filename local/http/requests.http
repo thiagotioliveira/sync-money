@@ -59,14 +59,26 @@ Content-Type: application/json
 
 ###
 
-# Create Bank
+# Create Europe Bank
 POST {{baseUrl}}/api/banks
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "name": "Bank",
+  "name": "Europe Bank",
   "currency": "EUR"
+}
+
+###
+
+# Create Brazil Bank
+POST {{baseUrl}}/api/banks
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Brazil Bank",
+  "currency": "BRL"
 }
 
 ###
@@ -77,14 +89,27 @@ Authorization: Bearer {{accessToken}}
 
 ###
 
-# Create Account
+# Create Europe Account
 POST {{baseUrl}}/api/accounts
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "name": "Bank Account",
-  "bankId": "e83f41cf-8e46-4f22-98cc-1783b1fdfaf1",
+  "name": "Europe Account",
+  "bankId": "3140b35d-6dd8-4837-b9e5-354e23c800a5",
+  "initialBalance": 1000.0
+}
+
+###
+
+# Create Brazil Account
+POST {{baseUrl}}/api/accounts
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Brazil Account",
+  "bankId": "55642a18-5b81-4c0e-a56f-fcd4b708a38f",
   "initialBalance": 1000.0
 }
 
@@ -97,7 +122,7 @@ Authorization: Bearer {{accessToken}}
 ###
 
 # Get Account By Id
-GET {{baseUrl}}/api/accounts/{{accountId}}
+GET {{baseUrl}}/api/accounts/{{accountId1}}
 Authorization: Bearer {{accessToken}}
 
 ###
@@ -180,20 +205,45 @@ Content-Type: application/json
 
 ###
 
+### Create Brazil Transfer
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Brazil Transfer",
+  "type": "DEBIT"
+}
+
+###
+
+### Create Europe Transfer
+POST {{baseUrl}}/api/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Europe Transfer",
+  "type": "CREDIT"
+}
+
+###
+
 # Get Transactions
-POST {{baseUrl}}/api/transactions/2025-07-01
+POST {{baseUrl}}/api/transactions/2025-08-01
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
   "accountIds": [
-    "{{accountId}}"
+    "{{accountId1}}",
+    "{{accountId2}}"
   ]
 }
 ###
 
 # Create Deposit
-POST {{baseUrl}}/api/accounts/{{accountId}}/deposit
+POST {{baseUrl}}/api/accounts/{{accountId1}}/deposit
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -207,7 +257,7 @@ Content-Type: application/json
 ###
 
 # Create Withdraw
-POST {{baseUrl}}/api/accounts/{{accountId}}/withdraw
+POST {{baseUrl}}/api/accounts/{{accountId1}}/withdraw
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -221,7 +271,7 @@ Content-Type: application/json
 ###
 
 # Create Receivable
-POST {{baseUrl}}/api/accounts/{{accountId}}/receivables
+POST {{baseUrl}}/api/accounts/{{accountId1}}/receivables
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -236,7 +286,7 @@ Content-Type: application/json
 ###
 
 # Create Payable
-POST {{baseUrl}}/api/accounts/{{accountId}}/payables
+POST {{baseUrl}}/api/accounts/{{accountId1}}/payables
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -251,7 +301,7 @@ Content-Type: application/json
 ###
 
 # Pay Scheduled Transaction
-POST {{baseUrl}}/api/accounts/{{accountId}}/transactions/a290fb18-542d-4091-bc56-9c13f9e91e77/pay
+POST {{baseUrl}}/api/accounts/{{accountId1}}/transactions/a290fb18-542d-4091-bc56-9c13f9e91e77/pay
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
@@ -262,14 +312,31 @@ Content-Type: application/json
 
 ###
 
+# Create Transfer
+POST {{baseUrl}}/api/transfers
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "sourceAccountId": "{{accountId1}}",
+  "targetAccountId": "{{accountId2}}",
+  "sourceAmount": 100,
+  "targetAmount": 637.35,
+  "sourceCategoryId": "12c93427-4a5c-450e-9cb6-1c5ba3db699b",
+  "targetCategoryId": "c4a2472c-44db-41fe-8e28-566ac4f3c143"
+}
+
+###
+
 # Get Account Summary
-POST {{baseUrl}}/api/summary/2025-07-01
+POST {{baseUrl}}/api/summary/2025-08-01
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
   "accountIds": [
-    "{{accountId}}"
+    "{{accountId1}}",
+    "{{accountId2}}"
   ]
 }
 ###
