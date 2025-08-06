@@ -1,6 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransferCreatedEvent;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -42,6 +43,22 @@ public class Transfer extends AggregateRoot {
     transfer.userId = userId;
     transfer.dateTime = dateTime;
     return transfer;
+  }
+
+  public Transfer addTransferCreatedEvent() {
+    this.registerEvent(
+        new TransferCreatedEvent(
+            this.getId(),
+            this.getOrganizationId(),
+            this.getSourceAccountId(),
+            this.getTargetAccountId(),
+            this.getSourceAmount(),
+            this.getTargetAmount(),
+            this.getSourceCategoryId(),
+            this.getTargetCategoryId(),
+            this.getUserId(),
+            this.getDateTime()));
+    return this;
   }
 
   public UUID getId() {

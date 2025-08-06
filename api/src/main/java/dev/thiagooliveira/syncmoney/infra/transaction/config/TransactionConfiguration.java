@@ -73,12 +73,10 @@ public class TransactionConfiguration {
 
   @Bean
   public CreateTransfer createTransfer(
-      EventPublisher eventPublisher,
       CreateTransaction createTransaction,
       TransferRepository transferRepository,
       TransactionRepository transactionRepository) {
-    return new CreateTransfer(
-        eventPublisher, createTransaction, transferRepository, transactionRepository);
+    return new CreateTransfer(createTransaction, transferRepository, transactionRepository);
   }
 
   @Bean

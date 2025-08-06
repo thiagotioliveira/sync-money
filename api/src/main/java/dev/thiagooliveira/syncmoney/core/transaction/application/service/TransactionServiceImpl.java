@@ -36,7 +36,9 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   public Transfer transfer(CreateTransferInput input) {
-    return this.createTransfer.execute(input);
+    Transfer transfer = this.createTransfer.execute(input);
+    transfer.getEvents().forEach(this.eventPublisher::publish);
+    return transfer;
   }
 
   @Override

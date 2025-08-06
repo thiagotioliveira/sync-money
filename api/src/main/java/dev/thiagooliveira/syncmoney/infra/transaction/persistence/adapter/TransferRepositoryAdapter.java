@@ -18,6 +18,6 @@ public class TransferRepositoryAdapter implements TransferRepository {
 
   @Override
   public Transfer create(CreateTransferInput input) {
-    return this.transferJpaRepository.save(TransferEntity.create(input)).toTransferCreated();
+    return this.transferJpaRepository.save(TransferEntity.create(input)).toTransfer();
   }
 }

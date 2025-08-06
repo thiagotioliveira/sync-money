@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransferCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTransferInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transfer;
 import jakarta.persistence.*;
@@ -72,23 +71,6 @@ public class TransferEntity {
         this.targetAccountId,
         this.userId,
         this.dateTime);
-  }
-
-  public Transfer toTransferCreated() {
-    var transfer = toTransfer();
-    transfer.registerEvent(
-        new TransferCreatedEvent(
-            transfer.getId(),
-            transfer.getOrganizationId(),
-            transfer.getSourceAccountId(),
-            transfer.getTargetAccountId(),
-            transfer.getSourceAmount(),
-            transfer.getTargetAmount(),
-            transfer.getSourceCategoryId(),
-            transfer.getTargetCategoryId(),
-            transfer.getUserId(),
-            transfer.getDateTime()));
-    return transfer;
   }
 
   public UUID getId() {
