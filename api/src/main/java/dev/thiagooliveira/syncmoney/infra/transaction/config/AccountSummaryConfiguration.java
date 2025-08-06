@@ -16,11 +16,12 @@ public class AccountSummaryConfiguration {
 
   @Bean
   public AccountSummaryCalculator accountSummaryCalculator(
+      AccountClient accountClient,
       GetTransaction getTransaction,
       CreateAccountSummary createAccountSummary,
       AccountSummaryRepository accountSummaryRepository) {
     return new AccountSummaryCalculator(
-        getTransaction, createAccountSummary, accountSummaryRepository);
+        accountClient, getTransaction, createAccountSummary, accountSummaryRepository);
   }
 
   @Bean
@@ -31,10 +32,8 @@ public class AccountSummaryConfiguration {
 
   @Bean
   public GetAccountSummary getAccountSummary(
-      AccountClient accountClient,
-      AccountSummaryRepository accountSummaryRepository,
-      AccountSummaryCalculator accountSummaryCalculator) {
-    return new GetAccountSummary(accountClient, accountSummaryRepository, accountSummaryCalculator);
+      AccountClient accountClient, AccountSummaryCalculator accountSummaryCalculator) {
+    return new GetAccountSummary(accountClient, accountSummaryCalculator);
   }
 
   @Bean

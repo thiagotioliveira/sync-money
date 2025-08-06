@@ -68,6 +68,17 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
   }
 
   @Override
+  public List<Transaction> getByAccountsAndYearMonth(List<UUID> accountIds, YearMonth yearMonth) {
+    var from = yearMonth.atDay(1);
+    var to = yearMonth.atEndOfMonth();
+    return this.transactionJpaRepository
+        .findByAccountIdInAndDueDateBetweenOrderByDueDateDesc(accountIds, from, to)
+        .stream()
+        .map(TransactionEntity::toTransaction)
+        .toList();
+  }
+
+  @Override
   public List<Transaction> findByParentId(UUID parentId) {
     return this.transactionJpaRepository.findByParentIdOrderByDueDateDesc(parentId).stream()
         .map(TransactionEntity::toTransaction)

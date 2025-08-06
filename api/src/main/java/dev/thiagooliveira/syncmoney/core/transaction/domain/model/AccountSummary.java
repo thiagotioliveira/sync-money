@@ -12,22 +12,12 @@ public class AccountSummary {
 
   private final UUID accountId;
   private final YearMonth yearMonth;
-  private BigDecimal openingBalance;
-  private BigDecimal closingBalance;
-  private BigDecimal totalDebit;
-  private BigDecimal totalCredit;
-  private BigDecimal scheduledIncome;
-  private BigDecimal scheduledExpenses;
+  private final Summary summary;
 
   private AccountSummary(UUID accountId, YearMonth yearMonth) {
     this.accountId = accountId;
     this.yearMonth = yearMonth;
-    this.openingBalance = BigDecimal.ZERO;
-    this.closingBalance = BigDecimal.ZERO;
-    this.totalDebit = BigDecimal.ZERO;
-    this.totalCredit = BigDecimal.ZERO;
-    this.scheduledIncome = BigDecimal.ZERO;
-    this.scheduledExpenses = BigDecimal.ZERO;
+    this.summary = new Summary();
   }
 
   public AccountSummary(
@@ -41,12 +31,13 @@ public class AccountSummary {
       BigDecimal scheduledExpenses) {
     this.accountId = accountId;
     this.yearMonth = yearMonth;
-    this.openingBalance = openingBalance;
-    this.closingBalance = closingBalance;
-    this.totalDebit = totalDebit;
-    this.totalCredit = totalCredit;
-    this.scheduledIncome = scheduledIncome;
-    this.scheduledExpenses = scheduledExpenses;
+    this.summary = new Summary();
+    this.summary.openingBalance = openingBalance;
+    this.summary.closingBalance = closingBalance;
+    this.summary.totalDebit = totalDebit;
+    this.summary.totalCredit = totalCredit;
+    this.summary.scheduledIncome = scheduledIncome;
+    this.summary.scheduledExpenses = scheduledExpenses;
   }
 
   public static AccountSummary create(UUID accountId, YearMonth yearMonth) {
@@ -54,12 +45,12 @@ public class AccountSummary {
   }
 
   public static AccountSummary create(CreateAccountSummaryInput input) {
-    var summary = new AccountSummary(input.accountId(), input.yearMonth());
+    var accountSummary = new AccountSummary(input.accountId(), input.yearMonth());
     boolean isCredit = input.lastClosingBalance().signum() > 0;
-    summary.openingBalance =
+    accountSummary.summary.openingBalance =
         isCredit ? input.lastClosingBalance() : input.lastClosingBalance().negate();
-    summary.update(input.transactionsMonth());
-    return summary;
+    accountSummary.update(input.transactionsMonth());
+    return accountSummary;
   }
 
   public void update(List<TransactionEnriched> transactions) {
@@ -70,34 +61,35 @@ public class AccountSummary {
                     YearMonth.of(t.dueDate().getYear(), t.dueDate().getMonth())))) {
       throw BusinessLogicException.badRequest("transactions must be from the same month");
     }
-    this.totalDebit =
+    this.summary.totalDebit =
         transactions.stream()
             .filter(TransactionEnriched::isPaid)
             .filter(TransactionEnriched::isDebit)
             .map(TransactionEnriched::amount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
-    this.totalCredit =
+    this.summary.totalCredit =
         transactions.stream()
             .filter(TransactionEnriched::isPaid)
             .filter(TransactionEnriched::isCredit)
             .map(TransactionEnriched::amount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
-    this.scheduledIncome =
+    this.summary.scheduledIncome =
         transactions.stream()
             .filter(TransactionEnriched::isScheduled)
             .filter(TransactionEnriched::isCredit)
             .map(TransactionEnriched::amount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
-    this.scheduledExpenses =
+    this.summary.scheduledExpenses =
         transactions.stream()
             .filter(TransactionEnriched::isScheduled)
             .filter(TransactionEnriched::isDebit)
             .map(TransactionEnriched::amount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
-    this.closingBalance =
-        this.openingBalance
-            .add(totalCredit.subtract(totalDebit))
-            .add(scheduledIncome.subtract(scheduledExpenses));
+    this.summary.closingBalance =
+        this.summary
+            .openingBalance
+            .add(this.summary.totalCredit.subtract(this.summary.totalDebit))
+            .add(this.summary.scheduledIncome.subtract(this.summary.scheduledExpenses));
   }
 
   public UUID getAccountId() {
@@ -109,26 +101,89 @@ public class AccountSummary {
   }
 
   public BigDecimal getOpeningBalance() {
-    return openingBalance;
+    return summary.openingBalance;
   }
 
   public BigDecimal getClosingBalance() {
-    return closingBalance;
+    return summary.closingBalance;
   }
 
   public BigDecimal getTotalDebit() {
-    return totalDebit;
+    return summary.totalDebit;
   }
 
   public BigDecimal getTotalCredit() {
-    return totalCredit;
+    return summary.totalCredit;
   }
 
   public BigDecimal getScheduledIncome() {
-    return scheduledIncome;
+    return summary.scheduledIncome;
   }
 
   public BigDecimal getScheduledExpenses() {
-    return scheduledExpenses;
+    return summary.scheduledExpenses;
+  }
+
+  public static class Summary {
+    private BigDecimal openingBalance = BigDecimal.ZERO;
+    ;
+    private BigDecimal closingBalance = BigDecimal.ZERO;
+    ;
+    private BigDecimal totalDebit = BigDecimal.ZERO;
+    ;
+    private BigDecimal totalCredit = BigDecimal.ZERO;
+    ;
+    private BigDecimal scheduledIncome = BigDecimal.ZERO;
+    ;
+    private BigDecimal scheduledExpenses = BigDecimal.ZERO;
+    ;
+
+    public BigDecimal getOpeningBalance() {
+      return openingBalance;
+    }
+
+    public void setOpeningBalance(BigDecimal openingBalance) {
+      this.openingBalance = openingBalance;
+    }
+
+    public BigDecimal getClosingBalance() {
+      return closingBalance;
+    }
+
+    public void setClosingBalance(BigDecimal closingBalance) {
+      this.closingBalance = closingBalance;
+    }
+
+    public BigDecimal getTotalDebit() {
+      return totalDebit;
+    }
+
+    public void setTotalDebit(BigDecimal totalDebit) {
+      this.totalDebit = totalDebit;
+    }
+
+    public BigDecimal getTotalCredit() {
+      return totalCredit;
+    }
+
+    public void setTotalCredit(BigDecimal totalCredit) {
+      this.totalCredit = totalCredit;
+    }
+
+    public BigDecimal getScheduledIncome() {
+      return scheduledIncome;
+    }
+
+    public void setScheduledIncome(BigDecimal scheduledIncome) {
+      this.scheduledIncome = scheduledIncome;
+    }
+
+    public BigDecimal getScheduledExpenses() {
+      return scheduledExpenses;
+    }
+
+    public void setScheduledExpenses(BigDecimal scheduledExpenses) {
+      this.scheduledExpenses = scheduledExpenses;
+    }
   }
 }

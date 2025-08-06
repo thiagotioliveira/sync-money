@@ -1,6 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.account.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.Currency;
 import java.util.UUID;
 
 public class Bank extends AggregateRoot {

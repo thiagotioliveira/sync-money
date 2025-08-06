@@ -4,7 +4,7 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountIn
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
-import dev.thiagooliveira.syncmoney.core.account.domain.model.Currency;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.Currency;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserRegisteredEvent;

@@ -24,6 +24,8 @@ public interface TransactionRepository {
 
   List<Transaction> getByAccountAndYearMonth(UUID accountId, YearMonth yearMonth);
 
+  List<Transaction> getByAccountsAndYearMonth(List<UUID> accountIds, YearMonth yearMonth);
+
   List<Transaction> findByParentId(UUID parentId);
 
   boolean existsByParentIdAndDueDate(UUID parendId, LocalDate dueDate);

@@ -15,6 +15,9 @@ public interface TransactionJpaRepository
   List<TransactionEntity> findByAccountIdAndDueDateBetweenOrderByDueDateDesc(
       UUID accountId, LocalDate from, LocalDate to);
 
+  List<TransactionEntity> findByAccountIdInAndDueDateBetweenOrderByDueDateDesc(
+      List<UUID> accountIds, LocalDate from, LocalDate to);
+
   List<TransactionEntity> findByParentIdOrderByDueDateDesc(UUID parentId);
 
   boolean existsByParentIdAndDueDate(UUID parentId, LocalDate dueDate);

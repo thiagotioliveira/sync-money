@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public record TransactionEnriched(
     UUID id,
-    UUID accountId,
+    AccountEnriched account,
     UUID organizationId,
     UUID userId,
     OffsetDateTime dateTime,
@@ -21,10 +21,10 @@ public record TransactionEnriched(
     BigDecimal amount,
     TransactionStatus status,
     Optional<UUID> parentId) {
-  public TransactionEnriched(Transaction transaction, Category category) {
+  public TransactionEnriched(Transaction transaction, AccountEnriched account, Category category) {
     this(
         transaction.getId(),
-        transaction.getAccountId(),
+        account,
         transaction.getOrganizationId(),
         transaction.getUserId(),
         transaction.getDateTime(),

@@ -22,6 +22,6 @@ public interface TransactionService {
 
   Transaction pay(PayTransactionInput input);
 
-  List<TransactionEnriched> getByAccountId(
-      UUID organizationId, UUID accountId, YearMonth yearMonth);
+  List<TransactionEnriched> getByAccountIds(
+      UUID organizationId, List<UUID> accountIds, YearMonth yearMonth);
 }

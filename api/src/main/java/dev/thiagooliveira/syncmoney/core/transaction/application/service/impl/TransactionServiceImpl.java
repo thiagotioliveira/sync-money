@@ -62,8 +62,8 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public List<TransactionEnriched> getByAccountId(
-      UUID organizationId, UUID accountId, YearMonth yearMonth) {
-    return this.getTransaction.byAccountIdAndYearMonth(organizationId, accountId, yearMonth);
+  public List<TransactionEnriched> getByAccountIds(
+      UUID organizationId, List<UUID> accountIds, YearMonth yearMonth) {
+    return this.getTransaction.byAccountIdsAndYearMonth(organizationId, accountIds, yearMonth);
   }
 }

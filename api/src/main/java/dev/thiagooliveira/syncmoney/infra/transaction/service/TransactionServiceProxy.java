@@ -60,8 +60,8 @@ public class TransactionServiceProxy implements TransactionService {
 
   @Transactional(readOnly = true)
   @Override
-  public List<TransactionEnriched> getByAccountId(
-      UUID organizationId, UUID accountId, YearMonth yearMonth) {
-    return this.transactionService.getByAccountId(organizationId, accountId, yearMonth);
+  public List<TransactionEnriched> getByAccountIds(
+      UUID organizationId, List<UUID> accountIds, YearMonth yearMonth) {
+    return this.transactionService.getByAccountIds(organizationId, accountIds, yearMonth);
   }
 }

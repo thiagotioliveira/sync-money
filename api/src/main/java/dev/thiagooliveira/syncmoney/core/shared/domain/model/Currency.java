@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.core.account.domain.model;
+package dev.thiagooliveira.syncmoney.core.shared.domain.model;
 
 public enum Currency {
   EUR("€"),

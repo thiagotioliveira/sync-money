@@ -181,9 +181,15 @@ Content-Type: application/json
 ###
 
 # Get Transactions
-GET {{baseUrl}}/api/accounts/{{accountId}}/transactions/2025-07-01
+POST {{baseUrl}}/api/transactions/2025-07-01
 Authorization: Bearer {{accessToken}}
+Content-Type: application/json
 
+{
+  "accountIds": [
+    "{{accountId}}"
+  ]
+}
 ###
 
 # Create Deposit
@@ -257,8 +263,14 @@ Content-Type: application/json
 ###
 
 # Get Account Summary
-GET {{baseUrl}}/api/accounts/{{accountId}}/summary/2025-07-01
+POST {{baseUrl}}/api/summary/2025-07-01
 Authorization: Bearer {{accessToken}}
+Content-Type: application/json
 
+{
+  "accountIds": [
+    "{{accountId}}"
+  ]
+}
 ###
 

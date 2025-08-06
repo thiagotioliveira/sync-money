@@ -56,19 +56,6 @@ public class TransactionRestController implements TransactionsApi {
   }
 
   @Override
-  public ResponseEntity<List<GetTransactionsResponseBody>> getTransactionByAccountId(
-      UUID accountId, LocalDate yearMonth) {
-    UserAuthenticated principal =
-        (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return ResponseEntity.ok(
-        this.transactionMapper.mapToGetTransactionsResponseBody(
-            this.transactionService.getByAccountId(
-                principal.getOrganizationId(),
-                accountId,
-                YearMonth.of(yearMonth.getYear(), yearMonth.getMonth()))));
-  }
-
-  @Override
   public ResponseEntity<PostPayableResponseBody> createPayable(
       UUID accountId, PostPayableRequestBody postPayableRequestBody) {
     UserAuthenticated principal =
@@ -108,6 +95,22 @@ public class TransactionRestController implements TransactionsApi {
                     accountId,
                     transactionId,
                     postPayTransactionRequestBody))));
+  }
+
+  @Override
+  public ResponseEntity<List<PostTransactionsResponseBody>> postTransactionsByAccountIds(
+      LocalDate yearMonth, PostTransactionsRequestBody postTransactionsRequestBody) {
+    UserAuthenticated principal =
+        (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return ResponseEntity.ok(
+        this.transactionService
+            .getByAccountIds(
+                principal.getOrganizationId(),
+                postTransactionsRequestBody.getAccountIds(),
+                YearMonth.of(yearMonth.getYear(), yearMonth.getMonth()))
+            .stream()
+            .map(this.transactionMapper::mapToPostTransactionsResponseBody)
+            .toList());
   }
 
   @Override

@@ -6,7 +6,6 @@ import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
 import dev.thiagooliveira.syncmoney.infra.transactions.api.dto.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.mapstruct.Mapper;
@@ -14,6 +13,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
+
+  PostTransactionsResponseBody mapToPostTransactionsResponseBody(TransactionEnriched transaction);
 
   CreateTransactionInput mapToCreateTransactionInput(
       UUID organizationId,
@@ -52,9 +53,6 @@ public interface TransactionMapper {
   PostPayableResponseBody mapToPostPayableResponseBody(PayableReceivable payableReceivable);
 
   PostReceivableResponseBody mapToPostReceivableResponseBody(PayableReceivable payableReceivable);
-
-  List<GetTransactionsResponseBody> mapToGetTransactionsResponseBody(
-      List<TransactionEnriched> transactions);
 
   PatchTransactionResponseBody mapToPatchTransactionResponseBody(Transaction installment);
 

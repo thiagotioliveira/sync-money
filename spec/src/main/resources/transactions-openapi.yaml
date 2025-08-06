@@ -9,7 +9,7 @@ tags:
     description: Endpoints related to categories
   - name: Transactions
     description: Endpoints related to transactions
-  - name: AccountsSummary
+  - name: Summary
     description: Endpoints related Account Summary
 
 paths:
@@ -176,34 +176,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostReceivableResponseBody'
-  /api/accounts/{accountId}/transactions/{yearMonth}:
-    get:
+  /api/transactions/{yearMonth}:
+    post:
       tags:
         - Transactions
-      summary: Retrieve transactions for an account
-      operationId: getTransactionByAccountId
+      summary: Retrieve transactions for accounts
+      operationId: postTransactionsByAccountIds
       parameters:
-        - name: accountId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: yearMonth
           in: path
           required: true
           schema:
             type: string
             format: date
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostTransactionsRequestBody'
       responses:
         '200':
-          description: Transactions found
+          description: Summary found
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GetTransactionsResponseBody'
+                  $ref: '#/components/schemas/PostTransactionsResponseBody'
   /api/accounts/{accountId}/transactions/{transactionId}:
     patch:
       tags:
@@ -268,34 +268,154 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostPayTransactionResponseBody'
-  /api/accounts/{accountId}/summary/{yearMonth}:
-    get:
+  /api/summary/{yearMonth}:
+    post:
       tags:
-        - AccountsSummary
+        - Summary
       summary: Retrieve summary for an account
-      operationId: getSummaryByAccountId
+      operationId: postSummary
       parameters:
-        - name: accountId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: yearMonth
           in: path
           required: true
           schema:
             type: string
             format: date
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostSummaryRequestBody'
       responses:
         '200':
           description: Summary found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAccountSummaryResponseBody'
+                $ref: '#/components/schemas/PostSummaryResponseBody'
 components:
   schemas:
+    AccountEnriched:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        currency:
+          $ref: '#/components/schemas/Currency'
+    PostTransactionsRequestBody:
+      type: object
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    PostTransactionsResponseBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        account:
+          $ref: '#/components/schemas/AccountEnriched'
+        userId:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/GetCategoriesResponseBody'
+        amount:
+          type: number
+          format: double
+        status:
+          $ref: '#/components/schemas/TransactionStatus'
+        parentId:
+          type: string
+          format: uuid
+    PostSummaryRequestBody:
+      type: object
+      properties:
+        accountIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    PostSummaryResponseBody:
+      type: object
+      properties:
+        summaries:
+          type: array
+          items:
+            properties:
+              accountId:
+                type: string
+                format: uuid
+              yearMonth:
+                type: string
+                format: date
+              openingBalance:
+                type: number
+                format: double
+              closingBalance:
+                type: number
+                format: double
+              totalDebit:
+                type: number
+                format: double
+              totalCredit:
+                type: number
+                format: double
+              scheduledIncome:
+                type: number
+                format: double
+              scheduledExpenses:
+                type: number
+                format: double
+        totalByCurrency:
+          type: array
+          items:
+            properties:
+              currency:
+                $ref: '#/components/schemas/Currency'
+              summary:
+                type: object
+                properties:
+                  openingBalance:
+                    type: number
+                    format: double
+                  closingBalance:
+                    type: number
+                    format: double
+                  totalDebit:
+                    type: number
+                    format: double
+                  totalCredit:
+                    type: number
+                    format: double
+                  scheduledIncome:
+                    type: number
+                    format: double
+                  scheduledExpenses:
+                    type: number
+                    format: double
+    Currency:
+      type: object
+      properties:
+        name:
+          type: string
+        symbol:
+          type: string
     PostCategoryRequestBody:
       type: object
       properties:
@@ -440,33 +560,6 @@ components:
     TransactionStatus:
       type: string
       enum: [ SCHEDULED, PAID ]
-    GetTransactionsResponseBody:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        userId:
-          type: string
-          format: uuid
-        dateTime:
-          type: string
-          format: date-time
-        dueDate:
-          type: string
-          format: date
-        description:
-          type: string
-        category:
-          $ref: '#/components/schemas/GetCategoriesResponseBody'
-        amount:
-          type: number
-          format: double
-        status:
-          $ref: '#/components/schemas/TransactionStatus'
-        parentId:
-          type: string
-          format: uuid
     PatchTransactionRequestBody:
       type: object
       properties:
@@ -508,30 +601,6 @@ components:
           format: double
         status:
           $ref: '#/components/schemas/TransactionStatus'
-    GetAccountSummaryResponseBody:
-      type: object
-      properties:
-        yearMonth:
-          type: string
-          format: date
-        openingBalance:
-          type: number
-          format: double
-        closingBalance:
-          type: number
-          format: double
-        totalDebit:
-          type: number
-          format: double
-        totalCredit:
-          type: number
-          format: double
-        scheduledIncome:
-          type: number
-          format: double
-        scheduledExpenses:
-          type: number
-          format: double
     Error:
       type: object
       properties:
