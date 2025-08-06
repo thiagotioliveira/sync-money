@@ -1,7 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.user.application.usecase;
 
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateUserInOrganizationInput;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
@@ -11,17 +10,14 @@ import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.UserRepository
 
 public class RegisterUser {
 
-  private final EventPublisher eventPublisher;
   private final OrganizationRepository organizationRepository;
   private final UserRepository userRepository;
   private final InvitationRepository invitationRepository;
 
   public RegisterUser(
-      EventPublisher eventPublisher,
       OrganizationRepository organizationRepository,
       UserRepository userRepository,
       InvitationRepository invitationRepository) {
-    this.eventPublisher = eventPublisher;
     this.organizationRepository = organizationRepository;
     this.userRepository = userRepository;
     this.invitationRepository = invitationRepository;
@@ -42,9 +38,7 @@ public class RegisterUser {
                       .orElseThrow();
                 })
             .orElseGet(() -> this.organizationRepository.create(input.toCreateOrganizationInput()));
-    var user = this.userRepository.register(input, organization);
-    publishEvents(user);
-    return user;
+    return this.userRepository.register(input, organization).addUserRegisteredEvent();
   }
 
   @Deprecated
@@ -56,14 +50,9 @@ public class RegisterUser {
         this.organizationRepository
             .findById(input.organizationId())
             .orElseThrow(() -> BusinessLogicException.notFound("organization not found"));
-    var user =
-        this.userRepository.register(
-            new RegisterUserInput(input.email(), input.name(), input.password()), organization);
-    publishEvents(user);
-    return user;
-  }
-
-  private void publishEvents(User user) {
-    user.getEvents().forEach(this.eventPublisher::publish);
+    return this.userRepository
+        .register(
+            new RegisterUserInput(input.email(), input.name(), input.password()), organization)
+        .addUserRegisteredEvent();
   }
 }

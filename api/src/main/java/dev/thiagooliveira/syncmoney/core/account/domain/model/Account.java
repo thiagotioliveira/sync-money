@@ -1,6 +1,8 @@
 package dev.thiagooliveira.syncmoney.core.account.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountBalanceUpdatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -51,6 +53,24 @@ public class Account extends AggregateRoot {
 
   public Account deposit(BigDecimal amount) {
     this.balance = this.balance.add(amount);
+    return this;
+  }
+
+  public Account addAccountCreatedEvent(UUID userId, BigDecimal initialBalance) {
+    this.registerEvent(
+        new AccountCreatedEvent(
+            this.id,
+            this.name,
+            this.organizationId,
+            userId,
+            this.bankId,
+            initialBalance,
+            this.createdAt));
+    return this;
+  }
+
+  public Account addAccountUpdatedEvent() {
+    this.registerEvent(new AccountBalanceUpdatedEvent(this.id, this.organizationId, this.balance));
     return this;
   }
 

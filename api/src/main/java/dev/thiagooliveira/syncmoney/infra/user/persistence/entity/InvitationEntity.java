@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserInvitedEvent;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.InvitationInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Invitation;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.InvitationStatus;
@@ -61,13 +60,6 @@ public class InvitationEntity {
 
   public Invitation toInvitation() {
     return Invitation.restore(id, createdAt, invitedAt, invitedBy, email, status, organizationId);
-  }
-
-  public Invitation toInvitationInvited() {
-    var invitation = toInvitation();
-    invitation.registerEvent(
-        new UserInvitedEvent(this.invitedBy, this.createdAt, this.email, this.organizationId));
-    return invitation;
   }
 
   public UUID getId() {

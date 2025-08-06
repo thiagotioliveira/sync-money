@@ -15,10 +15,8 @@ public class AccountConfiguration {
 
   @Bean
   public CreateAccount createAccount(
-      EventPublisher eventPublisher,
-      BankRepository bankRepository,
-      AccountRepository accountRepository) {
-    return new CreateAccount(eventPublisher, bankRepository, accountRepository);
+      BankRepository bankRepository, AccountRepository accountRepository) {
+    return new CreateAccount(bankRepository, accountRepository);
   }
 
   @Bean
@@ -27,18 +25,21 @@ public class AccountConfiguration {
   }
 
   @Bean
-  public UpdateAccountBalance updateAccountBalance(
-      EventPublisher eventPublisher, AccountRepository accountRepository) {
-    return new UpdateAccountBalance(eventPublisher, accountRepository);
+  public UpdateAccountBalance updateAccountBalance(AccountRepository accountRepository) {
+    return new UpdateAccountBalance(accountRepository);
   }
 
   @Bean
-  public TransactionEventListener transactionListener(UpdateAccountBalance updateAccountBalance) {
-    return new TransactionEventListener(updateAccountBalance);
+  public TransactionEventListener transactionListener(AccountService accountService) {
+    return new TransactionEventListener(accountService);
   }
 
   @Bean
-  public AccountService accountService(CreateAccount createAccount, GetAccount getAccount) {
-    return new AccountServiceImpl(createAccount, getAccount);
+  public AccountService accountService(
+      EventPublisher eventPublisher,
+      CreateAccount createAccount,
+      GetAccount getAccount,
+      UpdateAccountBalance updateAccountBalance) {
+    return new AccountServiceImpl(eventPublisher, createAccount, getAccount, updateAccountBalance);
   }
 }

@@ -1,6 +1,9 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -100,6 +103,31 @@ public class Transaction extends AggregateRoot {
     transaction.transferId = transferId;
 
     return transaction;
+  }
+
+  public Transaction addTransactionPaidCreatedEvent(CategoryType categoryType) {
+    this.registerEvent(
+        new TransactionPaidEvent(
+            this.getId(),
+            this.getOrganizationId(),
+            this.getAccountId(),
+            this.getUserId(),
+            this.getCategoryId(),
+            categoryType,
+            this.getDateTime(),
+            this.getAmount()));
+    return this;
+  }
+
+  public Transaction addTransactionUpdatedEvent() {
+    this.registerEvent(
+        new TransactionUpdatedEvent(
+            this.getId(),
+            this.getOrganizationId(),
+            this.getAccountId(),
+            this.getDateTime(),
+            this.getAmount()));
+    return this;
   }
 
   public UUID getAccountId() {

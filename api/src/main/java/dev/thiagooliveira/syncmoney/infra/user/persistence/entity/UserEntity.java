@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserRegisteredEvent;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
@@ -51,14 +50,6 @@ public class UserEntity {
   public UserWithPassword toUserWithPassword() {
     return UserWithPassword.restore(
         this.id, this.email, this.name, this.password, this.createdAt, this.organizationId);
-  }
-
-  public User toUserRegistered() {
-    var user = toUser();
-    user.registerEvent(
-        new UserRegisteredEvent(
-            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
-    return user;
   }
 
   public UUID getId() {

@@ -37,16 +37,17 @@ public class UserConfiguration {
 
   @Bean
   public InviteUser inviteUser(
-      EventPublisher eventPublisher,
-      UserRepository userRepository,
-      InvitationRepository invitationRepository) {
-    return new InviteUser(eventPublisher, userRepository, invitationRepository);
+      UserRepository userRepository, InvitationRepository invitationRepository) {
+    return new InviteUser(userRepository, invitationRepository);
   }
 
   @Bean
   public UserService userService(
-      GetUser getUser, InviteUser inviteUser, GetInvitations getInvitations) {
-    return new UserServiceImpl(getUser, inviteUser, getInvitations);
+      EventPublisher eventPublisher,
+      GetUser getUser,
+      InviteUser inviteUser,
+      GetInvitations getInvitations) {
+    return new UserServiceImpl(eventPublisher, getUser, inviteUser, getInvitations);
   }
 
   @Bean

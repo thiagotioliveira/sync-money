@@ -13,6 +13,10 @@ public abstract class AggregateRoot {
     events.add(event);
   }
 
+  public void registerEvents(List<Event> events) {
+    events.addAll(events);
+  }
+
   public List<Event> getEvents() {
     return Collections.unmodifiableList(events);
   }

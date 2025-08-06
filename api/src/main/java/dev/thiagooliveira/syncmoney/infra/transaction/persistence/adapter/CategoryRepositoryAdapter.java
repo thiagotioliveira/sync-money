@@ -21,12 +21,12 @@ public class CategoryRepositoryAdapter implements CategoryRepository {
 
   @Override
   public Category create(CreateCategoryInput input) {
-    return this.categoryJpaRepository.save(CategoryEntity.create(input)).toCategoryCreated();
+    return this.categoryJpaRepository.save(CategoryEntity.create(input)).toCategory();
   }
 
   @Override
   public Category create(CreateDefaultCategoryInput input) {
-    return this.categoryJpaRepository.save(CategoryEntity.create(input)).toCategoryCreated();
+    return this.categoryJpaRepository.save(CategoryEntity.create(input)).toCategory();
   }
 
   @Override

@@ -1,7 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.usecase;
 
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.PayTransactionInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.UpdateTransactionInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
@@ -15,19 +14,16 @@ import java.util.UUID;
 
 public class UpdateTransaction {
 
-  private final EventPublisher eventPublisher;
   private final CategoryRepository categoryRepository;
   private final PayableReceivableRepository payableReceivableRepository;
   private final TransactionRepository transactionRepository;
   private final AccountSummaryCalculator accountSummaryCalculator;
 
   public UpdateTransaction(
-      EventPublisher eventPublisher,
       CategoryRepository categoryRepository,
       PayableReceivableRepository payableReceivableRepository,
       TransactionRepository transactionRepository,
       AccountSummaryCalculator accountSummaryCalculator) {
-    this.eventPublisher = eventPublisher;
     this.categoryRepository = categoryRepository;
     this.payableReceivableRepository = payableReceivableRepository;
     this.transactionRepository = transactionRepository;
@@ -42,8 +38,9 @@ public class UpdateTransaction {
             .orElseThrow(() -> BusinessLogicException.notFound("transaction not found."));
 
     var transactionUpdated =
-        this.transactionRepository.update(transaction.update(input.dueDate(), input.amount()));
-    transactionUpdated.getEvents().forEach(this.eventPublisher::publish);
+        this.transactionRepository
+            .update(transaction.update(input.dueDate(), input.amount()))
+            .addTransactionUpdatedEvent();
 
     if (input.applyNextInstallments() && transactionUpdated.getParentId().isPresent()) {
       this.payableReceivableRepository
@@ -51,20 +48,25 @@ public class UpdateTransaction {
           .ifPresent(
               payableReceivable -> {
                 payableReceivable =
-                    this.payableReceivableRepository.update(
-                        payableReceivable.update(Optional.empty(), input.amount()));
-                payableReceivable.getEvents().forEach(this.eventPublisher::publish);
+                    this.payableReceivableRepository
+                        .update(payableReceivable.update(Optional.empty(), input.amount()))
+                        .addPayableReceivableUpdatedEvent();
+
+                transactionUpdated.registerEvents(payableReceivable.getEvents());
+
                 var transactions =
                     this.transactionRepository.findByParentId(payableReceivable.getId());
                 transactions.stream()
                     .filter(Transaction::isScheduled)
                     .filter(t -> t.getDueDate().isAfter(transactionUpdated.getDueDate()))
                     .forEach(
-                        i ->
-                            this.transactionRepository
-                                .update(i.update(input.dueDate(), input.amount()))
-                                .getEvents()
-                                .forEach(this.eventPublisher::publish));
+                        i -> {
+                          var updated =
+                              this.transactionRepository
+                                  .update(i.update(input.dueDate(), input.amount()))
+                                  .addTransactionUpdatedEvent();
+                          transactionUpdated.registerEvents(updated.getEvents());
+                        });
               });
     }
     this.accountSummaryCalculator.calculate(
@@ -85,9 +87,9 @@ public class UpdateTransaction {
             .getById(input.organizationId(), transaction.getCategoryId())
             .orElseThrow();
     var paid =
-        this.transactionRepository.pay(
-            transaction.pay(input.userId(), input.dateTime(), input.amount()), category);
-    paid.getEvents().forEach(this.eventPublisher::publish);
+        this.transactionRepository
+            .pay(transaction.pay(input.userId(), input.dateTime(), input.amount()), category)
+            .addTransactionPaidCreatedEvent(category.getType());
     this.accountSummaryCalculator.calculate(
         input.organizationId(),
         input.accountId(),

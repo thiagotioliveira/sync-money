@@ -24,14 +24,14 @@ public class PayableReceivableRepositoryAdapter implements PayableReceivableRepo
   public PayableReceivable create(CreatePayableReceivableInput input) {
     return this.payableReceivableJpaRepository
         .save(PayableReceivableEntity.from(input))
-        .toPayableReceivableCreated();
+        .toPayableReceivable();
   }
 
   @Override
   public PayableReceivable update(PayableReceivable payableReceivable) {
     return this.payableReceivableJpaRepository
         .save(PayableReceivableEntity.restore(payableReceivable))
-        .toPayableReceivableUpdated();
+        .toPayableReceivable();
   }
 
   public List<PayableReceivable> getRecurringByAccountId(UUID accountId, YearMonth yearMonth) {

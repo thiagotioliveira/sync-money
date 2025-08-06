@@ -45,6 +45,6 @@ public class UserRepositoryAdapter implements UserRepository {
 
   @Override
   public User register(RegisterUserInput input, Organization organization) {
-    return this.userJpaRepository.save(UserEntity.create(input, organization)).toUserRegistered();
+    return this.userJpaRepository.save(UserEntity.create(input, organization)).toUser();
   }
 }

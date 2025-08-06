@@ -1,18 +1,18 @@
 package dev.thiagooliveira.syncmoney.core.account.domain.port.income;
 
 import dev.thiagooliveira.syncmoney.core.account.application.dto.UpdateAccountBalanceInput;
-import dev.thiagooliveira.syncmoney.core.account.application.usecase.UpdateAccountBalance;
+import dev.thiagooliveira.syncmoney.core.account.application.service.AccountService;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
 
 public class TransactionEventListener {
 
-  private final UpdateAccountBalance updateAccountBalance;
+  private final AccountService accountService;
 
-  public TransactionEventListener(UpdateAccountBalance updateAccountBalance) {
-    this.updateAccountBalance = updateAccountBalance;
+  public TransactionEventListener(AccountService accountService) {
+    this.accountService = accountService;
   }
 
   public void listen(TransactionPaidEvent event) {
-    this.updateAccountBalance.execute(new UpdateAccountBalanceInput(event));
+    this.accountService.updateBalance(new UpdateAccountBalanceInput(event));
   }
 }

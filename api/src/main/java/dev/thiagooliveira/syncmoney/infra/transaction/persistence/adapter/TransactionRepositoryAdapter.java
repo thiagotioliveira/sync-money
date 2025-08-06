@@ -24,10 +24,8 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
   }
 
   @Override
-  public Transaction create(CreateTransactionInput input, Category category) {
-    return this.transactionJpaRepository
-        .save(TransactionEntity.createPaid(input))
-        .toTransactionPaidCreated(category.getType());
+  public Transaction create(CreateTransactionInput input) {
+    return this.transactionJpaRepository.save(TransactionEntity.createPaid(input)).toTransaction();
   }
 
   @Override
@@ -39,21 +37,21 @@ public class TransactionRepositoryAdapter implements TransactionRepository {
   public Installment createInstallment(Installment installment) {
     return this.transactionJpaRepository
         .save(TransactionEntity.createScheduled(installment))
-        .toInstallmentCreated();
+        .toInstallment();
   }
 
   @Override
   public Transaction update(Transaction transaction) {
     return this.transactionJpaRepository
         .save(TransactionEntity.restore(transaction))
-        .toTransactionUpdated();
+        .toTransaction();
   }
 
   @Override
   public Transaction pay(Transaction transaction, Category category) {
     return this.transactionJpaRepository
         .save(TransactionEntity.restore(transaction))
-        .toTransactionPaidCreated(category.getType());
+        .toTransaction();
   }
 
   @Override

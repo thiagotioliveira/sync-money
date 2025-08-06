@@ -1,7 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreatePayableReceivableInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
 import jakarta.persistence.*;
@@ -88,32 +86,6 @@ public class PayableReceivableEntity {
         this.endDate,
         this.recurring,
         Optional.ofNullable(this.installmentTotal));
-  }
-
-  public PayableReceivable toPayableReceivableCreated() {
-    var payableReceivable = toPayableReceivable();
-    payableReceivable.registerEvent(
-        new PayableReceivableCreatedEvent(
-            payableReceivable.getId(),
-            payableReceivable.getOrganizationId(),
-            payableReceivable.getAccountId(),
-            payableReceivable.getStartDate(),
-            payableReceivable.getEndDate(),
-            payableReceivable.isRecurring()));
-    return payableReceivable;
-  }
-
-  public PayableReceivable toPayableReceivableUpdated() {
-    var payableReceivable = toPayableReceivable();
-    payableReceivable.registerEvent(
-        new PayableReceivableUpdatedEvent(
-            payableReceivable.getId(),
-            payableReceivable.getOrganizationId(),
-            payableReceivable.getAccountId(),
-            payableReceivable.getStartDate(),
-            payableReceivable.getEndDate(),
-            payableReceivable.isRecurring()));
-    return payableReceivable;
   }
 
   public UUID getAccountId() {

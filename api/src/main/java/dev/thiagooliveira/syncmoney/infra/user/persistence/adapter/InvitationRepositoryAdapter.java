@@ -22,7 +22,7 @@ public class InvitationRepositoryAdapter implements InvitationRepository {
 
   @Override
   public Invitation invite(InvitationInput input) {
-    return this.invitationJpaRepository.save(InvitationEntity.create(input)).toInvitationInvited();
+    return this.invitationJpaRepository.save(InvitationEntity.create(input)).toInvitation();
   }
 
   @Override

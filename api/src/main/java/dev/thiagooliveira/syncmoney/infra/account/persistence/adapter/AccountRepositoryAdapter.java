@@ -21,9 +21,7 @@ public class AccountRepositoryAdapter implements AccountRepository {
 
   @Override
   public Account create(CreateAccountInput input) {
-    return this.accountJpaRepository
-        .save(AccountEntity.create(input))
-        .toAccountCreated(input.userId(), input.initialBalance());
+    return this.accountJpaRepository.save(AccountEntity.create(input)).toAccount();
   }
 
   @Override
@@ -52,6 +50,6 @@ public class AccountRepositoryAdapter implements AccountRepository {
 
   @Override
   public Account update(Account account) {
-    return this.accountJpaRepository.save(AccountEntity.restore(account)).toAccountUpdated();
+    return this.accountJpaRepository.save(AccountEntity.restore(account)).toAccount();
   }
 }

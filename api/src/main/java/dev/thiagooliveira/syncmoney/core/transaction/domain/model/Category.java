@@ -2,6 +2,7 @@ package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.CategoryCreatedEvent;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +23,11 @@ public class Category extends AggregateRoot {
     category.name = name;
     category.type = type;
     return category;
+  }
+
+  public Category addCategoryCreatedEvent() {
+    this.registerEvent(new CategoryCreatedEvent(this));
+    return this;
   }
 
   public boolean isCredit() {

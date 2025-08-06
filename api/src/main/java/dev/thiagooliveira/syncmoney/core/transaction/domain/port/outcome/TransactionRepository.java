@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface TransactionRepository {
 
-  Transaction create(CreateTransactionInput input, Category category);
+  Transaction create(CreateTransactionInput input);
 
   List<Installment> createInstallments(List<Installment> installments);
 

@@ -1,20 +1,18 @@
 package dev.thiagooliveira.syncmoney.core.account.application.usecase;
 
 import dev.thiagooliveira.syncmoney.core.account.application.dto.UpdateAccountBalanceInput;
+import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.AccountRepository;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 
 public class UpdateAccountBalance {
-  private final EventPublisher eventPublisher;
   private final AccountRepository accountRepository;
 
-  public UpdateAccountBalance(EventPublisher eventPublisher, AccountRepository accountRepository) {
-    this.eventPublisher = eventPublisher;
+  public UpdateAccountBalance(AccountRepository accountRepository) {
     this.accountRepository = accountRepository;
   }
 
-  public void execute(UpdateAccountBalanceInput input) {
+  public Account execute(UpdateAccountBalanceInput input) {
     var account =
         this.accountRepository
             .getById(input.organizationId(), input.accountId())
@@ -26,6 +24,6 @@ public class UpdateAccountBalance {
     } else {
       throw BusinessLogicException.badRequest("category type not supported");
     }
-    account.getEvents().forEach(this.eventPublisher::publish);
+    return account.addAccountUpdatedEvent();
   }
 }

@@ -3,7 +3,6 @@ package dev.thiagooliveira.syncmoney.infra.account.persistence.entity;
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.Currency;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
 import jakarta.persistence.*;
 import java.util.UUID;
 
@@ -55,13 +54,6 @@ public class BankEntity {
 
   public Bank toBank() {
     return Bank.restore(id, organizationId, name, currency);
-  }
-
-  public Bank toBankCreated() {
-    var bank = Bank.restore(id, organizationId, name, currency);
-    bank.registerEvent(
-        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId()));
-    return bank;
   }
 
   public UUID getId() {

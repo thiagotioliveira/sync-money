@@ -1,7 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.CategoryCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
@@ -53,12 +52,6 @@ public class CategoryEntity {
 
   public Category toCategory() {
     return Category.restore(id, Optional.ofNullable(organizationId), name, type);
-  }
-
-  public Category toCategoryCreated() {
-    var category = toCategory();
-    category.registerEvent(new CategoryCreatedEvent(category));
-    return category;
   }
 
   public UUID getId() {

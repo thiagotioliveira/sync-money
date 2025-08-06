@@ -1,9 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionScheduledCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Installment;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
@@ -118,27 +114,17 @@ public class TransactionEntity {
     return entity;
   }
 
-  public Installment toInstallmentCreated() {
-    var installment =
-        Installment.restore(
-            id,
-            accountId,
-            organizationId,
-            parent.getId(),
-            dueDate,
-            description,
-            category.getId(),
-            amount,
-            status);
-    installment.registerEvent(
-        new TransactionScheduledCreatedEvent(
-            installment.getId(),
-            installment.getOrganizationId(),
-            installment.getAccountId(),
-            installment.getCategoryId(),
-            installment.getDueDate(),
-            installment.getAmount()));
-    return installment;
+  public Installment toInstallment() {
+    return Installment.restore(
+        id,
+        accountId,
+        organizationId,
+        parent.getId(),
+        dueDate,
+        description,
+        category.getId(),
+        amount,
+        status);
   }
 
   public Transaction toTransaction() {
@@ -155,33 +141,6 @@ public class TransactionEntity {
         status,
         parent != null ? Optional.of(parent.getId()) : Optional.empty(),
         transfer != null ? Optional.of(transfer.getId()) : Optional.empty());
-  }
-
-  public Transaction toTransactionPaidCreated(CategoryType categoryType) {
-    var transaction = toTransaction();
-    transaction.registerEvent(
-        new TransactionPaidEvent(
-            transaction.getId(),
-            transaction.getOrganizationId(),
-            transaction.getAccountId(),
-            transaction.getUserId(),
-            transaction.getCategoryId(),
-            categoryType,
-            transaction.getDateTime(),
-            transaction.getAmount()));
-    return transaction;
-  }
-
-  public Transaction toTransactionUpdated() {
-    var transaction = toTransaction();
-    transaction.registerEvent(
-        new TransactionUpdatedEvent(
-            transaction.getId(),
-            transaction.getOrganizationId(),
-            transaction.getAccountId(),
-            transaction.getDateTime(),
-            transaction.getAmount()));
-    return transaction;
   }
 
   public UUID getId() {

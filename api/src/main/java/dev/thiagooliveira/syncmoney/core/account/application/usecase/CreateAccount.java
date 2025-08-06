@@ -5,19 +5,13 @@ import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.AccountRepository;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 
 public class CreateAccount {
 
-  private final EventPublisher eventPublisher;
   private final BankRepository bankRepository;
   private final AccountRepository accountRepository;
 
-  public CreateAccount(
-      EventPublisher eventPublisher,
-      BankRepository bankRepository,
-      AccountRepository accountRepository) {
-    this.eventPublisher = eventPublisher;
+  public CreateAccount(BankRepository bankRepository, AccountRepository accountRepository) {
     this.bankRepository = bankRepository;
     this.accountRepository = accountRepository;
   }
@@ -30,8 +24,8 @@ public class CreateAccount {
     if (!this.bankRepository.existsById(input.organizationId(), input.bankId())) {
       throw BusinessLogicException.notFound("bank with id '" + input.bankId() + "' not found");
     }
-    Account account = this.accountRepository.create(input);
-    account.getEvents().forEach(this.eventPublisher::publish);
-    return account;
+    return this.accountRepository
+        .create(input)
+        .addAccountCreatedEvent(input.userId(), input.initialBalance());
   }
 }

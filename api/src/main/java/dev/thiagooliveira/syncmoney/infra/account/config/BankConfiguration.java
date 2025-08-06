@@ -13,13 +13,14 @@ import org.springframework.context.annotation.Configuration;
 public class BankConfiguration {
 
   @Bean
-  public CreateBank createBank(EventPublisher eventPublisher, BankRepository bankRepository) {
-    return new CreateBank(eventPublisher, bankRepository);
+  public CreateBank createBank(BankRepository bankRepository) {
+    return new CreateBank(bankRepository);
   }
 
   @Bean
-  public BankService bankService(CreateBank createBank, GetBank getBank) {
-    return new BankServiceImpl(createBank, getBank);
+  public BankService bankService(
+      EventPublisher eventPublisher, CreateBank createBank, GetBank getBank) {
+    return new BankServiceImpl(eventPublisher, createBank, getBank);
   }
 
   @Bean

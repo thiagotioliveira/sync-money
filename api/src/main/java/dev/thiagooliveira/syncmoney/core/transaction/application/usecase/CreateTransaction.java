@@ -1,7 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.usecase;
 
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
@@ -11,19 +10,16 @@ import java.time.YearMonth;
 
 public class CreateTransaction {
 
-  private final EventPublisher eventPublisher;
   private final AccountClient accountClient;
   private final GetCategory getCategory;
   private final TransactionRepository transactionRepository;
   private final AccountSummaryCalculator accountSummaryCalculator;
 
   public CreateTransaction(
-      EventPublisher eventPublisher,
       AccountClient accountClient,
       GetCategory getCategory,
       TransactionRepository transactionRepository,
       AccountSummaryCalculator accountSummaryCalculator) {
-    this.eventPublisher = eventPublisher;
     this.accountClient = accountClient;
     this.getCategory = getCategory;
     this.transactionRepository = transactionRepository;
@@ -41,7 +37,8 @@ public class CreateTransaction {
     if (!category.getType().isCredit()) {
       throw BusinessLogicException.badRequest("category type not supported");
     }
-    var transactionPaid = this.transactionRepository.create(input, category);
+    var transactionPaid =
+        this.transactionRepository.create(input).addTransactionPaidCreatedEvent(category.getType());
 
     this.accountSummaryCalculator.calculate(
         input.organizationId(),
@@ -49,7 +46,6 @@ public class CreateTransaction {
         YearMonth.of(
             transactionPaid.getDueDate().getYear(), transactionPaid.getDueDate().getMonth()));
 
-    transactionPaid.getEvents().forEach(this.eventPublisher::publish);
     return transactionPaid;
   }
 
@@ -64,13 +60,13 @@ public class CreateTransaction {
     if (!category.getType().isDebit()) {
       throw BusinessLogicException.badRequest("category type not supported");
     }
-    var transactionPaid = this.transactionRepository.create(input, category);
+    var transactionPaid =
+        this.transactionRepository.create(input).addTransactionPaidCreatedEvent(category.getType());
     this.accountSummaryCalculator.calculate(
         input.organizationId(),
         input.accountId(),
         YearMonth.of(
             transactionPaid.getDueDate().getYear(), transactionPaid.getDueDate().getMonth()));
-    transactionPaid.getEvents().forEach(this.eventPublisher::publish);
     return transactionPaid;
   }
 }

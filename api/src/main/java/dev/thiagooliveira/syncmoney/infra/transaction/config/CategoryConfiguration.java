@@ -2,7 +2,7 @@ package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryService;
-import dev.thiagooliveira.syncmoney.core.transaction.application.service.impl.CategoryServiceImpl;
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryServiceImpl;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateCategory;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.CategoryRepository;
@@ -20,9 +20,8 @@ public class CategoryConfiguration {
   }
 
   @Bean
-  public CreateCategory createCategory(
-      EventPublisher eventPublisher, CategoryRepository categoryRepository) {
-    return new CreateCategory(eventPublisher, categoryRepository);
+  public CreateCategory createCategory(CategoryRepository categoryRepository) {
+    return new CreateCategory(categoryRepository);
   }
 
   @Bean
@@ -31,7 +30,8 @@ public class CategoryConfiguration {
   }
 
   @Bean
-  public CategoryService categoryService(CreateCategory createCategory, GetCategory getCategory) {
-    return new CategoryServiceImpl(createCategory, getCategory);
+  public CategoryService categoryService(
+      EventPublisher eventPublisher, CreateCategory createCategory, GetCategory getCategory) {
+    return new CategoryServiceImpl(eventPublisher, createCategory, getCategory);
   }
 }

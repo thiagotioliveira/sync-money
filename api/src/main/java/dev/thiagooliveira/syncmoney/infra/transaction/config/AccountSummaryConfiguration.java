@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
-import dev.thiagooliveira.syncmoney.core.transaction.application.service.impl.AccountSummaryServiceImpl;
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryServiceImpl;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetTransaction;
@@ -37,7 +37,8 @@ public class AccountSummaryConfiguration {
   }
 
   @Bean
-  public AccountSummaryService accountSummaryService(GetAccountSummary getAccountSummary) {
-    return new AccountSummaryServiceImpl(getAccountSummary);
+  public AccountSummaryService accountSummaryService(
+      GetAccountSummary getAccountSummary, CreateAccountSummary createAccountSummary) {
+    return new AccountSummaryServiceImpl(getAccountSummary, createAccountSummary);
   }
 }

@@ -4,15 +4,12 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 
 public class CreateBank {
 
-  private final EventPublisher eventPublisher;
   private final BankRepository bankRepository;
 
-  public CreateBank(EventPublisher eventPublisher, BankRepository bankRepository) {
-    this.eventPublisher = eventPublisher;
+  public CreateBank(BankRepository bankRepository) {
     this.bankRepository = bankRepository;
   }
 
@@ -20,8 +17,6 @@ public class CreateBank {
     if (this.bankRepository.existsByName(input.organizationId(), input.name())) {
       throw BusinessLogicException.badRequest("bank already exists");
     }
-    Bank bank = bankRepository.create(input);
-    bank.getEvents().forEach(this.eventPublisher::publish);
-    return bank;
+    return bankRepository.create(input).addBankCreatedEvent();
   }
 }

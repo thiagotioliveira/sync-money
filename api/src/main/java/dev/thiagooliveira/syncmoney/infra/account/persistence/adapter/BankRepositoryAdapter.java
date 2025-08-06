@@ -21,7 +21,7 @@ public class BankRepositoryAdapter implements BankRepository {
 
   @Override
   public Bank create(CreateBankInput input) {
-    return this.bankJpaRepository.save(BankEntity.create(input)).toBankCreated();
+    return this.bankJpaRepository.save(BankEntity.create(input)).toBank();
   }
 
   @Override

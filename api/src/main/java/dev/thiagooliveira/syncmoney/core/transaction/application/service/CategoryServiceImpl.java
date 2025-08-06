@@ -1,8 +1,8 @@
-package dev.thiagooliveira.syncmoney.core.transaction.application.service.impl;
+package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
-import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateCategory;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
@@ -12,22 +12,29 @@ import java.util.UUID;
 
 public class CategoryServiceImpl implements CategoryService {
 
+  private final EventPublisher eventPublisher;
   private final CreateCategory createCategory;
   private final GetCategory getCategory;
 
-  public CategoryServiceImpl(CreateCategory createCategory, GetCategory getCategory) {
+  public CategoryServiceImpl(
+      EventPublisher eventPublisher, CreateCategory createCategory, GetCategory getCategory) {
+    this.eventPublisher = eventPublisher;
     this.createCategory = createCategory;
     this.getCategory = getCategory;
   }
 
   @Override
   public Category create(CreateCategoryInput input) {
-    return this.createCategory.execute(input);
+    Category category = this.createCategory.execute(input);
+    category.getEvents().forEach(this.eventPublisher::publish);
+    return category;
   }
 
   @Override
   public Category create(CreateDefaultCategoryInput input) {
-    return this.createCategory.execute(input);
+    Category category = this.createCategory.execute(input);
+    category.getEvents().forEach(this.eventPublisher::publish);
+    return category;
   }
 
   @Override

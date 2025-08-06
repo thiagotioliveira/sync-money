@@ -1,7 +1,7 @@
-package dev.thiagooliveira.syncmoney.core.transaction.application.service.impl;
+package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.*;
-import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public class TransactionServiceImpl implements TransactionService {
 
+  private final EventPublisher eventPublisher;
   private final CreateTransaction createTransaction;
   private final CreatePayableReceivable createPayableReceivable;
   private final UpdateTransaction updateTransaction;
@@ -19,11 +20,13 @@ public class TransactionServiceImpl implements TransactionService {
   private final CreateTransfer createTransfer;
 
   public TransactionServiceImpl(
+      EventPublisher eventPublisher,
       CreateTransaction createTransaction,
       CreatePayableReceivable createPayableReceivable,
       UpdateTransaction updateTransaction,
       GetTransaction getTransaction,
       CreateTransfer createTransfer) {
+    this.eventPublisher = eventPublisher;
     this.createTransaction = createTransaction;
     this.createPayableReceivable = createPayableReceivable;
     this.updateTransaction = updateTransaction;
@@ -38,33 +41,46 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   public Transaction createDeposit(CreateTransactionInput input) {
-    return this.createTransaction.deposit(input);
+    Transaction transaction = this.createTransaction.deposit(input);
+    transaction.getEvents().forEach(this.eventPublisher::publish);
+    return transaction;
   }
 
   @Override
   public Transaction createWithdraw(CreateTransactionInput input) {
-    return this.createTransaction.withdraw(input);
+    Transaction transaction = this.createTransaction.withdraw(input);
+    transaction.getEvents().forEach(this.eventPublisher::publish);
+    return transaction;
   }
 
   @Override
   public PayableReceivable createPayable(CreatePayableReceivableInput input) {
-    return this.createPayableReceivable.payable(input);
+    PayableReceivable payableReceivable = this.createPayableReceivable.payable(input);
+    payableReceivable.getEvents().forEach(this.eventPublisher::publish);
+    return payableReceivable;
   }
 
   @Override
   public PayableReceivable createReceivable(CreatePayableReceivableInput input) {
-    return this.createPayableReceivable.receivable(input);
+    PayableReceivable payableReceivable = this.createPayableReceivable.receivable(input);
+    payableReceivable.getEvents().forEach(this.eventPublisher::publish);
+    return payableReceivable;
   }
 
   @Override
   public Transaction update(
       UUID organizationId, UUID accountId, UUID transactionId, UpdateTransactionInput input) {
-    return this.updateTransaction.update(organizationId, accountId, transactionId, input);
+    Transaction transaction =
+        this.updateTransaction.update(organizationId, accountId, transactionId, input);
+    transaction.getEvents().forEach(this.eventPublisher::publish);
+    return transaction;
   }
 
   @Override
   public Transaction pay(PayTransactionInput input) {
-    return this.updateTransaction.pay(input);
+    Transaction transaction = this.updateTransaction.pay(input);
+    transaction.getEvents().forEach(this.eventPublisher::publish);
+    return transaction;
   }
 
   @Override

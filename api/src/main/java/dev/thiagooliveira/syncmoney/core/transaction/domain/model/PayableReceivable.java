@@ -1,6 +1,8 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableCreatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableUpdatedEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -107,6 +109,30 @@ public class PayableReceivable extends AggregateRoot {
         this.categoryId,
         amount,
         TransactionStatus.SCHEDULED);
+  }
+
+  public PayableReceivable addPayableReceivableCreatedEvent() {
+    this.registerEvent(
+        new PayableReceivableCreatedEvent(
+            this.getId(),
+            this.getOrganizationId(),
+            this.getAccountId(),
+            this.getStartDate(),
+            this.getEndDate(),
+            this.isRecurring()));
+    return this;
+  }
+
+  public PayableReceivable addPayableReceivableUpdatedEvent() {
+    this.registerEvent(
+        new PayableReceivableUpdatedEvent(
+            this.getId(),
+            this.getOrganizationId(),
+            this.getAccountId(),
+            this.getStartDate(),
+            this.getEndDate(),
+            this.isRecurring()));
+    return this;
   }
 
   public UUID getAccountId() {

@@ -2,8 +2,6 @@ package dev.thiagooliveira.syncmoney.infra.account.persistence.entity;
 
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountBalanceUpdatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -63,28 +61,6 @@ public class AccountEntity {
   public Account toAccount() {
     return Account.restore(
         id, name, this.bank.getId(), organizationId, balance, createdAt, version);
-  }
-
-  public Account toAccountCreated(UUID userId, BigDecimal initialBalance) {
-    var account = toAccount();
-    account.registerEvent(
-        new AccountCreatedEvent(
-            account.getId(),
-            account.getName(),
-            account.getOrganizationId(),
-            userId,
-            account.getBankId(),
-            initialBalance,
-            account.getCreatedAt()));
-    return account;
-  }
-
-  public Account toAccountUpdated() {
-    var account = toAccount();
-    account.registerEvent(
-        new AccountBalanceUpdatedEvent(
-            account.getId(), account.getOrganizationId(), account.getBalance()));
-    return account;
   }
 
   public OffsetDateTime getCreatedAt() {

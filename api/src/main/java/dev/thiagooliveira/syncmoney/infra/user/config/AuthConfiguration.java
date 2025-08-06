@@ -16,25 +16,21 @@ import org.springframework.context.annotation.Configuration;
 public class AuthConfiguration {
 
   @Bean
-  public Login login(
-      EventPublisher eventPublisher,
-      CredentialEncoder credentialEncoder,
-      UserRepository userRepository) {
-    return new Login(eventPublisher, credentialEncoder, userRepository);
+  public Login login(CredentialEncoder credentialEncoder, UserRepository userRepository) {
+    return new Login(credentialEncoder, userRepository);
   }
 
   @Bean
   public RegisterUser registerUser(
-      EventPublisher eventPublisher,
       OrganizationRepository organizationRepository,
       UserRepository userRepository,
       InvitationRepository invitationRepository) {
-    return new RegisterUser(
-        eventPublisher, organizationRepository, userRepository, invitationRepository);
+    return new RegisterUser(organizationRepository, userRepository, invitationRepository);
   }
 
   @Bean
-  public AuthService authService(Login login, RegisterUser registerUser) {
-    return new AuthServiceImpl(login, registerUser);
+  public AuthService authService(
+      EventPublisher eventPublisher, Login login, RegisterUser registerUser) {
+    return new AuthServiceImpl(eventPublisher, login, registerUser);
   }
 }
