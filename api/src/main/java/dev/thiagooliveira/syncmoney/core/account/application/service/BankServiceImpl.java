@@ -4,30 +4,26 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.CreateBank;
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetBank;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import java.util.List;
 import java.util.UUID;
 
 public class BankServiceImpl implements BankService {
 
-  private final EventPublisher eventPublisher;
+  private final DomainEventContext domainEventContext;
   private final CreateBank createBank;
   private final GetBank getBank;
 
-  public BankServiceImpl(EventPublisher eventPublisher, CreateBank createBank, GetBank getBank) {
-    this.eventPublisher = eventPublisher;
+  public BankServiceImpl(
+      DomainEventContext domainEventContext, CreateBank createBank, GetBank getBank) {
+    this.domainEventContext = domainEventContext;
     this.createBank = createBank;
     this.getBank = getBank;
   }
 
-  @DomainEventScoped
   @Override
   public Bank createBank(CreateBankInput input) {
-    Bank bank = this.createBank.execute(input);
-    DomainEventPublisher.publish(this.eventPublisher::publish);
-    return bank;
+    return this.domainEventContext.execute(() -> this.createBank.execute(input));
   }
 
   @Override

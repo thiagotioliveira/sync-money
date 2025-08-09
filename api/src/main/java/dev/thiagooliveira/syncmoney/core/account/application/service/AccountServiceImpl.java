@@ -5,31 +5,27 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountIn
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.CreateAccount;
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetAccount;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class AccountServiceImpl implements AccountService {
-  private final EventPublisher eventPublisher;
+
+  private final DomainEventContext domainEventContext;
   private final CreateAccount createAccount;
   private final GetAccount getAccount;
 
   public AccountServiceImpl(
-      EventPublisher eventPublisher, CreateAccount createAccount, GetAccount getAccount) {
-    this.eventPublisher = eventPublisher;
+      DomainEventContext domainEventContext, CreateAccount createAccount, GetAccount getAccount) {
+    this.domainEventContext = domainEventContext;
     this.createAccount = createAccount;
     this.getAccount = getAccount;
   }
 
-  @DomainEventScoped
   @Override
   public Account createAccount(CreateAccountInput input) {
-    Account account = this.createAccount.execute(input);
-    DomainEventPublisher.publish(this.eventPublisher::publish);
-    return account;
+    return this.domainEventContext.execute(() -> this.createAccount.execute(input));
   }
 
   @Override

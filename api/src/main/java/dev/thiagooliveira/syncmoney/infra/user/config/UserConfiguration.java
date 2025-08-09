@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.user.config;
 
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.user.application.service.UserService;
 import dev.thiagooliveira.syncmoney.core.user.application.service.UserServiceImpl;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.GetInvitations;
@@ -43,11 +43,11 @@ public class UserConfiguration {
 
   @Bean
   public UserService userService(
-      EventPublisher eventPublisher,
+      DomainEventContext domainEventContext,
       GetUser getUser,
       InviteUser inviteUser,
       GetInvitations getInvitations) {
-    return new UserServiceImpl(eventPublisher, getUser, inviteUser, getInvitations);
+    return new UserServiceImpl(domainEventContext, getUser, inviteUser, getInvitations);
   }
 
   @Bean

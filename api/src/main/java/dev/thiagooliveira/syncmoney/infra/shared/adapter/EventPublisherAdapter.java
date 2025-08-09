@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.infra.support.event.adapter;
+package dev.thiagooliveira.syncmoney.infra.shared.adapter;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;

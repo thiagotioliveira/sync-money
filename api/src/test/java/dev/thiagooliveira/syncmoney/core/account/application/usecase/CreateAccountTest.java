@@ -9,7 +9,6 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountIn
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.AccountRepository;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class CreateAccountTest {
-
-  @Mock private EventPublisher eventPublisher;
 
   @Mock private BankRepository bankRepository;
 
@@ -52,7 +49,6 @@ class CreateAccountTest {
     // Assert
     assertNotNull(account);
     verify(accountRepository).create(eq(input));
-    verify(eventPublisher, times(1)).publish(any());
   }
 
   @Test

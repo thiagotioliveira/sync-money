@@ -4,12 +4,11 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountIn
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.Currency;
+import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
-import dev.thiagooliveira.syncmoney.infra.security.service.UserAuthenticated;
+import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -30,52 +29,20 @@ public class TestUtil {
     return new RegisterUserInput(USER_EMAIL, USER_NAME, "some-password");
   }
 
-  public static Organization createOrganization() {
-    return Organization.create(USER_EMAIL);
+  public static OrganizationEntity createOrganizationEntity() {
+    var entity = new OrganizationEntity();
+    entity.setId(UUID.randomUUID());
+    entity.setCreatedAt(OffsetDateTime.now());
+    entity.setEmailOwner(USER_EMAIL);
+    return entity;
   }
 
-  public static UserAuthenticated userAuthenticated(User user) {
-    return new UserAuthenticated(user);
-  }
-
-  //  public static User createUser(Organization organization) {
-  //    User user = User.create(USER_EMAIL, USER_NAME, organization);
-  //    user.registerEvent(
-  //        new UserRegisteredEvent(
-  //            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
-  //    return user;
-  //  }
-
-  public static User getUser(Organization organization) {
-    User user = User.create(USER_EMAIL, USER_NAME, organization);
-    return user;
-  }
-
-  public static UserWithPassword getUserWithPassword(Organization organization) {
-    User user = User.create(USER_EMAIL, USER_NAME, organization);
-    return UserWithPassword.restore(
-        user.getId(),
-        user.getEmail(),
-        user.getName(),
-        "some-pass",
-        user.getCreatedAt(),
-        user.getOrganizationId());
+  public static CreateCategoryInput createCreditCategory(UUID organizationId) {
+    return new CreateCategoryInput(organizationId, CATEGORY_CREDIT_NAME, CategoryType.CREDIT);
   }
 
   public static CreateBankInput createBankInput(UUID organizationId) {
     return new CreateBankInput(organizationId, BANK_NAME, BANK_CURRENCY);
-  }
-
-  //  public static Bank createBank(UUID organizationId) {
-  //    var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
-  //    bank.registerEvent(
-  //        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId(), null));
-  //    return bank;
-  //  }
-
-  public static Bank getBank(UUID organizationId) {
-    var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
-    return bank;
   }
 
   public static CreateAccountInput createAccountInput(
@@ -95,4 +62,58 @@ public class TestUtil {
             0L);
     return account;
   }
+
+  public static Bank createBank(UUID organizationId) {
+    var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
+    return bank;
+  }
+
+  /*
+   public static Organization createOrganization() {
+     return Organization.create(USER_EMAIL);
+   }
+
+   public static UserAuthenticated userAuthenticated(User user) {
+     return new UserAuthenticated(user);
+   }
+
+   //  public static User createUser(Organization organization) {
+   //    User user = User.create(USER_EMAIL, USER_NAME, organization);
+   //    user.registerEvent(
+   //        new UserRegisteredEvent(
+   //            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
+   //    return user;
+   //  }
+
+   public static User getUser(Organization organization) {
+     User user = User.create(USER_EMAIL, USER_NAME, organization);
+     return user;
+   }
+
+   public static UserWithPassword getUserWithPassword(Organization organization) {
+     User user = User.create(USER_EMAIL, USER_NAME, organization);
+     return UserWithPassword.restore(
+         user.getId(),
+         user.getEmail(),
+         user.getName(),
+         "some-pass",
+         user.getCreatedAt(),
+         user.getOrganizationId());
+   }
+
+
+
+   //  public static Bank createBank(UUID organizationId) {
+   //    var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
+   //    bank.registerEvent(
+   //        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId(), null));
+   //    return bank;
+   //  }
+
+
+
+
+
+
+  */
 }

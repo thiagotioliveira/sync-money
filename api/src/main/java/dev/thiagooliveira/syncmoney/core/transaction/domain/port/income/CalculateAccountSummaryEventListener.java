@@ -1,9 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.port.income;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableUpdatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionUpdatedEvent;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.*;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import java.time.YearMonth;
 
@@ -13,6 +10,13 @@ public class CalculateAccountSummaryEventListener {
 
   public CalculateAccountSummaryEventListener(AccountSummaryCalculator accountSummaryCalculator) {
     this.accountSummaryCalculator = accountSummaryCalculator;
+  }
+
+  public void on(TransactionScheduledCreatedEvent event) {
+    this.accountSummaryCalculator.calculate(
+        event.getOrganizationId(),
+        event.getAccountId(),
+        YearMonth.of(event.getDateTime().getYear(), event.getDateTime().getMonth()));
   }
 
   public void on(TransactionPaidEvent event) {

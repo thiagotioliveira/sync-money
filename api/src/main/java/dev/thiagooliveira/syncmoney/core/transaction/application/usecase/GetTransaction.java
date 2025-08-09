@@ -69,8 +69,9 @@ public class GetTransaction {
       var dueDate = yearMonth.atDay(dayBase);
       if (!this.transactionRepository.existsByParentIdAndDueDate(
           payableReceivable.getId(), dueDate)) {
-        this.transactionRepository.createInstallment(
-            payableReceivable.generateInstallment(dueDate));
+        this.transactionRepository
+            .createInstallment(payableReceivable.generateInstallment(dueDate))
+            .created();
       }
     }
   }

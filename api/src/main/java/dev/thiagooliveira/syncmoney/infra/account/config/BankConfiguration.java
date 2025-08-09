@@ -5,7 +5,7 @@ import dev.thiagooliveira.syncmoney.core.account.application.service.BankService
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.CreateBank;
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetBank;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,8 +19,8 @@ public class BankConfiguration {
 
   @Bean
   public BankService bankService(
-      EventPublisher eventPublisher, CreateBank createBank, GetBank getBank) {
-    return new BankServiceImpl(eventPublisher, createBank, getBank);
+      DomainEventContext domainEventContext, CreateBank createBank, GetBank getBank) {
+    return new BankServiceImpl(domainEventContext, createBank, getBank);
   }
 
   @Bean

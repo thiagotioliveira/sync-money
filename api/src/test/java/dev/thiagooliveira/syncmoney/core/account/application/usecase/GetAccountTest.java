@@ -46,7 +46,7 @@ class GetAccountTest {
   void getById() {
     UUID organizationId = UUID.randomUUID();
     UUID accountId = UUID.randomUUID();
-    Bank bank = TestUtil.getBank(organizationId);
+    Bank bank = TestUtil.createBank(organizationId);
     Account account =
         Account.restore(accountId, "Account 1", bank.getId(), organizationId, null, null, null);
 

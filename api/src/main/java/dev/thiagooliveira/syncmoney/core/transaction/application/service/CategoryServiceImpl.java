@@ -1,8 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateCategory;
@@ -14,31 +12,27 @@ import java.util.UUID;
 
 public class CategoryServiceImpl implements CategoryService {
 
-  private final EventPublisher eventPublisher;
+  private final DomainEventContext domainEventContext;
   private final CreateCategory createCategory;
   private final GetCategory getCategory;
 
   public CategoryServiceImpl(
-      EventPublisher eventPublisher, CreateCategory createCategory, GetCategory getCategory) {
-    this.eventPublisher = eventPublisher;
+      DomainEventContext domainEventContext,
+      CreateCategory createCategory,
+      GetCategory getCategory) {
+    this.domainEventContext = domainEventContext;
     this.createCategory = createCategory;
     this.getCategory = getCategory;
   }
 
-  @DomainEventScoped
   @Override
   public Category create(CreateCategoryInput input) {
-    Category category = this.createCategory.execute(input);
-    DomainEventPublisher.publish(this.eventPublisher::publish);
-    return category;
+    return this.domainEventContext.execute(() -> this.createCategory.execute(input));
   }
 
-  @DomainEventScoped
   @Override
   public Category create(CreateDefaultCategoryInput input) {
-    Category category = this.createCategory.execute(input);
-    DomainEventPublisher.publish(this.eventPublisher::publish);
-    return category;
+    return this.domainEventContext.execute(() -> this.createCategory.execute(input));
   }
 
   @Override

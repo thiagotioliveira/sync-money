@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.user.config;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CredentialEncoder;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.user.application.service.AuthService;
 import dev.thiagooliveira.syncmoney.core.user.application.service.AuthServiceImpl;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.Login;
@@ -30,7 +30,7 @@ public class AuthConfiguration {
 
   @Bean
   public AuthService authService(
-      EventPublisher eventPublisher, Login login, RegisterUser registerUser) {
-    return new AuthServiceImpl(eventPublisher, login, registerUser);
+      DomainEventContext domainEventContext, Login login, RegisterUser registerUser) {
+    return new AuthServiceImpl(domainEventContext, login, registerUser);
   }
 }

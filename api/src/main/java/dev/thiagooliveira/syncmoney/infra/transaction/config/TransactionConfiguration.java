@@ -1,6 +1,7 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetAccount;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
@@ -79,14 +80,14 @@ public class TransactionConfiguration {
 
   @Bean
   public TransactionService transactionService(
-      EventPublisher eventPublisher,
+      DomainEventContext domainEventContext,
       CreateTransaction createTransaction,
       CreatePayableReceivable createPayableReceivable,
       UpdateTransaction updateTransaction,
       GetTransaction getTransaction,
       CreateTransfer createTransfer) {
     return new TransactionServiceImpl(
-        eventPublisher,
+        domainEventContext,
         createTransaction,
         createPayableReceivable,
         updateTransaction,

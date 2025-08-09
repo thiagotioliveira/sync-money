@@ -1,8 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.user.application.service;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.InvitationInput;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.GetInvitations;
 import dev.thiagooliveira.syncmoney.core.user.application.usecase.GetUser;
@@ -15,17 +13,17 @@ import java.util.UUID;
 
 public class UserServiceImpl implements UserService {
 
-  private final EventPublisher eventPublisher;
+  private final DomainEventContext domainEventContext;
   private final GetUser getUser;
   private final InviteUser inviteUser;
   private final GetInvitations getInvitations;
 
   public UserServiceImpl(
-      EventPublisher eventPublisher,
+      DomainEventContext domainEventContext,
       GetUser getUser,
       InviteUser inviteUser,
       GetInvitations getInvitations) {
-    this.eventPublisher = eventPublisher;
+    this.domainEventContext = domainEventContext;
     this.getUser = getUser;
     this.inviteUser = inviteUser;
     this.getInvitations = getInvitations;
@@ -41,12 +39,9 @@ public class UserServiceImpl implements UserService {
     return this.getUser.byId(organizationId, userId);
   }
 
-  @DomainEventScoped
   @Override
   public Invitation invite(InvitationInput input) {
-    Invitation invitation = this.inviteUser.execute(input);
-    DomainEventPublisher.publish(this.eventPublisher::publish);
-    return invitation;
+    return this.domainEventContext.execute(() -> this.inviteUser.execute(input));
   }
 
   @Override

@@ -1,6 +1,6 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryServiceImpl;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateCategory;
@@ -31,7 +31,9 @@ public class CategoryConfiguration {
 
   @Bean
   public CategoryService categoryService(
-      EventPublisher eventPublisher, CreateCategory createCategory, GetCategory getCategory) {
-    return new CategoryServiceImpl(eventPublisher, createCategory, getCategory);
+      DomainEventContext domainEventContext,
+      CreateCategory createCategory,
+      GetCategory getCategory) {
+    return new CategoryServiceImpl(domainEventContext, createCategory, getCategory);
   }
 }

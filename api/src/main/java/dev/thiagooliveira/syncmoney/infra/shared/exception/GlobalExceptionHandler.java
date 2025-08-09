@@ -1,4 +1,4 @@
-package dev.thiagooliveira.syncmoney.infra.exception;
+package dev.thiagooliveira.syncmoney.infra.shared.exception;
 
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import org.slf4j.Logger;
