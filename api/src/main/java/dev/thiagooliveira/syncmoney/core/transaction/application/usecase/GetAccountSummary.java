@@ -2,7 +2,7 @@ package dev.thiagooliveira.syncmoney.core.transaction.application.usecase;
 
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.AggregateAccountSummary;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.AccountClient;
 import java.time.YearMonth;
 import java.util.List;

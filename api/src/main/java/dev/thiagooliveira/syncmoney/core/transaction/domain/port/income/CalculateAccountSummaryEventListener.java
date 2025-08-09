@@ -1,7 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.port.income;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.*;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryCalculator;
 import java.time.YearMonth;
 
 public class CalculateAccountSummaryEventListener {

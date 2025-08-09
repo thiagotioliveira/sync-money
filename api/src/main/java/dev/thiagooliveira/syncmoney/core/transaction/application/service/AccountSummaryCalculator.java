@@ -1,10 +1,11 @@
-package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
+package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.AccountEnriched;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.AggregateAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateAccountSummaryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetTransaction;
+import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.AccountClient;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.AccountSummaryRepository;
 import java.math.BigDecimal;

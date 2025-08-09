@@ -2,12 +2,12 @@ package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetAccount;
 import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionServiceImpl;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.income.AccountEventListener;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.income.CalculateAccountSummaryEventListener;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.*;

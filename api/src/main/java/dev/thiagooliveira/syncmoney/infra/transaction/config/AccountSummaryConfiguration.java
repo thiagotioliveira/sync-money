@@ -1,11 +1,11 @@
 package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryServiceImpl;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetAccountSummary;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetTransaction;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.AccountClient;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.AccountSummaryRepository;
 import org.springframework.context.annotation.Bean;
