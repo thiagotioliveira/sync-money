@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.util.TestUtil;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class CreateBankTest {
+
+  @Mock private EventPublisher eventPublisher;
 
   @Mock private BankRepository bankRepository;
 
@@ -34,7 +38,7 @@ class CreateBankTest {
     var createdBank = TestUtil.createBank(organizationId);
     when(bankRepository.create(input)).thenReturn(createdBank);
 
-    var result = createBank.execute(input);
+    var result = new DomainEventContext(eventPublisher).execute(() -> createBank.execute(input));
 
     assertNotNull(result);
     assertEquals(createdBank.getName(), result.getName());
@@ -50,7 +54,10 @@ class CreateBankTest {
 
     when(bankRepository.existsByName(input.organizationId(), input.name())).thenReturn(true);
 
-    var exception = assertThrows(BusinessLogicException.class, () -> createBank.execute(input));
+    var exception =
+        assertThrows(
+            BusinessLogicException.class,
+            () -> new DomainEventContext(eventPublisher).execute(() -> createBank.execute(input)));
 
     assertEquals("bank already exists", exception.getMessage());
     verify(bankRepository, never()).create(any());

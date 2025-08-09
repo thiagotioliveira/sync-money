@@ -7,7 +7,6 @@ import dev.thiagooliveira.syncmoney.core.account.domain.port.income.TransactionE
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.AccountRepository;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
 import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,14 +30,17 @@ public class AccountConfiguration {
   }
 
   @Bean
-  public TransactionEventListener transactionListener(
-      EventPublisher eventPublisher, UpdateAccountBalance updateAccountBalance) {
-    return new TransactionEventListener(eventPublisher, updateAccountBalance);
+  public TransactionEventListener transactionListener(AccountService accountService) {
+    return new TransactionEventListener(accountService);
   }
 
   @Bean
   public AccountService accountService(
-      DomainEventContext domainEventContext, CreateAccount createAccount, GetAccount getAccount) {
-    return new AccountServiceImpl(domainEventContext, createAccount, getAccount);
+      DomainEventContext domainEventContext,
+      CreateAccount createAccount,
+      GetAccount getAccount,
+      UpdateAccountBalance updateAccountBalance) {
+    return new AccountServiceImpl(
+        domainEventContext, createAccount, getAccount, updateAccountBalance);
   }
 }

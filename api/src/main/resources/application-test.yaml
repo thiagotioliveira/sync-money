@@ -19,5 +19,6 @@ logging:
     #org.springframework.security.web.FilterChainProxy: DEBUG
     #org.springframework.web: INFO
     #org.hibernate.orm.jdbc.bind: TRACE
-    dev.thiagooliveira: DEBUG
+    #dev.thiagooliveira: DEBUG
+    dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase: DEBUG
     #liquibase: DEBUG

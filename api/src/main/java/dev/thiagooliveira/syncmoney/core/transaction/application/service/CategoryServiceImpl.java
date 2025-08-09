@@ -1,6 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateCategory;
@@ -38,6 +39,11 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public Optional<Category> getById(UUID organizationId, UUID id) {
     return this.getCategory.getById(organizationId, id);
+  }
+
+  @Override
+  public Optional<Category> getDefaultByType(CategoryType type) {
+    return this.getCategory.getDefaultByType(type);
   }
 
   @Override

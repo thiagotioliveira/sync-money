@@ -8,7 +8,9 @@ import static org.mockito.Mockito.*;
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountInput;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.AccountRepository;
 import dev.thiagooliveira.syncmoney.core.account.domain.port.outcome.BankRepository;
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +20,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class CreateAccountTest {
+
+  @Mock private EventPublisher eventPublisher;
 
   @Mock private BankRepository bankRepository;
 
@@ -44,7 +48,8 @@ class CreateAccountTest {
     when(accountRepository.create(eq(input))).thenReturn(createAccount(input));
 
     // Act
-    var account = createAccount.execute(input);
+    var account =
+        new DomainEventContext(eventPublisher).execute(() -> createAccount.execute(input));
 
     // Assert
     assertNotNull(account);
@@ -63,7 +68,11 @@ class CreateAccountTest {
     when(accountRepository.existsByName(eq(organizationId), eq(input.name()))).thenReturn(true);
 
     // Act + Assert
-    var exception = assertThrows(BusinessLogicException.class, () -> createAccount.execute(input));
+    var exception =
+        assertThrows(
+            BusinessLogicException.class,
+            () ->
+                new DomainEventContext(eventPublisher).execute(() -> createAccount.execute(input)));
     assertEquals("account with name '" + input.name() + "' already exists", exception.getMessage());
   }
 
@@ -80,7 +89,11 @@ class CreateAccountTest {
     when(bankRepository.existsById(eq(organizationId), eq(bankId))).thenReturn(false);
 
     // Act + Assert
-    var exception = assertThrows(BusinessLogicException.class, () -> createAccount.execute(input));
+    var exception =
+        assertThrows(
+            BusinessLogicException.class,
+            () ->
+                new DomainEventContext(eventPublisher).execute(() -> createAccount.execute(input)));
     assertEquals("bank with id '" + bankId + "' not found", exception.getMessage());
   }
 }

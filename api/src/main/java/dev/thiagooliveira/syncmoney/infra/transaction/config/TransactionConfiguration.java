@@ -2,8 +2,8 @@ package dev.thiagooliveira.syncmoney.infra.transaction.config;
 
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetAccount;
 import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
-import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
+import dev.thiagooliveira.syncmoney.core.transaction.application.service.CategoryService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionServiceImpl;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
@@ -56,12 +56,10 @@ public class TransactionConfiguration {
 
   @Bean
   public AccountEventListener accountEventListener(
-      EventPublisher eventPublisher,
-      GetCategory getCategory,
-      CreateTransaction createTransaction,
+      CategoryService categoryService,
+      TransactionService transactionService,
       AccountSummaryService accountSummaryService) {
-    return new AccountEventListener(
-        eventPublisher, getCategory, createTransaction, accountSummaryService);
+    return new AccountEventListener(categoryService, transactionService, accountSummaryService);
   }
 
   @Bean

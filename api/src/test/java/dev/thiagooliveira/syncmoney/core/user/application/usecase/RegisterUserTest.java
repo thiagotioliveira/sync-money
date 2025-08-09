@@ -3,7 +3,9 @@ package dev.thiagooliveira.syncmoney.core.user.application.usecase;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.application.usecase.DomainEventContext;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Invitation;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.InvitationStatus;
@@ -22,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 class RegisterUserTest {
+  @Mock private EventPublisher eventPublisher;
   @Mock private OrganizationRepository organizationRepository;
   @Mock private UserRepository userRepository;
   @Mock private InvitationRepository invitationRepository;
@@ -42,7 +45,8 @@ class RegisterUserTest {
     when(this.userRepository.save(any(UserWithPassword.class)))
         .thenAnswer(invocation -> ((UserWithPassword) invocation.getArgument(0)).toUser());
 
-    var user = this.registerUser.execute(input);
+    var user =
+        new DomainEventContext(eventPublisher).execute(() -> this.registerUser.execute(input));
     assertNotNull(user);
     assertEquals(input.email(), user.getEmail());
     assertEquals(input.name(), user.getName());
@@ -57,7 +61,11 @@ class RegisterUserTest {
     when(this.userRepository.existByEmail(eq(input.email()))).thenReturn(true);
 
     var exception =
-        assertThrows(BusinessLogicException.class, () -> this.registerUser.execute(input));
+        assertThrows(
+            BusinessLogicException.class,
+            () ->
+                new DomainEventContext(eventPublisher)
+                    .execute(() -> this.registerUser.execute(input)));
     assertEquals("email already exists", exception.getMessage());
 
     verify(this.userRepository, times(1)).existByEmail(eq(input.email()));
@@ -79,7 +87,8 @@ class RegisterUserTest {
     when(this.userRepository.save(any(UserWithPassword.class)))
         .thenAnswer(invocation -> ((UserWithPassword) invocation.getArgument(0)).toUser());
 
-    var user = this.registerUser.execute(input);
+    var user =
+        new DomainEventContext(eventPublisher).execute(() -> this.registerUser.execute(input));
     assertNotNull(user);
     assertEquals(input.email(), user.getEmail());
     assertEquals(input.name(), user.getName());
@@ -103,7 +112,10 @@ class RegisterUserTest {
         .thenReturn(Optional.of(invitation));
     when(this.organizationRepository.findById(eq(organizationId))).thenReturn(Optional.empty());
 
-    assertThrows(NoSuchElementException.class, () -> this.registerUser.execute(input));
+    assertThrows(
+        NoSuchElementException.class,
+        () ->
+            new DomainEventContext(eventPublisher).execute(() -> this.registerUser.execute(input)));
 
     verify(this.organizationRepository, times(1)).findById(eq(organizationId));
   }

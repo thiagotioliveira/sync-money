@@ -1,5 +1,6 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Category;
@@ -14,6 +15,8 @@ public interface CategoryService {
   Category create(CreateDefaultCategoryInput input);
 
   Optional<Category> getById(UUID organizationId, UUID id);
+
+  Optional<Category> getDefaultByType(CategoryType type);
 
   List<Category> getAll(UUID organizationId);
 }

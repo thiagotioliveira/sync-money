@@ -96,7 +96,7 @@ Content-Type: application/json
 
 {
   "name": "Europe Account",
-  "bankId": "8350c4bc-fabc-47b3-9904-44fd817c5cf7",
+  "bankId": "dd2d2819-1c50-4834-a0b5-521b9fb5f859",
   "initialBalance": 1000.0
 }
 
@@ -109,7 +109,7 @@ Content-Type: application/json
 
 {
   "name": "Brazil Account",
-  "bankId": "01231474-b09b-4a25-b9ff-9fb04c19f1ec",
+  "bankId": "ceb6b8af-f257-4763-8757-0ef47e8cc11f",
   "initialBalance": 1000.0
 }
 

@@ -1,15 +1,19 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class DomainEventPublisher {
 
-  private static final ThreadLocal<Set<DomainEvent>> events = ThreadLocal.withInitial(HashSet::new);
+  private static final ThreadLocal<List<DomainEvent>> events = new ThreadLocal<>();
 
   public static void init() {
-    events.get().clear();
+    events.set(new ArrayList<>());
+  }
+
+  public static boolean isInitialized() {
+    return events.get() != null;
   }
 
   public static void addEvent(DomainEvent event) {
@@ -17,8 +21,8 @@ public class DomainEventPublisher {
   }
 
   public static void publish(Consumer<? super DomainEvent> action) {
-    var e = new HashSet<>(events.get());
-    clear();
+    var e = new ArrayList<>(events.get());
+    init();
     e.forEach(action);
   }
 
