@@ -121,7 +121,7 @@ components:
   schemas:
     InvitationStatus:
       type: string
-      enum: [ PENDING, INVITED ]
+      enum: [ PENDING, ACCEPTED ]
     GetInvitationsResponseBody:
       type: object
       properties:

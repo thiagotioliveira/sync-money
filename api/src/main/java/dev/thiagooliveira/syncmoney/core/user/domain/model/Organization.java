@@ -1,14 +1,16 @@
 package dev.thiagooliveira.syncmoney.core.user.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.OrganizationCreatedEvent;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Organization extends AggregateRoot {
+public class Organization implements AggregateRoot {
 
-  private UUID id;
-  private OffsetDateTime createdAt;
-  private String emailOwner;
+  private final UUID id;
+  private final OffsetDateTime createdAt;
+  private final String emailOwner;
 
   private Organization(UUID id, OffsetDateTime createdAt, String emailOwner) {
     this.id = id;
@@ -17,7 +19,10 @@ public class Organization extends AggregateRoot {
   }
 
   public static Organization create(String emailOwner) {
-    return new Organization(UUID.randomUUID(), OffsetDateTime.now(), emailOwner);
+    var o = new Organization(UUID.randomUUID(), OffsetDateTime.now(), emailOwner);
+    DomainEventPublisher.addEvent(
+        new OrganizationCreatedEvent(o.getId(), o.getEmailOwner(), o.getCreatedAt()));
+    return o;
   }
 
   public static Organization restore(UUID id, OffsetDateTime createdAt, String emailOwner) {

@@ -24,8 +24,6 @@ public class CreateAccount {
     if (!this.bankRepository.existsById(input.organizationId(), input.bankId())) {
       throw BusinessLogicException.notFound("bank with id '" + input.bankId() + "' not found");
     }
-    return this.accountRepository
-        .create(input)
-        .addAccountCreatedEvent(input.userId(), input.initialBalance());
+    return this.accountRepository.create(input).created(input.userId(), input.initialBalance());
   }
 }

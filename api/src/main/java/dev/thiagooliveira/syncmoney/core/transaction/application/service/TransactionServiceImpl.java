@@ -1,5 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.*;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
@@ -34,54 +36,61 @@ public class TransactionServiceImpl implements TransactionService {
     this.createTransfer = createTransfer;
   }
 
+  @DomainEventScoped
   @Override
   public Transfer transfer(CreateTransferInput input) {
     Transfer transfer = this.createTransfer.execute(input);
-    transfer.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return transfer;
   }
 
+  @DomainEventScoped
   @Override
   public Transaction createDeposit(CreateTransactionInput input) {
     Transaction transaction = this.createTransaction.deposit(input);
-    transaction.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return transaction;
   }
 
+  @DomainEventScoped
   @Override
   public Transaction createWithdraw(CreateTransactionInput input) {
     Transaction transaction = this.createTransaction.withdraw(input);
-    transaction.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return transaction;
   }
 
+  @DomainEventScoped
   @Override
   public PayableReceivable createPayable(CreatePayableReceivableInput input) {
     PayableReceivable payableReceivable = this.createPayableReceivable.payable(input);
-    payableReceivable.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return payableReceivable;
   }
 
+  @DomainEventScoped
   @Override
   public PayableReceivable createReceivable(CreatePayableReceivableInput input) {
     PayableReceivable payableReceivable = this.createPayableReceivable.receivable(input);
-    payableReceivable.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return payableReceivable;
   }
 
+  @DomainEventScoped
   @Override
   public Transaction update(
       UUID organizationId, UUID accountId, UUID transactionId, UpdateTransactionInput input) {
     Transaction transaction =
         this.updateTransaction.update(organizationId, accountId, transactionId, input);
-    transaction.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return transaction;
   }
 
+  @DomainEventScoped
   @Override
   public Transaction pay(PayTransactionInput input) {
     Transaction transaction = this.updateTransaction.pay(input);
-    transaction.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return transaction;
   }
 

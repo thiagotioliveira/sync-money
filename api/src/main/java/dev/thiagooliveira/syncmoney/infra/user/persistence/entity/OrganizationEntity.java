@@ -1,7 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.entity;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.OrganizationCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateOrganizationInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,30 +22,16 @@ public class OrganizationEntity {
 
   public OrganizationEntity() {}
 
-  public OrganizationEntity(UUID id, OffsetDateTime createdAt, String emailOwner) {
-    this.id = id;
-    this.createdAt = createdAt;
-    this.emailOwner = emailOwner;
-  }
-
-  public static OrganizationEntity create(CreateOrganizationInput input) {
+  public static OrganizationEntity from(Organization organization) {
     OrganizationEntity entity = new OrganizationEntity();
-    entity.setId(UUID.randomUUID());
-    entity.setCreatedAt(OffsetDateTime.now());
-    entity.setEmailOwner(input.emailOwner());
+    entity.setId(organization.getId());
+    entity.setCreatedAt(organization.getCreatedAt());
+    entity.setEmailOwner(organization.getEmailOwner());
     return entity;
   }
 
   public Organization toOrganization() {
     return Organization.restore(id, createdAt, emailOwner);
-  }
-
-  public Organization toOrganizationCreated() {
-    var organization = toOrganization();
-    organization.registerEvent(
-        new OrganizationCreatedEvent(
-            organization.getId(), organization.getEmailOwner(), organization.getCreatedAt()));
-    return organization;
   }
 
   public UUID getId() {

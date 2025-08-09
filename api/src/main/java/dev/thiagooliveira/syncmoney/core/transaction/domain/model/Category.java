@@ -2,11 +2,13 @@ package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.CategoryCreatedEvent;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Category extends AggregateRoot {
+public class Category implements AggregateRoot {
 
   private UUID id;
   private Optional<UUID> organizationId;
@@ -25,8 +27,8 @@ public class Category extends AggregateRoot {
     return category;
   }
 
-  public Category addCategoryCreatedEvent() {
-    this.registerEvent(new CategoryCreatedEvent(this));
+  public Category created() {
+    DomainEventPublisher.addEvent(new CategoryCreatedEvent(this, OffsetDateTime.now()));
     return this;
   }
 

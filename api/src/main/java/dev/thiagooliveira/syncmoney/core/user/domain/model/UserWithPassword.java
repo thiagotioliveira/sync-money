@@ -1,10 +1,11 @@
 package dev.thiagooliveira.syncmoney.core.user.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class UserWithPassword extends AggregateRoot {
+public class UserWithPassword implements AggregateRoot {
   private UUID id;
   private String email;
   private String name;
@@ -13,6 +14,17 @@ public class UserWithPassword extends AggregateRoot {
   private UUID organizationId;
 
   private UserWithPassword() {}
+
+  public static UserWithPassword create(Organization organization, RegisterUserInput input) {
+    var user = new UserWithPassword();
+    user.id = UUID.randomUUID();
+    user.email = input.email();
+    user.name = input.name();
+    user.password = input.password();
+    user.createdAt = organization.getCreatedAt();
+    user.organizationId = organization.getId();
+    return user;
+  }
 
   public static UserWithPassword restore(
       UUID id,

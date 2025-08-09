@@ -23,6 +23,6 @@ public class Login {
     if (!this.credentialEncoder.matches(password, user.getPassword())) {
       throw BusinessLogicException.notAuthorized("e-mail and/or password invalid");
     }
-    return user.toUser().addUserLoggedEvent();
+    return user.toUser().authenticated();
   }
 }

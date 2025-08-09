@@ -1,16 +1,18 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class PayableReceivableCreatedEvent implements Event {
+public class PayableReceivableCreatedEvent implements DomainEvent {
   private final UUID id;
   private final UUID organizationId;
   private final UUID accountId;
   private final LocalDate startDate;
   private final LocalDate endDate;
   private final boolean recurring;
+  private final OffsetDateTime dateTime;
 
   public PayableReceivableCreatedEvent(
       UUID id,
@@ -18,13 +20,35 @@ public class PayableReceivableCreatedEvent implements Event {
       UUID accountId,
       LocalDate startDate,
       LocalDate endDate,
-      boolean recurring) {
+      boolean recurring,
+      OffsetDateTime dateTime) {
     this.accountId = accountId;
     this.endDate = endDate;
     this.id = id;
     this.organizationId = organizationId;
     this.recurring = recurring;
     this.startDate = startDate;
+    this.dateTime = dateTime;
+  }
+
+  @Override
+  public String toString() {
+    return "PayableReceivableCreatedEvent{"
+        + "id="
+        + id
+        + ", organizationId="
+        + organizationId
+        + ", accountId="
+        + accountId
+        + ", startDate="
+        + startDate
+        + ", endDate="
+        + endDate
+        + ", recurring="
+        + recurring
+        + ", dateTime="
+        + dateTime
+        + '}';
   }
 
   public LocalDate getEndDate() {
@@ -49,5 +73,10 @@ public class PayableReceivableCreatedEvent implements Event {
 
   public UUID getOrganizationId() {
     return organizationId;
+  }
+
+  @Override
+  public OffsetDateTime getDateTime() {
+    return dateTime;
   }
 }

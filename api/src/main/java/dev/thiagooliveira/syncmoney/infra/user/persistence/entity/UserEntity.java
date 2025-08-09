@@ -31,6 +31,17 @@ public class UserEntity {
 
   public UserEntity() {}
 
+  public static UserEntity from(UserWithPassword user) {
+    var entity = new UserEntity();
+    entity.id = user.getId();
+    entity.email = user.getEmail();
+    entity.name = user.getName();
+    entity.password = user.getPassword();
+    entity.createdAt = user.getCreatedAt();
+    entity.organizationId = user.getOrganizationId();
+    return entity;
+  }
+
   public static UserEntity create(RegisterUserInput input, Organization organization) {
     var user = User.create(input.email(), input.name(), organization);
     var entity = new UserEntity();

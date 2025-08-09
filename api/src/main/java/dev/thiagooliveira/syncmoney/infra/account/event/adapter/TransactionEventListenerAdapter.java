@@ -22,7 +22,7 @@ public class TransactionEventListenerAdapter {
   @EventListener
   @Transactional
   public void on(TransactionPaidEvent event) {
-    logger.info("TransactionPaidEvent: {}", event);
-    this.transactionEventListener.listen(event);
+    logger.debug("Handling TransactionPaidEvent: {}", event);
+    this.transactionEventListener.on(event);
   }
 }

@@ -1,40 +1,51 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class BankCreatedEvent implements Event {
-  private UUID id;
-  private UUID organizationId;
-  private String name;
+public class BankCreatedEvent implements DomainEvent {
+  private final UUID id;
+  private final UUID organizationId;
+  private final String name;
+  private final OffsetDateTime dateTime;
 
-  public BankCreatedEvent(UUID id, String name, UUID organizationId) {
+  public BankCreatedEvent(UUID id, String name, UUID organizationId, OffsetDateTime dateTime) {
     this.id = id;
     this.name = name;
     this.organizationId = organizationId;
+    this.dateTime = dateTime;
+  }
+
+  @Override
+  public String toString() {
+    return "BankCreatedEvent{"
+        + "id="
+        + id
+        + ", organizationId="
+        + organizationId
+        + ", name='"
+        + name
+        + '\''
+        + ", dateTime="
+        + dateTime
+        + '}';
   }
 
   public UUID getId() {
     return id;
   }
 
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
   public UUID getOrganizationId() {
     return organizationId;
-  }
-
-  public void setOrganizationId(UUID organizationId) {
-    this.organizationId = organizationId;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  @Override
+  public OffsetDateTime getDateTime() {
+    return dateTime;
   }
 }

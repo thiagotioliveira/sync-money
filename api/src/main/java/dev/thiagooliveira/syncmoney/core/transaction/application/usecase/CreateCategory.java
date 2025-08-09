@@ -18,13 +18,13 @@ public class CreateCategory {
     if (this.categoryRepository.exists(input)) {
       throw BusinessLogicException.badRequest("category already exists");
     }
-    return categoryRepository.create(input).addCategoryCreatedEvent();
+    return categoryRepository.create(input).created();
   }
 
   public Category execute(CreateDefaultCategoryInput input) {
     if (this.categoryRepository.existsDefaultByType(input.type())) {
       throw BusinessLogicException.badRequest("default category already exists");
     }
-    return this.categoryRepository.create(input).addCategoryCreatedEvent();
+    return this.categoryRepository.create(input).created();
   }
 }

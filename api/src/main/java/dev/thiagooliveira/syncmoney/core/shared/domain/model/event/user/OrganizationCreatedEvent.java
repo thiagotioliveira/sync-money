@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class OrganizationCreatedEvent implements Event {
+public class OrganizationCreatedEvent implements DomainEvent {
 
   private final UUID id;
   private final OffsetDateTime createdAt;
@@ -14,6 +14,19 @@ public class OrganizationCreatedEvent implements Event {
     this.id = id;
     this.emailOwner = emailOwner;
     this.createdAt = createdAt;
+  }
+
+  @Override
+  public String toString() {
+    return "OrganizationCreatedEvent{"
+        + "id="
+        + id
+        + ", dateTime="
+        + createdAt
+        + ", emailOwner='"
+        + emailOwner
+        + '\''
+        + '}';
   }
 
   public OffsetDateTime getCreatedAt() {
@@ -29,15 +42,7 @@ public class OrganizationCreatedEvent implements Event {
   }
 
   @Override
-  public String toString() {
-    return "OrganizationCreatedEvent{"
-        + "createdAt="
-        + createdAt
-        + ", id="
-        + id
-        + ", emailOwner='"
-        + emailOwner
-        + '\''
-        + '}';
+  public OffsetDateTime getDateTime() {
+    return this.createdAt;
   }
 }

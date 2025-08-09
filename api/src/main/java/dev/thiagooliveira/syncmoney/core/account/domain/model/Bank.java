@@ -2,10 +2,12 @@ package dev.thiagooliveira.syncmoney.core.account.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.Currency;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Bank extends AggregateRoot {
+public class Bank implements AggregateRoot {
   private UUID id;
   private UUID organizationId;
   private String name;
@@ -22,8 +24,9 @@ public class Bank extends AggregateRoot {
     return bank;
   }
 
-  public Bank addBankCreatedEvent() {
-    this.registerEvent(new BankCreatedEvent(this.id, this.name, this.organizationId));
+  public Bank created() {
+    DomainEventPublisher.addEvent(
+        new BankCreatedEvent(this.id, this.name, this.organizationId, OffsetDateTime.now()));
     return this;
   }
 

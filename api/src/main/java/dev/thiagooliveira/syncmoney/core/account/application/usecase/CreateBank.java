@@ -17,6 +17,6 @@ public class CreateBank {
     if (this.bankRepository.existsByName(input.organizationId(), input.name())) {
       throw BusinessLogicException.badRequest("bank already exists");
     }
-    return bankRepository.create(input).addBankCreatedEvent();
+    return bankRepository.create(input).created();
   }
 }

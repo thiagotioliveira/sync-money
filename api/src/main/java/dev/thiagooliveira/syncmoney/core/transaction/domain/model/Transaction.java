@@ -2,6 +2,7 @@ package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Transaction extends AggregateRoot {
+public class Transaction implements AggregateRoot {
   private UUID id;
   private UUID accountId;
   private UUID organizationId;
@@ -105,8 +106,8 @@ public class Transaction extends AggregateRoot {
     return transaction;
   }
 
-  public Transaction addTransactionPaidCreatedEvent(CategoryType categoryType) {
-    this.registerEvent(
+  public Transaction paid(CategoryType categoryType) {
+    DomainEventPublisher.addEvent(
         new TransactionPaidEvent(
             this.getId(),
             this.getOrganizationId(),
@@ -119,8 +120,8 @@ public class Transaction extends AggregateRoot {
     return this;
   }
 
-  public Transaction addTransactionUpdatedEvent() {
-    this.registerEvent(
+  public Transaction updated() {
+    DomainEventPublisher.addEvent(
         new TransactionUpdatedEvent(
             this.getId(),
             this.getOrganizationId(),

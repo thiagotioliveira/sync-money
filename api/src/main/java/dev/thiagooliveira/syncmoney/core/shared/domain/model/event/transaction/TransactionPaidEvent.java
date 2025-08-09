@@ -1,12 +1,12 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class TransactionPaidEvent implements Event {
+public class TransactionPaidEvent implements DomainEvent {
   private final UUID id;
   private final UUID organizationId;
   private final UUID accountId;
@@ -33,6 +33,28 @@ public class TransactionPaidEvent implements Event {
     this.categoryType = categoryType;
     this.dateTime = dateTime;
     this.amount = amount;
+  }
+
+  @Override
+  public String toString() {
+    return "TransactionPaidEvent{"
+        + "id="
+        + id
+        + ", organizationId="
+        + organizationId
+        + ", accountId="
+        + accountId
+        + ", userId="
+        + userId
+        + ", categoryId="
+        + categoryId
+        + ", categoryType="
+        + categoryType
+        + ", dateTime="
+        + dateTime
+        + ", amount="
+        + amount
+        + '}';
   }
 
   public UUID getId() {

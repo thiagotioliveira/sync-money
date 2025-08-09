@@ -2,7 +2,6 @@ package dev.thiagooliveira.syncmoney.infra.account.service;
 
 import dev.thiagooliveira.syncmoney.core.account.application.dto.AccountEnriched;
 import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateAccountInput;
-import dev.thiagooliveira.syncmoney.core.account.application.dto.UpdateAccountBalanceInput;
 import dev.thiagooliveira.syncmoney.core.account.application.service.AccountService;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import java.util.List;
@@ -26,12 +25,6 @@ public class AccountServiceProxy implements AccountService {
   @Override
   public Account createAccount(CreateAccountInput input) {
     return this.accountService.createAccount(input);
-  }
-
-  @Transactional
-  @Override
-  public Account updateBalance(UpdateAccountBalanceInput input) {
-    return this.accountService.updateBalance(input);
   }
 
   @Override

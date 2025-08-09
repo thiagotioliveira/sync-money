@@ -20,6 +20,6 @@ public class InviteUser {
     if (this.userRepository.existByEmail(input.email())) {
       throw BusinessLogicException.badRequest("user already registered");
     }
-    return this.invitationRepository.invite(input).addInvitationInvitedEvent();
+    return this.invitationRepository.invite(input).invited();
   }
 }

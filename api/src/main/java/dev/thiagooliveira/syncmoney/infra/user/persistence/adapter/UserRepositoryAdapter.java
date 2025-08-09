@@ -1,7 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.adapter;
 
-import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
-import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.UserWithPassword;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.UserRepository;
@@ -44,7 +42,7 @@ public class UserRepositoryAdapter implements UserRepository {
   }
 
   @Override
-  public User register(RegisterUserInput input, Organization organization) {
-    return this.userJpaRepository.save(UserEntity.create(input, organization)).toUser();
+  public User save(UserWithPassword user) {
+    return this.userJpaRepository.save(UserEntity.from(user)).toUser();
   }
 }

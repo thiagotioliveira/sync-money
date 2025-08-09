@@ -21,7 +21,7 @@ public class CreateTransfer {
   }
 
   public Transfer execute(CreateTransferInput input) {
-    var transfer = this.transferRepository.create(input).addTransferCreatedEvent();
+    var transfer = this.transferRepository.create(input).created();
     var debitTransaction =
         this.createTransaction.withdraw(
             input.toCreateDebitTransaction(
@@ -32,10 +32,8 @@ public class CreateTransfer {
                 transfer.getDateTime(), "transfer #" + transfer.getId()));
     debitTransaction.setTransfer(transfer.getId());
     this.transactionRepository.update(debitTransaction);
-    transfer.registerEvents(debitTransaction.getEvents());
     creditTransaction.setTransfer(transfer.getId());
     this.transactionRepository.update(creditTransaction);
-    transfer.registerEvents(creditTransaction.getEvents());
     return transfer;
   }
 }

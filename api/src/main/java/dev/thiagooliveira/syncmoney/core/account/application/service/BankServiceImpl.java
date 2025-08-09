@@ -4,6 +4,8 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.CreateBank;
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetBank;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import java.util.List;
 import java.util.UUID;
@@ -20,10 +22,11 @@ public class BankServiceImpl implements BankService {
     this.getBank = getBank;
   }
 
+  @DomainEventScoped
   @Override
   public Bank createBank(CreateBankInput input) {
     Bank bank = this.createBank.execute(input);
-    bank.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return bank;
   }
 

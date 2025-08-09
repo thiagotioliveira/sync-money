@@ -5,9 +5,6 @@ import dev.thiagooliveira.syncmoney.core.account.application.dto.CreateBankInput
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Account;
 import dev.thiagooliveira.syncmoney.core.account.domain.model.Bank;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.Currency;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.BankCreatedEvent;
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserRegisteredEvent;
 import dev.thiagooliveira.syncmoney.core.user.application.dto.RegisterUserInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.User;
@@ -41,13 +38,13 @@ public class TestUtil {
     return new UserAuthenticated(user);
   }
 
-  public static User createUser(Organization organization) {
-    User user = User.create(USER_EMAIL, USER_NAME, organization);
-    user.registerEvent(
-        new UserRegisteredEvent(
-            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
-    return user;
-  }
+  //  public static User createUser(Organization organization) {
+  //    User user = User.create(USER_EMAIL, USER_NAME, organization);
+  //    user.registerEvent(
+  //        new UserRegisteredEvent(
+  //            user.getId(), user.getEmail(), user.getName(), user.getCreatedAt()));
+  //    return user;
+  //  }
 
   public static User getUser(Organization organization) {
     User user = User.create(USER_EMAIL, USER_NAME, organization);
@@ -69,12 +66,12 @@ public class TestUtil {
     return new CreateBankInput(organizationId, BANK_NAME, BANK_CURRENCY);
   }
 
-  public static Bank createBank(UUID organizationId) {
-    var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
-    bank.registerEvent(
-        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId()));
-    return bank;
-  }
+  //  public static Bank createBank(UUID organizationId) {
+  //    var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
+  //    bank.registerEvent(
+  //        new BankCreatedEvent(bank.getId(), bank.getName(), bank.getOrganizationId(), null));
+  //    return bank;
+  //  }
 
   public static Bank getBank(UUID organizationId) {
     var bank = Bank.restore(UUID.randomUUID(), organizationId, BANK_NAME, BANK_CURRENCY);
@@ -96,15 +93,6 @@ public class TestUtil {
             BigDecimal.ZERO,
             OffsetDateTime.now(),
             0L);
-    account.registerEvent(
-        new AccountCreatedEvent(
-            account.getId(),
-            account.getName(),
-            account.getOrganizationId(),
-            input.userId(),
-            account.getBankId(),
-            input.initialBalance(),
-            account.getCreatedAt()));
     return account;
   }
 }

@@ -1,5 +1,7 @@
 package dev.thiagooliveira.syncmoney.core.transaction.application.service;
 
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventScoped;
 import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateCategoryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateDefaultCategoryInput;
@@ -23,17 +25,19 @@ public class CategoryServiceImpl implements CategoryService {
     this.getCategory = getCategory;
   }
 
+  @DomainEventScoped
   @Override
   public Category create(CreateCategoryInput input) {
     Category category = this.createCategory.execute(input);
-    category.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return category;
   }
 
+  @DomainEventScoped
   @Override
   public Category create(CreateDefaultCategoryInput input) {
     Category category = this.createCategory.execute(input);
-    category.getEvents().forEach(this.eventPublisher::publish);
+    DomainEventPublisher.publish(this.eventPublisher::publish);
     return category;
   }
 

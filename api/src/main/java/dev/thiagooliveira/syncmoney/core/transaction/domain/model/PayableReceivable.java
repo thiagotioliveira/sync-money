@@ -1,14 +1,16 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableUpdatedEvent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.*;
 
-public class PayableReceivable extends AggregateRoot {
+public class PayableReceivable implements AggregateRoot {
   private UUID id;
   private UUID accountId;
   private UUID organizationId;
@@ -111,27 +113,29 @@ public class PayableReceivable extends AggregateRoot {
         TransactionStatus.SCHEDULED);
   }
 
-  public PayableReceivable addPayableReceivableCreatedEvent() {
-    this.registerEvent(
+  public PayableReceivable created() {
+    DomainEventPublisher.addEvent(
         new PayableReceivableCreatedEvent(
             this.getId(),
             this.getOrganizationId(),
             this.getAccountId(),
             this.getStartDate(),
             this.getEndDate(),
-            this.isRecurring()));
+            this.isRecurring(),
+            OffsetDateTime.now()));
     return this;
   }
 
-  public PayableReceivable addPayableReceivableUpdatedEvent() {
-    this.registerEvent(
+  public PayableReceivable updated() {
+    DomainEventPublisher.addEvent(
         new PayableReceivableUpdatedEvent(
             this.getId(),
             this.getOrganizationId(),
             this.getAccountId(),
             this.getStartDate(),
             this.getEndDate(),
-            this.isRecurring()));
+            this.isRecurring(),
+            OffsetDateTime.now()));
     return this;
   }
 

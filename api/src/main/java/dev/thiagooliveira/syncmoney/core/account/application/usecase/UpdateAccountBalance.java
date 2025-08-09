@@ -24,6 +24,6 @@ public class UpdateAccountBalance {
     } else {
       throw BusinessLogicException.badRequest("category type not supported");
     }
-    return account.addAccountUpdatedEvent();
+    return account.balanceUpdated(input.userId(), input.dateTime());
   }
 }

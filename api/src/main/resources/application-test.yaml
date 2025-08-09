@@ -8,16 +8,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate.format_sql: false
 
 
 logging:
   level:
-    org.springframework.security: DEBUG
-    org.springframework.security.web.FilterChainProxy: DEBUG
-    org.springframework.web: INFO
-    org.hibernate.orm.jdbc.bind: TRACE
+    #org.springframework.security: DEBUG
+    #org.springframework.security.web.FilterChainProxy: DEBUG
+    #org.springframework.web: INFO
+    #org.hibernate.orm.jdbc.bind: TRACE
     dev.thiagooliveira: DEBUG
-    liquibase: DEBUG
+    #liquibase: DEBUG

@@ -1,12 +1,14 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.port.income;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
+import dev.thiagooliveira.syncmoney.core.shared.port.outcome.EventPublisher;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateFirstAccountSummaryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateTransactionInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.service.AccountSummaryService;
-import dev.thiagooliveira.syncmoney.core.transaction.application.service.TransactionService;
+import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.CreateTransaction;
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.GetCategory;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Transaction;
 import java.time.YearMonth;
@@ -15,24 +17,27 @@ public class AccountEventListener {
 
   private static final String INITIAL_BALANCE_DESCRIPTION = "Initial Balance";
 
+  private final EventPublisher eventPublisher;
   private final GetCategory getCategory;
-  private final TransactionService transactionService;
+  private final CreateTransaction createTransaction;
   private final AccountSummaryService accountSummaryService;
 
   public AccountEventListener(
+      EventPublisher eventPublisher,
       GetCategory getCategory,
-      TransactionService transactionService,
+      CreateTransaction createTransaction,
       AccountSummaryService accountSummaryService) {
+    this.eventPublisher = eventPublisher;
     this.getCategory = getCategory;
-    this.transactionService = transactionService;
+    this.createTransaction = createTransaction;
     this.accountSummaryService = accountSummaryService;
   }
 
-  public void listen(AccountCreatedEvent event) {
+  public void on(AccountCreatedEvent event) {
     var initialBalance = event.getInitialBalance();
     var isCredit = initialBalance.signum() > 0;
     this.accountSummaryService.createFirstSummary(
-        new CreateFirstAccountSummaryInput(event.getId(), YearMonth.from(event.getCreatedAt())));
+        new CreateFirstAccountSummaryInput(event.getId(), YearMonth.from(event.getDateTime())));
 
     var type = isCredit ? CategoryType.CREDIT : CategoryType.DEBIT;
     var category =
@@ -46,16 +51,17 @@ public class AccountEventListener {
             event.getId(),
             event.getOrganizationId(),
             event.getUserId(),
-            event.getCreatedAt(),
+            event.getDateTime(),
             INITIAL_BALANCE_DESCRIPTION,
             category.getId(),
             initialBalance);
 
     Transaction transaction = null;
     if (isCredit) {
-      transaction = transactionService.createDeposit(input);
+      transaction = createTransaction.deposit(input);
     } else {
-      transaction = transactionService.createWithdraw(input);
+      transaction = createTransaction.withdraw(input);
     }
+    DomainEventPublisher.publish(this.eventPublisher::publish);
   }
 }

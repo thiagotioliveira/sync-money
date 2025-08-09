@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.infra.user.persistence.adapter;
 
-import dev.thiagooliveira.syncmoney.core.user.application.dto.CreateOrganizationInput;
 import dev.thiagooliveira.syncmoney.core.user.domain.model.Organization;
 import dev.thiagooliveira.syncmoney.core.user.domain.port.outcome.OrganizationRepository;
 import dev.thiagooliveira.syncmoney.infra.user.persistence.entity.OrganizationEntity;
@@ -22,9 +21,7 @@ public class OrganizationRepositoryAdapter implements OrganizationRepository {
   }
 
   @Override
-  public Organization create(CreateOrganizationInput input) {
-    return this.organizationJpaRepository
-        .save(OrganizationEntity.create(input))
-        .toOrganizationCreated();
+  public Organization save(Organization o) {
+    return this.organizationJpaRepository.save(OrganizationEntity.from(o)).toOrganization();
   }
 }

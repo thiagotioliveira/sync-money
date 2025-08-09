@@ -26,8 +26,9 @@ public class InvitationRepositoryAdapter implements InvitationRepository {
   }
 
   @Override
-  public Invitation update(Invitation invitation) {
-    return this.invitationJpaRepository.save(InvitationEntity.restore(invitation)).toInvitation();
+  public Invitation save(Invitation invitation) {
+    this.invitationJpaRepository.save(InvitationEntity.restore(invitation));
+    return invitation;
   }
 
   @Override

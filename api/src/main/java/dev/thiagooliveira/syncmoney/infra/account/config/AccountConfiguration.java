@@ -30,16 +30,14 @@ public class AccountConfiguration {
   }
 
   @Bean
-  public TransactionEventListener transactionListener(AccountService accountService) {
-    return new TransactionEventListener(accountService);
+  public TransactionEventListener transactionListener(
+      EventPublisher eventPublisher, UpdateAccountBalance updateAccountBalance) {
+    return new TransactionEventListener(eventPublisher, updateAccountBalance);
   }
 
   @Bean
   public AccountService accountService(
-      EventPublisher eventPublisher,
-      CreateAccount createAccount,
-      GetAccount getAccount,
-      UpdateAccountBalance updateAccountBalance) {
-    return new AccountServiceImpl(eventPublisher, createAccount, getAccount, updateAccountBalance);
+      EventPublisher eventPublisher, CreateAccount createAccount, GetAccount getAccount) {
+    return new AccountServiceImpl(eventPublisher, createAccount, getAccount);
   }
 }

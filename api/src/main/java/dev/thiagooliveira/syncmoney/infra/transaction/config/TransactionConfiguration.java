@@ -8,6 +8,7 @@ import dev.thiagooliveira.syncmoney.core.transaction.application.service.Transac
 import dev.thiagooliveira.syncmoney.core.transaction.application.usecase.*;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.income.AccountEventListener;
+import dev.thiagooliveira.syncmoney.core.transaction.domain.port.income.CalculateAccountSummaryEventListener;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,8 @@ public class TransactionConfiguration {
   public CreateTransaction createTransaction(
       AccountClient accountClient,
       GetCategory getCategory,
-      TransactionRepository transactionRepository,
-      AccountSummaryCalculator accountSummaryCalculator) {
-    return new CreateTransaction(
-        accountClient, getCategory, transactionRepository, accountSummaryCalculator);
+      TransactionRepository transactionRepository) {
+    return new CreateTransaction(accountClient, getCategory, transactionRepository);
   }
 
   @Bean
@@ -30,14 +29,9 @@ public class TransactionConfiguration {
       GetAccount getAccount,
       GetCategory getCategory,
       TransactionRepository transactionRepository,
-      PayableReceivableRepository payableReceivableRepository,
-      AccountSummaryCalculator accountSummaryCalculator) {
+      PayableReceivableRepository payableReceivableRepository) {
     return new CreatePayableReceivable(
-        getAccount,
-        getCategory,
-        transactionRepository,
-        payableReceivableRepository,
-        accountSummaryCalculator);
+        getAccount, getCategory, transactionRepository, payableReceivableRepository);
   }
 
   @Bean
@@ -54,21 +48,25 @@ public class TransactionConfiguration {
   public UpdateTransaction updateTransaction(
       CategoryRepository categoryRepository,
       PayableReceivableRepository payableReceivableRepository,
-      TransactionRepository transactionRepository,
-      AccountSummaryCalculator accountSummaryCalculator) {
+      TransactionRepository transactionRepository) {
     return new UpdateTransaction(
-        categoryRepository,
-        payableReceivableRepository,
-        transactionRepository,
-        accountSummaryCalculator);
+        categoryRepository, payableReceivableRepository, transactionRepository);
   }
 
   @Bean
   public AccountEventListener accountEventListener(
+      EventPublisher eventPublisher,
       GetCategory getCategory,
-      TransactionService transactionService,
+      CreateTransaction createTransaction,
       AccountSummaryService accountSummaryService) {
-    return new AccountEventListener(getCategory, transactionService, accountSummaryService);
+    return new AccountEventListener(
+        eventPublisher, getCategory, createTransaction, accountSummaryService);
+  }
+
+  @Bean
+  public CalculateAccountSummaryEventListener accountSummaryEventListener(
+      AccountSummaryCalculator accountSummaryCalculator) {
+    return new CalculateAccountSummaryEventListener(accountSummaryCalculator);
   }
 
   @Bean

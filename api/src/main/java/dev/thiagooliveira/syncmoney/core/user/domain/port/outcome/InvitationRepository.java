@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface InvitationRepository {
   Invitation invite(InvitationInput input);
 
-  Invitation update(Invitation invitation);
+  Invitation save(Invitation invitation);
 
   Optional<Invitation> getByEmail(String email);
 

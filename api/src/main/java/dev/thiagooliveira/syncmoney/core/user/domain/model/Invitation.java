@@ -1,12 +1,14 @@
 package dev.thiagooliveira.syncmoney.core.user.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserAcceptedInvitationEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserInvitedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Invitation extends AggregateRoot {
+public class Invitation implements AggregateRoot {
 
   private UUID id;
   private OffsetDateTime createdAt;
@@ -35,18 +37,22 @@ public class Invitation extends AggregateRoot {
     return invitation;
   }
 
-  public Invitation invited() {
+  public Invitation accepted() {
     if (this.status != InvitationStatus.PENDING) {
-      throw BusinessLogicException.badRequest("this invitation has already been invited.");
+      throw BusinessLogicException.badRequest("this invitation has already been accepted.");
     }
     this.invitedAt = OffsetDateTime.now();
-    this.status = InvitationStatus.INVITED;
+    this.status = InvitationStatus.ACCEPTED;
+    DomainEventPublisher.addEvent(
+        new UserAcceptedInvitationEvent(
+            this.invitedBy, this.createdAt, this.email, this.organizationId, this.invitedAt));
     return this;
   }
 
-  public Invitation addInvitationInvitedEvent() {
-    this.registerEvent(
-        new UserInvitedEvent(this.invitedBy, this.createdAt, this.email, this.organizationId));
+  public Invitation invited() {
+    DomainEventPublisher.addEvent(
+        new UserInvitedEvent(
+            this.invitedBy, this.createdAt, this.email, this.organizationId, OffsetDateTime.now()));
     return this;
   }
 

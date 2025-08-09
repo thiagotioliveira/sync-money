@@ -1,10 +1,10 @@
 package dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.Event;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class UserLoggedEvent implements Event {
+public class UserLoggedEvent implements DomainEvent {
   private final UUID userId;
   private final OffsetDateTime dateTime;
 

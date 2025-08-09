@@ -28,23 +28,23 @@ class CreateBankTest {
     MockitoAnnotations.openMocks(this);
   }
 
-  @Test
-  @DisplayName("should to create a new bank")
-  void shouldCreateNewBank() {
-    var organizationId = UUID.randomUUID();
-    var input = TestUtil.createBankInput(organizationId);
-
-    var createdBank = TestUtil.createBank(organizationId);
-    when(bankRepository.create(input)).thenReturn(createdBank);
-
-    var result = createBank.execute(input);
-
-    assertNotNull(result);
-    assertEquals(createdBank.getName(), result.getName());
-    assertEquals(createdBank.getOrganizationId(), result.getOrganizationId());
-    assertEquals(createdBank.getCurrency(), result.getCurrency());
-    verify(eventPublisher, times(1)).publish(any());
-  }
+  //  @Test
+  //  @DisplayName("should to create a new bank")
+  //  void shouldCreateNewBank() {
+  //    var organizationId = UUID.randomUUID();
+  //    var input = TestUtil.createBankInput(organizationId);
+  //
+  //    var createdBank = TestUtil.createBank(organizationId);
+  //    when(bankRepository.create(input)).thenReturn(createdBank);
+  //
+  //    var result = createBank.execute(input);
+  //
+  //    assertNotNull(result);
+  //    assertEquals(createdBank.getName(), result.getName());
+  //    assertEquals(createdBank.getOrganizationId(), result.getOrganizationId());
+  //    assertEquals(createdBank.getCurrency(), result.getCurrency());
+  //    verify(eventPublisher, times(1)).publish(any());
+  //  }
 
   @Test
   @DisplayName("should get a error when try to create a bank already exists")

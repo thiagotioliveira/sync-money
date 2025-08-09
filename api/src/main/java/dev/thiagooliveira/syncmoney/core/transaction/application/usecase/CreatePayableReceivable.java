@@ -3,12 +3,10 @@ package dev.thiagooliveira.syncmoney.core.transaction.application.usecase;
 import dev.thiagooliveira.syncmoney.core.account.application.usecase.GetAccount;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreatePayableReceivableInput;
-import dev.thiagooliveira.syncmoney.core.transaction.domain.model.AccountSummaryCalculator;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.Installment;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.model.PayableReceivable;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.PayableReceivableRepository;
 import dev.thiagooliveira.syncmoney.core.transaction.domain.port.outcome.TransactionRepository;
-import java.time.YearMonth;
 
 public class CreatePayableReceivable {
 
@@ -16,19 +14,16 @@ public class CreatePayableReceivable {
   private final GetCategory getCategory;
   private final TransactionRepository transactionRepository;
   private final PayableReceivableRepository payableReceivableRepository;
-  private final AccountSummaryCalculator accountSummaryCalculator;
 
   public CreatePayableReceivable(
       GetAccount getAccount,
       GetCategory getCategory,
       TransactionRepository transactionRepository,
-      PayableReceivableRepository payableReceivableRepository,
-      AccountSummaryCalculator accountSummaryCalculator) {
+      PayableReceivableRepository payableReceivableRepository) {
     this.getAccount = getAccount;
     this.getCategory = getCategory;
     this.transactionRepository = transactionRepository;
     this.payableReceivableRepository = payableReceivableRepository;
-    this.accountSummaryCalculator = accountSummaryCalculator;
   }
 
   public PayableReceivable payable(CreatePayableReceivableInput input) {
@@ -43,21 +38,15 @@ public class CreatePayableReceivable {
     if (!category.isDebit()) {
       throw BusinessLogicException.badRequest("category type not supported");
     }
-    var payableReceivable =
-        this.payableReceivableRepository.create(input).addPayableReceivableCreatedEvent();
+    var payableReceivable = this.payableReceivableRepository.create(input).created();
 
     var installments =
         this.transactionRepository
             .createInstallments(payableReceivable.generateInstallments())
             .stream()
-            .map(Installment::addInstallmentCreatedEvent)
+            .map(Installment::created)
             .toList();
-    installments.forEach(installment -> payableReceivable.registerEvents(installment.getEvents()));
-    var dueDate = installments.get(0).getDueDate();
-    this.accountSummaryCalculator.calculate(
-        input.organizationId(),
-        input.accountId(),
-        YearMonth.of(dueDate.getYear(), dueDate.getMonth()));
+
     return payableReceivable;
   }
 
@@ -73,21 +62,15 @@ public class CreatePayableReceivable {
     if (!category.isCredit()) {
       throw BusinessLogicException.badRequest("category type not supported");
     }
-    var payableReceivable =
-        this.payableReceivableRepository.create(input).addPayableReceivableCreatedEvent();
+    var payableReceivable = this.payableReceivableRepository.create(input).created();
 
     var installments =
         this.transactionRepository
             .createInstallments(payableReceivable.generateInstallments())
             .stream()
-            .map(Installment::addInstallmentCreatedEvent)
+            .map(Installment::created)
             .toList();
-    installments.forEach(installment -> payableReceivable.registerEvents(installment.getEvents()));
-    var dueDate = installments.get(0).getDueDate();
-    this.accountSummaryCalculator.calculate(
-        input.organizationId(),
-        input.accountId(),
-        YearMonth.of(dueDate.getYear(), dueDate.getMonth()));
+
     return payableReceivable;
   }
 }

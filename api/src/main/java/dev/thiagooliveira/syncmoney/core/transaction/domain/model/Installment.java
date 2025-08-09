@@ -1,12 +1,14 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
+import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionScheduledCreatedEvent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Installment extends AggregateRoot {
+public class Installment implements AggregateRoot {
   private UUID id;
   private UUID accountId;
   private UUID organizationId;
@@ -40,15 +42,16 @@ public class Installment extends AggregateRoot {
     return installment;
   }
 
-  public Installment addInstallmentCreatedEvent() {
-    this.registerEvent(
+  public Installment created() {
+    DomainEventPublisher.addEvent(
         new TransactionScheduledCreatedEvent(
             this.getId(),
             this.getOrganizationId(),
             this.getAccountId(),
             this.getCategoryId(),
             this.getDueDate(),
-            this.getAmount()));
+            this.getAmount(),
+            OffsetDateTime.now()));
     return this;
   }
 

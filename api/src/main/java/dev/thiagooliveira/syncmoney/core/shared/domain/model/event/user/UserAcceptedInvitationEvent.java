@@ -4,22 +4,21 @@ import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEvent;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class UserInvitedEvent implements DomainEvent {
-
+public class UserAcceptedInvitationEvent implements DomainEvent {
   private final UUID invitedBy;
-  private final OffsetDateTime createdAt;
+  private final OffsetDateTime acceptedAt;
   private final String emailInvited;
   private final UUID organizationId;
   private final OffsetDateTime dateTime;
 
-  public UserInvitedEvent(
+  public UserAcceptedInvitationEvent(
       UUID invitedBy,
-      OffsetDateTime createdAt,
+      OffsetDateTime acceptedAt,
       String emailInvited,
       UUID organizationId,
       OffsetDateTime dateTime) {
     this.invitedBy = invitedBy;
-    this.createdAt = createdAt;
+    this.acceptedAt = acceptedAt;
     this.emailInvited = emailInvited;
     this.organizationId = organizationId;
     this.dateTime = dateTime;
@@ -27,11 +26,11 @@ public class UserInvitedEvent implements DomainEvent {
 
   @Override
   public String toString() {
-    return "UserInvitedEvent{"
+    return "UserAcceptedInvitationEvent{"
         + "invitedBy="
         + invitedBy
-        + ", createdAt="
-        + createdAt
+        + ", acceptedAt="
+        + acceptedAt
         + ", emailInvited='"
         + emailInvited
         + '\''
@@ -46,16 +45,16 @@ public class UserInvitedEvent implements DomainEvent {
     return invitedBy;
   }
 
+  public OffsetDateTime getAcceptedAt() {
+    return acceptedAt;
+  }
+
   public String getEmailInvited() {
     return emailInvited;
   }
 
   public UUID getOrganizationId() {
     return organizationId;
-  }
-
-  public OffsetDateTime getCreatedAt() {
-    return createdAt;
   }
 
   @Override

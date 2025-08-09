@@ -21,8 +21,8 @@ public class AccountEventListenerAdapter {
 
   @EventListener
   @Transactional
-  public void handle(AccountCreatedEvent event) {
-    logger.info("Handling AccountCreatedEvent: {}", event);
-    this.accountEventListener.listen(event);
+  public void on(AccountCreatedEvent event) {
+    logger.debug("Handling AccountCreatedEvent: {}", event);
+    this.accountEventListener.on(event);
   }
 }
