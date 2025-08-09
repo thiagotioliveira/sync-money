@@ -1,12 +1,11 @@
 package dev.thiagooliveira.syncmoney.core.user.domain.model;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.OrganizationCreatedEvent;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Organization implements AggregateRoot {
+public class Organization {
 
   private final UUID id;
   private final OffsetDateTime createdAt;

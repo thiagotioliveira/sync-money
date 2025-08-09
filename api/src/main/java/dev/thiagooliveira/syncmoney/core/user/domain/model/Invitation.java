@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.user.domain.model;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserAcceptedInvitationEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.user.UserInvitedEvent;
@@ -8,7 +7,7 @@ import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Invitation implements AggregateRoot {
+public class Invitation {
 
   private UUID id;
   private OffsetDateTime createdAt;

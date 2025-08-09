@@ -96,7 +96,7 @@ Content-Type: application/json
 
 {
   "name": "Europe Account",
-  "bankId": "3226011d-8072-47d9-abbf-9ac67ae68005",
+  "bankId": "17fd6831-b069-4698-bd1c-4a62c0d32a63",
   "initialBalance": 1000.0
 }
 

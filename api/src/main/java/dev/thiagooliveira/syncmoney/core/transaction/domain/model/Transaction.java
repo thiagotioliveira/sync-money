@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.CategoryType;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.TransactionPaidEvent;
@@ -12,7 +11,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Transaction implements AggregateRoot {
+public class Transaction {
   private UUID id;
   private UUID accountId;
   private UUID organizationId;

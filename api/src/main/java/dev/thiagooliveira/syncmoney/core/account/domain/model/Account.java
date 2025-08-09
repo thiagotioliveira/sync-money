@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.account.domain.model;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountBalanceUpdatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.account.AccountCreatedEvent;
@@ -8,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class Account implements AggregateRoot {
+public class Account {
   private UUID id;
   private String name;
   private UUID bankId;

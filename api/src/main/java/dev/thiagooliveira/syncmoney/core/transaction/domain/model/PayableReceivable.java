@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.DomainEventPublisher;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableCreatedEvent;
 import dev.thiagooliveira.syncmoney.core.shared.domain.model.event.transaction.PayableReceivableUpdatedEvent;
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
 
-public class PayableReceivable implements AggregateRoot {
+public class PayableReceivable {
   private UUID id;
   private UUID accountId;
   private UUID organizationId;

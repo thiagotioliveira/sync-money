@@ -1,6 +1,5 @@
 package dev.thiagooliveira.syncmoney.core.transaction.domain.model;
 
-import dev.thiagooliveira.syncmoney.core.shared.domain.model.AggregateRoot;
 import dev.thiagooliveira.syncmoney.core.shared.exception.BusinessLogicException;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.CreateAccountSummaryInput;
 import dev.thiagooliveira.syncmoney.core.transaction.application.dto.TransactionEnriched;
@@ -9,7 +8,7 @@ import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
 
-public class AccountSummary implements AggregateRoot {
+public class AccountSummary {
 
   private final UUID accountId;
   private final YearMonth yearMonth;
